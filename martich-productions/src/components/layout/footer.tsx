@@ -39,10 +39,10 @@ const Footer = () => {
   }
 
   const socialLinks = [
-    { name: 'Instagram', href: '#', icon: Instagram, color: 'hover:text-pink-500' },
-    { name: 'Facebook', href: '#', icon: Facebook, color: 'hover:text-blue-600' },
-    { name: 'YouTube', href: '#', icon: Youtube, color: 'hover:text-red-600' },
-    { name: 'LinkedIn', href: '#', icon: Linkedin, color: 'hover:text-blue-700' },
+    { name: 'Instagram', href: 'https://www.instagram.com/martichproductions', icon: Instagram, color: 'hover:text-pink-500' },
+    { name: 'Facebook', href: 'https://www.facebook.com/martichproductions', icon: Facebook, color: 'hover:text-blue-600' },
+    { name: 'YouTube', href: 'https://www.youtube.com/c/MartichProductions', icon: Youtube, color: 'hover:text-red-600' },
+    { name: 'LinkedIn', href: 'https://www.linkedin.com/company/martich-productions', icon: Linkedin, color: 'hover:text-blue-700' },
   ]
 
   const stats = [
@@ -162,37 +162,7 @@ const Footer = () => {
             </motion.div>
           </div>
 
-          {/* Enhanced Work Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-display text-lg font-semibold mb-6 flex items-center">
-              <Camera className="h-5 w-5 text-mp-gold mr-2" />
-              Our Work
-            </h3>
-            <ul className="space-y-3">
-              {navigation.work.map((item, index) => (
-                <motion.li
-                  key={item.name}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 + index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <Link
-                    href={item.href}
-                    className="flex items-center text-mp-gray-300 hover:text-mp-gold transition-all duration-300 group"
-                  >
-                    <ArrowRight className="h-3 w-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    {item.name}
-                  </Link>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.div>
+          {/* Removed 'Our Work' section to reduce redundancy */}
 
           {/* Enhanced Services Links */}
           <motion.div

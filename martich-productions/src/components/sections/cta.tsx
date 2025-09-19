@@ -121,13 +121,35 @@ const CTA = () => {
             <p className="text-mp-gray-light mb-6">
               Trusted by luxury brands across Texas and beyond
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-8 opacity-60">
-              {/* Placeholder for client logos */}
-              {[1, 2, 3, 4, 5].map((i) => (
-                <div key={i} className="w-24 h-12 bg-mp-gray rounded flex items-center justify-center">
-                  <span className="text-xs text-mp-gray-light">Logo {i}</span>
-                </div>
-              ))}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center">
+              {/* Client Logos */}
+              <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
+                <img src="/client-logos/espn-logo.png" alt="ESPN" className="max-h-12 w-auto filter brightness-0 invert" />
+              </div>
+              <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
+                <img src="/client-logos/miss-usa-logo.png" alt="Miss USA Pageant" className="max-h-12 w-auto filter brightness-0 invert" />
+              </div>
+              <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
+                <img src="/client-logos/moreland-properties-logo.png" alt="Moreland Properties" className="max-h-12 w-auto filter brightness-0 invert" />
+              </div>
+              <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
+                <img src="/client-logos/carvahal-group-logo.png" alt="Carvahal Group" className="max-h-12 w-auto filter brightness-0 invert" />
+              </div>
+              <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
+                <img src="/client-logos/the-club-logo.png" alt="The Club" className="max-h-12 w-auto filter brightness-0 invert" />
+              </div>
+              <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
+                <img src="/client-logos/horseshoe-bay-logo.png" alt="Horseshoe Bay Resort" className="max-h-12 w-auto filter brightness-0 invert" />
+              </div>
+              <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
+                <img src="/client-logos/whittlesey-logo.png" alt="Whittlesey Landscape Supplies" className="max-h-12 w-auto filter brightness-0 invert" />
+              </div>
+              <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
+                <img src="/client-logos/loraloma-logo.png" alt="LORALOMA" className="max-h-12 w-auto filter brightness-0 invert" />
+              </div>
+              <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
+                <img src="/client-logos/thomas-ranch-logo.png" alt="Thomas Ranch" className="max-h-12 w-auto filter brightness-0 invert" />
+              </div>
             </div>
           </motion.div>
         </div>
