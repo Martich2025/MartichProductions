@@ -30,14 +30,6 @@ export default function MapMyEnginePage() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', consent: false })
-  const [intake, setIntake] = useState({ domain: '', instagram: '', facebook: '', youtube: '' })
-  const [scanning, setScanning] = useState(false)
-  const [snapshot, setSnapshot] = useState<{
-    site?: { title?: string; description?: string; headings?: string[]; ctas?: string[]; hasProofSignals: boolean }
-    socials?: { instagram?: string; facebook?: string; youtube?: string }
-    cadenceEstimate?: { postsPerWeek?: number; consistency?: 'low' | 'medium' | 'high' }
-    insights?: { strengths: string[]; gaps: string[] }
-  }>({})
 
   useEffect(() => {
     trackPageView('/engine/map', { step: steps[stepIndex].id })
@@ -129,40 +121,14 @@ export default function MapMyEnginePage() {
                     <p className="text-mp-gray-300 text-lg mb-6">
                       A cinematic, AI‑guided walkthrough that drafts your 90‑day content + site plan—formats, hooks, release cadence—so you can see the system before we build it.
                     </p>
-                    {/* Intake: domain + socials + email */}
+                    {/* Progressive profile capture */}
                     <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                       <Input label="Your Name" value={form.name} onChange={(e) => { setForm({ ...form, name: e.target.value }); analytics.customEvent('engine_profile_partial', { field: 'name' }) }} />
                       <Input label="Email" type="email" value={form.email} onChange={(e) => { setForm({ ...form, email: e.target.value }); analytics.customEvent('engine_profile_partial', { field: 'email' }) }} />
                     </div>
-                    <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <Input label="Website (https://...)" value={intake.domain} onChange={(e) => setIntake({ ...intake, domain: e.target.value })} />
-                      <Input label="Instagram URL" value={intake.instagram} onChange={(e) => setIntake({ ...intake, instagram: e.target.value })} />
-                    </div>
-                    <div className="mb-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      <Input label="Facebook URL" value={intake.facebook} onChange={(e) => setIntake({ ...intake, facebook: e.target.value })} />
-                      <Input label="YouTube URL" value={intake.youtube} onChange={(e) => setIntake({ ...intake, youtube: e.target.value })} />
-                    </div>
                     <div className="flex flex-wrap gap-3">
-                      <Button onClick={async () => {
-                        if (!isEmailValid) return
-                        setScanning(true)
-                        analytics.customEvent('engine_scan_start', { domain: intake.domain, instagram: intake.instagram ? 1 : 0, facebook: intake.facebook ? 1 : 0, youtube: intake.youtube ? 1 : 0 })
-                        try {
-                          const r = await fetch('/api/engine/scan', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(intake),
-                          })
-                          const j = await r.json()
-                          if (j?.snapshot) {
-                            setSnapshot(j.snapshot)
-                            analytics.customEvent('engine_scan_complete', { hasProof: j.snapshot?.site?.hasProofSignals, ctas: (j.snapshot?.site?.ctas || []).length })
-                          }
-                        } catch {}
-                        setScanning(false)
-                        next()
-                      }} className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 disabled:opacity-60">
-                        {scanning ? 'Scanning…' : isEmailValid ? 'Scan & Start' : 'Enter Email to Start'} <ArrowRight className="ml-2 w-4 h-4" />
+                      <Button onClick={() => next()} disabled={!isEmailValid} className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 disabled:opacity-60">
+                        {isEmailValid ? 'Start Mapping' : 'Enter Email to Start'} <ArrowRight className="ml-2 w-4 h-4" />
                       </Button>
                       <Button href="/work" variant="outline">See Outcomes</Button>
                     </div>
@@ -176,28 +142,6 @@ export default function MapMyEnginePage() {
                       <div className="uppercase tracking-wider text-xs text-mp-gray-400">Persona</div>
                     </div>
                     <h2 className="text-display text-2xl font-semibold mb-4">Who are you building for?</h2>
-                    {/* Snapshot summary */}
-                    {(snapshot?.insights || snapshot?.site) && (
-                      <div className="mb-5 grid grid-cols-1 lg:grid-cols-3 gap-3">
-                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
-                          <div className="font-semibold mb-1">Wins</div>
-                          <ul className="text-sm text-mp-gray-300 list-disc list-inside space-y-1">
-                            {(snapshot.insights?.strengths || []).map((s, i) => <li key={i}>{s}</li>)}
-                          </ul>
-                        </div>
-                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
-                          <div className="font-semibold mb-1">Gaps</div>
-                          <ul className="text-sm text-mp-gray-300 list-disc list-inside space-y-1">
-                            {(snapshot.insights?.gaps || []).map((s, i) => <li key={i}>{s}</li>)}
-                          </ul>
-                        </div>
-                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
-                          <div className="font-semibold mb-1">Site Signals</div>
-                          <div className="text-sm text-mp-gray-300">CTAs: {(snapshot.site?.ctas || []).slice(0,3).join(', ') || '—'}</div>
-                          <div className="text-sm text-mp-gray-300">Proof: {snapshot.site?.hasProofSignals ? 'Present' : 'Missing'}</div>
-                        </div>
-                      </div>
-                    )}
                     <p className="text-mp-gray-300 mb-6">This tunes the formats, calendar, and on‑site conversion paths.</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {([
@@ -374,21 +318,6 @@ export default function MapMyEnginePage() {
                     </div>
                     <div className="mt-6 flex gap-3">
                       <Button variant="outline" onClick={back}>Back</Button>
-                      {/* Preview strip */}
-                      <div className="flex-1">
-                        <div className="grid grid-cols-4 gap-2">
-                          {Array.from({ length: 4 }).map((_, w) => (
-                            <div key={w} className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
-                              <div className="text-xs text-mp-gray-400 mb-2">Week {w + 1}</div>
-                              <ul className="text-sm text-mp-gray-300 space-y-1">
-                                <li>• Reel ({choices.cadence || 'steady'})</li>
-                                <li>• Reel/Carousel</li>
-                                <li>• Hero film beat</li>
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
                     </div>
                   </div>
                 )}

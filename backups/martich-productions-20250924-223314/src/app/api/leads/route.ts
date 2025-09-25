@@ -29,17 +29,12 @@ export async function POST(request: Request) {
     if (Object.keys(body).length > 25) {
       return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 })
     }
-    // Optional: audit snapshot and utm/referrer
-    const audit = typeof body.audit === 'object' ? body.audit : undefined
-    const utm = typeof body.utm === 'object' ? body.utm : undefined
-    const referrer = typeof body.referrer === 'string' ? body.referrer : undefined
-
     // TODO: send to ESP/CRM; for now, also forward to analytics endpoint
     try {
       await fetch(process.env.NEXT_PUBLIC_ANALYTICS_URL || '/api/analytics', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ event: 'lead_submit', properties: { email, role, timeline, message, consent, ip, audit, utm, referrer } }),
+        body: JSON.stringify({ event: 'lead_submit', properties: { email, role, timeline, message, consent, ip } }),
       })
     } catch {}
     return NextResponse.json({ ok: true })

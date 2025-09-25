@@ -1,0 +1,84 @@
+{
+  "brand": {
+    "name": "Client",
+    "palette": {
+      "primary": "#D4AF37",
+      "background": "#0A0A0A",
+      "surface": "#1A1A1A",
+      "text": "#FFFFFF"
+    }
+  },
+  "weddings": {
+    "hero": {
+      "heading": "Cinematic Wedding Films",
+      "sub": "Elegant, story‑driven coverage crafted with precision—so you can relive the day forever.",
+      "ctaText": "Check Availability",
+      "video": {
+        "mp4": "/hero-video.mp4",
+        "webm": "/hero-video.webm",
+        "poster": "/hero-poster.jpg"
+      }
+    },
+    "gallery": [
+      { "src": "/placeholder.svg", "alt": "Gallery 1" },
+      { "src": "/placeholder.svg", "alt": "Gallery 2" },
+      { "src": "/placeholder.svg", "alt": "Gallery 3" }
+    ],
+    "packages": [
+      {
+        "name": "Signature",
+        "price": "$8,000+",
+        "bullets": ["Highlight film (4–6 min)", "Full ceremony film", "Ceremony audio capture", "Licensed music"]
+      },
+      {
+        "name": "Premiere",
+        "price": "$18,000+",
+        "bullets": ["10–12 hours coverage", "Highlight + documentary edit", "Multi‑cam speeches", "Drone + second shooter"]
+      }
+    ],
+    "testimonials": [
+      { "quote": "The film took our breath away.", "author": "Sophia & James" }
+    ],
+    "faq": [
+      { "q": "Do you work with planners?", "a": "Yes—timeline and shot list coordination is standard." },
+      { "q": "How fast is delivery?", "a": "Same‑day social edit optional; highlight in 4–6 weeks; full films shortly after." }
+    ]
+  }
+  ,
+  "resorts": {
+    "hero": {
+      "heading": "Luxury Resort Films",
+      "sub": "Brand films, suite tours, amenities, and always‑on social content.",
+      "ctaText": "Plan My Shoot",
+      "video": {
+        "mp4": "/hero-video.mp4",
+        "webm": "/hero-video.webm",
+        "poster": "/hero-poster.jpg"
+      }
+    }
+  },
+  "realtors": {
+    "hero": {
+      "heading": "Cinematic Listing Tours",
+      "sub": "Fast‑moving edits that sell homes and your personal brand.",
+      "ctaText": "Hold My Shoot Slot",
+      "video": {
+        "mp4": "/hero-video.mp4",
+        "webm": "/hero-video.webm",
+        "poster": "/hero-poster.jpg"
+      }
+    }
+  },
+  "hospitality": {
+    "hero": {
+      "heading": "Restaurants, Hotels, Venues",
+      "sub": "Crave‑worthy storytelling and property tours that drive reservations.",
+      "ctaText": "Plan My Campaign",
+      "video": {
+        "mp4": "/hero-video.mp4",
+        "webm": "/hero-video.webm",
+        "poster": "/hero-poster.jpg"
+      }
+    }
+  }
+}
