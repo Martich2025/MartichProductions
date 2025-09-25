@@ -13,6 +13,9 @@ export async function POST(request: Request) {
   try {
     const ip = (request.headers.get('x-forwarded-for') || '').split(',')[0]
     const body = await request.json()
+    if (Object.keys(body || {}).length > 50) {
+      return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 })
+    }
 
     // Basic validation & size limits
     const email = sanitize(body.email)

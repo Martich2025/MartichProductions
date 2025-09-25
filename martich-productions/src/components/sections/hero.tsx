@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button'
+import { trackCTAClick } from '@/lib/analytics'
 import { Play, ArrowRight, Star } from 'lucide-react'
 import { motion } from 'framer-motion'
 
@@ -77,7 +78,7 @@ const Hero = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="text-hero text-mp-gray-200 mb-8 max-w-4xl mx-auto leading-relaxed font-light"
           >
-            We plan, shoot, edit, and publish your content engine—video, site, and social—so results compound while you run the business.
+            We build and run your revenue engine—cinematic films, conversion‑first pages, and best‑time publishing that turns attention into booked business while you run the company.
           </motion.p>
 
           {/* CTA Buttons - Mobile Optimized */}
@@ -88,8 +89,10 @@ const Hero = () => {
             className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-8 mb-8"
           >
             <Button 
-              href="/book" 
+              href="/engine/map" 
               size="lg" 
+              aria-label="Start the Map My Growth Engine"
+              onClick={() => trackCTAClick('Map My Growth Engine', 'hero_primary')}
               className="px-6 sm:px-8 py-4 text-base sm:text-lg font-semibold w-full sm:w-auto min-h-[56px]"
             >
               Map My Growth Engine

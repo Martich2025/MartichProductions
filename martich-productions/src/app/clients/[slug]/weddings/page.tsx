@@ -6,8 +6,6 @@ import { Button } from '@/components/ui/button'
 interface PageProps { params: Promise<{ slug: string }> }
 
 export default function ClientWeddingsMicrosite({ params }: PageProps) {
-  // Next 15 typed params as Promise; unwrap at runtime
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [client, setClient] = React.useState('Client')
   type SiteData = {
     weddings?: {
@@ -15,7 +13,6 @@ export default function ClientWeddingsMicrosite({ params }: PageProps) {
     }
   }
   const [site, setSite] = React.useState<SiteData | null>(null)
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   React.useEffect(() => {
     ;(async () => {
       try {

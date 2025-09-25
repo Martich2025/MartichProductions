@@ -59,15 +59,17 @@ export async function POST(req: Request) {
       return NextResponse.json(fallbackGenerate(body))
     }
 
+    const banned = ['hate','violence','explicit','slur','spam']
     const prompt = [
-      'You are a creative director for a luxury media + web studio.',
-      'Generate:',
-      '- 5 ultra‑tight hooks (<=80 chars)',
+      'System role: You are a creative director for a luxury media + web studio. Keep brand-safe, concise, high-conversion copy. Never include profanity, personal data, or platform policy violations.',
+      `Banned terms: ${banned.join(', ')}. Avoid them.`,
+      'Output requirements:',
+      '- 5 hooks (<=80 chars)',
       '- 5 IG captions (<=140 chars)',
       '- 5 YouTube titles (<=70 chars)',
-      '- 4‑beat storyboard bullets (short)',
+      '- 4-beat storyboard bullets (short)',
       `Persona: ${body.persona || 'realtor'}. Focus: ${body.focus || 'authority'}. Cadence: ${body.cadence || 'steady'}. Tone: ${body.tone || 'Elegant'}.`,
-      'Return strict JSON with keys: hooks, captions, titles, beats.',
+      'Return strict JSON with keys: hooks, captions, titles, beats. No commentary.',
     ].join('\n')
 
     const r = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -79,10 +81,11 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         model: 'gpt-4o-mini',
         messages: [
-          { role: 'system', content: 'You produce concise, high‑conversion creative.' },
+          { role: 'system', content: 'You produce concise, high‑conversion creative. Respect brand-safety and output constraints.' },
           { role: 'user', content: prompt },
         ],
-        temperature: 0.8,
+        temperature: 0.7,
+        max_tokens: 600,
       }),
     })
 
@@ -93,10 +96,15 @@ export async function POST(req: Request) {
     const content: string | undefined = data?.choices?.[0]?.message?.content
     if (!content) return NextResponse.json(fallbackGenerate(body))
 
-    // Try parse JSON from model; if fails, fallback
+    // Try parse and validate JSON; clamp lengths
     try {
       const parsed = JSON.parse(content)
-      return NextResponse.json({ ...parsed, persona: body.persona, focus: body.focus, cadence: body.cadence, tone: body.tone })
+      const clamp = (arr: unknown, maxLen: number) => Array.isArray(arr) ? arr.map(x => String(x).slice(0, maxLen)).slice(0, 10) : []
+      const hooks = clamp(parsed.hooks, 80)
+      const captions = clamp(parsed.captions, 140)
+      const titles = clamp(parsed.titles, 70)
+      const beats = clamp(parsed.beats, 120)
+      return NextResponse.json({ hooks, captions, titles, beats, persona: body.persona, focus: body.focus, cadence: body.cadence, tone: body.tone })
     } catch {
       return NextResponse.json(fallbackGenerate(body))
     }

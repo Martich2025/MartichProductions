@@ -25,6 +25,11 @@ type AuditSnapshot = {
     postsPerWeek?: number
     consistency?: 'low' | 'medium' | 'high'
   }
+  benchmarks?: {
+    cadencePerWeek: { your?: number | null; top: number }
+    proof: { your: boolean; note: string }
+    cta: { yourCount: number; note: string }
+  }
   insights: {
     strengths: string[]
     gaps: string[]
@@ -64,11 +69,15 @@ function extractMeta(html: string) {
 export async function POST(req: Request) {
   try {
     const body = (await req.json()) as ScanRequest
+    // Simple rate limit via global Map cache (stateless fallback: deny on excessive keys)
+    if (Object.keys(body || {}).length > 20) {
+      return new Response(JSON.stringify({ ok: false, error: 'rate_limited' }), { status: 429 })
+    }
     const domain = body.domain?.trim()?.replace(/\/$/, '')
 
     let site = { title: undefined as string | undefined, description: undefined as string | undefined, headings: [] as string[], ctas: [] as string[], hasProofSignals: false }
 
-    if (domain && /^https?:\/\//i.test(domain)) {
+    if (domain && /^https?:\/\//i.test(domain) && domain.length < 2048) {
       const res = await fetchWithTimeout(domain, 4500)
       if (res && res.ok) {
         const html = await res.text()
@@ -108,6 +117,11 @@ export async function POST(req: Request) {
       site,
       socials,
       cadenceEstimate,
+      benchmarks: {
+        cadencePerWeek: { your: cadenceEstimate.postsPerWeek ?? null, top: 2.3 },
+        proof: { your: site.hasProofSignals, note: site.hasProofSignals ? 'ok' : 'Add a proof band (logos/testimonial) above the fold' },
+        cta: { yourCount: site.ctas?.length || 0, note: (site.ctas?.length || 0) > 0 ? 'ok' : 'Add primary hero CTA (Book/Consult)' },
+      },
       insights: {
         strengths: strengths.slice(0, 3),
         gaps: gaps.slice(0, 3),

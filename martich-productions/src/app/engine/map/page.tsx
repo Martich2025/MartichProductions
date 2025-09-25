@@ -36,8 +36,12 @@ export default function MapMyEnginePage() {
     site?: { title?: string; description?: string; headings?: string[]; ctas?: string[]; hasProofSignals: boolean }
     socials?: { instagram?: string; facebook?: string; youtube?: string }
     cadenceEstimate?: { postsPerWeek?: number; consistency?: 'low' | 'medium' | 'high' }
+    benchmarks?: { cadencePerWeek?: { your?: number | null; top: number }; proof?: { your: boolean; note: string }; cta?: { yourCount: number; note: string } }
     insights?: { strengths: string[]; gaps: string[] }
   }>({})
+  const [utm, setUtm] = useState<Record<string, string>>({})
+  const [referrer, setReferrer] = useState<string>('')
+  const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL
 
   useEffect(() => {
     trackPageView('/engine/map', { step: steps[stepIndex].id })
@@ -91,8 +95,136 @@ export default function MapMyEnginePage() {
     } catch {}
   }, [persona, choices, tone, form])
 
+  // Capture UTM and referrer
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const utmObj: Record<string, string> = {}
+    ;['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(k => {
+      const v = params.get(k)
+      if (v) utmObj[k] = v
+    })
+    setUtm(utmObj)
+    setReferrer(document.referrer || '')
+  }, [])
+
+  // Fire snapshot view event once when available on step 1
+  useEffect(() => {
+    if (stepIndex === 1 && (snapshot?.insights || snapshot?.site)) {
+      analytics.customEvent('engine_snapshot_view', { hasProof: snapshot.site?.hasProofSignals, ctas: (snapshot.site?.ctas || []).length })
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stepIndex])
+
   const container = 'max-w-4xl mx-auto'
   const card = 'bg-mp-charcoal/80 border border-mp-gray-800 rounded-2xl p-6 sm:p-8'
+  const host = useMemo(() => {
+    try {
+      if (!intake.domain) return ''
+      const u = new URL(intake.domain)
+      return u.host
+    } catch {
+      return ''
+    }
+  }, [intake.domain])
+
+  function BookScheduler() {
+    const [days, setDays] = useState<{ date: string; slots: string[] }[]>([])
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+    const [selectedDate, setSelectedDate] = useState<string>('')
+    const [selectedSlot, setSelectedSlot] = useState<string>('')
+    const [submitting, setSubmitting] = useState(false)
+    const tzOffset = typeof window !== 'undefined' ? -new Date().getTimezoneOffset() : -300
+
+    useEffect(() => {
+      let mounted = true
+      setLoading(true)
+      fetch(`/api/engine/schedule/availability?days=14&step=30&tzOffset=${tzOffset}`)
+        .then(r => r.json())
+        .then(j => {
+          if (!mounted) return
+          if (j?.ok && Array.isArray(j.days)) setDays(j.days)
+          else setError('Could not load availability')
+        })
+        .catch(() => mounted && setError('Could not load availability'))
+        .finally(() => mounted && setLoading(false))
+      return () => { mounted = false }
+    }, [tzOffset])
+
+    const localTime = (iso: string) => {
+      try {
+        const d = new Date(iso)
+        return d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })
+      } catch { return iso }
+    }
+
+    const submitBooking = async () => {
+      if (!form.name || !form.email || !selectedSlot) return
+      setSubmitting(true)
+      try {
+        const res = await fetch('/api/engine/schedule/book', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            phone: form.phone,
+            notes: `Engine Map booking. Persona: ${persona || ''}, Focus: ${choices.focus || ''}, Cadence: ${choices.cadence || ''}, Tone: ${tone}.`
+              + (host ? ` Site: ${host}` : ''),
+            startIso: selectedSlot,
+            durationMin: 30,
+          })
+        })
+        if (res.ok) {
+          setIsSubmitted(true)
+          analytics.customEvent('engine_booking_booked', { slot: selectedSlot })
+        } else {
+          const j = await res.json().catch(() => ({}))
+          setError(j?.error || 'Could not book slot')
+        }
+      } finally {
+        setSubmitting(false)
+      }
+    }
+
+    return (
+      <div className="mb-6">
+        {loading && <div className="text-sm text-mp-gray-400">Loading availability…</div>}
+        {error && <div className="text-sm text-red-400 mb-2">{error}</div>}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          {days.map(d => (
+            <button key={d.date} onClick={() => { setSelectedDate(d.date); setSelectedSlot('') }}
+              className={`p-3 rounded-xl border ${selectedDate === d.date ? 'border-mp-gold' : 'border-mp-gray-800'} bg-mp-black/40 hover:border-mp-gold text-left`}
+            >
+              <div className="text-sm font-semibold">{new Date(d.date).toLocaleDateString([], { month: 'short', day: 'numeric', weekday: 'short' })}</div>
+              <div className="text-xs text-mp-gray-400">{d.slots.length} slots</div>
+            </button>
+          ))}
+        </div>
+        {selectedDate && (
+          <div className="mt-4">
+            <div className="text-xs uppercase tracking-wide text-mp-gray-400 mb-2">Slots</div>
+            <div className="flex flex-wrap gap-2">
+              {(days.find(d => d.date === selectedDate)?.slots || []).map(s => (
+                <button key={s} onClick={() => setSelectedSlot(s)}
+                  className={`px-3 py-1.5 rounded-full border ${selectedSlot === s ? 'border-mp-gold text-white' : 'border-mp-gray-800 text-mp-gray-300'} hover:border-mp-gold`}
+                >{localTime(s)}</button>
+              ))}
+              {(days.find(d => d.date === selectedDate)?.slots || []).length === 0 && (
+                <div className="text-sm text-mp-gray-400">No slots available this day.</div>
+              )}
+            </div>
+          </div>
+        )}
+        <div className="mt-4 flex gap-3">
+          <Button onClick={submitBooking} className="bg-mp-gold text-mp-black hover:bg-mp-gold-600" disabled={!selectedSlot || !form.name || !form.email || submitting}>
+            {submitting ? 'Booking…' : 'Book Slot'}
+          </Button>
+          <div className="text-xs text-mp-gray-500 self-center">All times shown in your local timezone.</div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <MainLayout>
@@ -162,10 +294,20 @@ export default function MapMyEnginePage() {
                         setScanning(false)
                         next()
                       }} className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 disabled:opacity-60">
-                        {scanning ? 'Scanning…' : isEmailValid ? 'Scan & Start' : 'Enter Email to Start'} <ArrowRight className="ml-2 w-4 h-4" />
+                        <span aria-live="polite" aria-busy={scanning}>
+                          {scanning ? 'Scanning…' : isEmailValid ? 'Scan & Start' : 'Enter Email to Start'}
+                        </span>
+                        <ArrowRight className="ml-2 w-4 h-4" />
                       </Button>
                       <Button href="/work" variant="outline">See Outcomes</Button>
                     </div>
+                    {scanning && (
+                      <div className="mt-4 text-sm text-mp-gray-300">
+                        <div className="animate-shimmer bg-gradient-to-r from-mp-gray-800 via-mp-gray-700 to-mp-gray-800 bg-[length:200%_100%] rounded px-3 py-2 inline-block mr-2 mb-2">Finding hooks…</div>
+                        <div className="animate-shimmer bg-gradient-to-r from-mp-gray-800 via-mp-gray-700 to-mp-gray-800 bg-[length:200%_100%] rounded px-3 py-2 inline-block mr-2 mb-2">Spotting proof…</div>
+                        <div className="animate-shimmer bg-gradient-to-r from-mp-gray-800 via-mp-gray-700 to-mp-gray-800 bg-[length:200%_100%] rounded px-3 py-2 inline-block mr-2 mb-2">Mapping cadence…</div>
+                      </div>
+                    )}
                   </div>
                 )}
 
@@ -175,7 +317,8 @@ export default function MapMyEnginePage() {
                       <Brain className="w-5 h-5 text-mp-gold" />
                       <div className="uppercase tracking-wider text-xs text-mp-gray-400">Persona</div>
                     </div>
-                    <h2 className="text-display text-2xl font-semibold mb-4">Who are you building for?</h2>
+                    <h2 className="text-display text-2xl font-semibold mb-1">Who are you building for?</h2>
+                    <div className="text-sm text-mp-gray-400 mb-4">{host ? `For ${host}` : 'For your brand'}</div>
                     {/* Snapshot summary */}
                     {(snapshot?.insights || snapshot?.site) && (
                       <div className="mb-5 grid grid-cols-1 lg:grid-cols-3 gap-3">
@@ -195,6 +338,21 @@ export default function MapMyEnginePage() {
                           <div className="font-semibold mb-1">Site Signals</div>
                           <div className="text-sm text-mp-gray-300">CTAs: {(snapshot.site?.ctas || []).slice(0,3).join(', ') || '—'}</div>
                           <div className="text-sm text-mp-gray-300">Proof: {snapshot.site?.hasProofSignals ? 'Present' : 'Missing'}</div>
+                          <div className={`mt-2 inline-block px-2 py-1 rounded text-xs ${snapshot.site?.hasProofSignals ? 'bg-green-500/10 text-green-400 border border-green-500/20' : 'bg-red-500/10 text-red-400 border border-red-500/20'}`}>
+                            {snapshot.site?.hasProofSignals ? 'Verdict: Strong proof' : 'Verdict: Add proof band'}
+                          </div>
+                        </div>
+                        {/* Social Mosaic */}
+                        <div className="lg:col-span-3">
+                          <div className="text-xs uppercase tracking-wide text-mp-gray-400 mb-2">Social Mosaic</div>
+                          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                            {Array.from({ length: 6 }).map((_, i) => {
+                              const href = intake.instagram || intake.facebook || intake.youtube || '#'
+                              return (
+                                <a key={i} href={href} target="_blank" rel="noopener noreferrer" className="block aspect-square rounded-lg bg-mp-gray-800 hover:bg-mp-gray-700 transition-colors" aria-label="Social preview tile" />
+                              )
+                            })}
+                          </div>
                         </div>
                       </div>
                     )}
@@ -220,6 +378,13 @@ export default function MapMyEnginePage() {
                       <Input label="Company" value={form.company} onChange={(e) => { setForm({ ...form, company: e.target.value }); analytics.customEvent('engine_profile_partial', { field: 'company' }) }} />
                       <Input label="Phone" value={form.phone} onChange={(e) => { setForm({ ...form, phone: e.target.value }); analytics.customEvent('engine_profile_partial', { field: 'phone' }) }} />
                     </div>
+                    {snapshot.benchmarks && (
+                      <div className="mt-4 p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
+                        <div className="text-xs uppercase tracking-wide text-mp-gray-400 mb-1">Benchmarks</div>
+                        <div className="text-sm text-mp-gray-300">Cadence: {snapshot.benchmarks.cadencePerWeek?.your ?? '—'}/wk vs {snapshot.benchmarks.cadencePerWeek?.top}/wk</div>
+                        <div className="text-sm text-mp-gray-300">CTA: {(snapshot.benchmarks.cta?.yourCount || 0)} found; {snapshot.benchmarks.cta?.note}</div>
+                      </div>
+                    )}
                     <div className="mt-6 flex gap-3">
                       <Button variant="outline" onClick={back}>Back</Button>
                     </div>
@@ -317,6 +482,20 @@ export default function MapMyEnginePage() {
                         {aiLoading ? 'Generating…' : 'Generate Hooks + Captions'}
                       </Button>
                     </div>
+                    {aiLoading && (
+                      <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {Array.from({ length: 4 }).map((_, i) => (
+                          <div key={i} className="p-4 rounded-xl border border-mp-gray-800 bg-mp-black/40">
+                            <div className="h-4 w-2/3 mb-2 animate-shimmer bg-gradient-to-r from-mp-gray-800 via-mp-gray-700 to-mp-gray-800 bg-[length:200%_100%]" />
+                            <div className="space-y-1">
+                              {Array.from({ length: 4 }).map((__, j) => (
+                                <div key={j} className="h-3 w-full animate-shimmer bg-gradient-to-r from-mp-gray-900 via-mp-gray-800 to-mp-gray-900 bg-[length:200%_100%]" />
+                              ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
                     { (aiData.hooks || aiData.captions || aiData.titles || aiData.beats) && (
                       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="p-4 rounded-xl border border-mp-gray-800 bg-mp-black/40">
@@ -377,16 +556,18 @@ export default function MapMyEnginePage() {
                       {/* Preview strip */}
                       <div className="flex-1">
                         <div className="grid grid-cols-4 gap-2">
-                          {Array.from({ length: 4 }).map((_, w) => (
-                            <div key={w} className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
-                              <div className="text-xs text-mp-gray-400 mb-2">Week {w + 1}</div>
-                              <ul className="text-sm text-mp-gray-300 space-y-1">
-                                <li>• Reel ({choices.cadence || 'steady'})</li>
-                                <li>• Reel/Carousel</li>
-                                <li>• Hero film beat</li>
-                              </ul>
-                            </div>
-                          ))}
+                          {Array.from({ length: 4 }).map((_, w) => {
+                            const cadence = choices.cadence || 'steady'
+                            const items = cadence === 'surge' ? ['Reel', 'Reel', 'Carousel', 'Hero beat'] : cadence === 'fast' ? ['Reel', 'Carousel', 'Hero beat'] : ['Reel', 'Hero beat']
+                            return (
+                              <div key={w} className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
+                                <div className="text-xs text-mp-gray-400 mb-2">Week {w + 1}</div>
+                                <ul className="text-sm text-mp-gray-300 space-y-1">
+                                  {items.map((label, i) => <li key={i}>• {label}</li>)}
+                                </ul>
+                              </div>
+                            )
+                          })}
                         </div>
                       </div>
                     </div>
@@ -444,6 +625,24 @@ export default function MapMyEnginePage() {
                       <Button onClick={() => setStepIndex(6)} size="lg" className="bg-mp-gold text-mp-black hover:bg-mp-gold-600">
                         Book My Mapping Call
                       </Button>
+                      <Button href="#" variant="outline" onClick={async (e) => {
+                        e.preventDefault()
+                        if (typeof window === 'undefined') return
+                        try {
+                          const planData = { hooks: aiData.hooks || [], captions: aiData.captions || [], titles: aiData.titles || [], beats: aiData.beats || [], choices: { ...choices, persona, tone } }
+                          sessionStorage.setItem('engine_mini_plan', JSON.stringify(planData))
+                          sessionStorage.setItem('engine_mini_plan_audit', JSON.stringify(snapshot))
+                          const res = await fetch('/api/engine/plan/save', {
+                            method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan: planData, audit: snapshot })
+                          })
+                          const j = await res.json()
+                          analytics.customEvent('engine_plan_generate', { hooks: (aiData.hooks || []).length, pid: j?.pid })
+                          const pid = j?.pid
+                          window.location.href = pid ? `/engine/plan?pid=${pid}` : '/engine/plan'
+                        } catch {
+                          window.location.href = '/engine/plan'
+                        }
+                      }}>View Mini Plan</Button>
                       <Button variant="outline" onClick={back}>Back</Button>
                     </div>
                   </div>
@@ -459,6 +658,8 @@ export default function MapMyEnginePage() {
                         </div>
                         <h2 className="text-display text-2xl font-semibold mb-4">Book Your Mapping Call</h2>
                         <p className="text-mp-gray-300 mb-6">We’ll review this plan and map your next 90 days—no pressure, real value.</p>
+                        {/* In-app scheduler */}
+                        <BookScheduler />
                         <form
                           onSubmit={async (e) => {
                             e.preventDefault()
@@ -478,6 +679,9 @@ export default function MapMyEnginePage() {
                                   message: `Engine Map → Persona: ${persona || ''} | Focus: ${choices.focus || ''} | Cadence: ${choices.cadence || ''} | Tone: ${tone}`,
                                   consent: form.consent,
                                   path: '/engine/map',
+                                  audit: snapshot,
+                                  utm,
+                                  referrer,
                                 }),
                               })
                               if (res.ok) {
