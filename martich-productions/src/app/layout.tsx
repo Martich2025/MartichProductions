@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     siteName: 'Martich Productions',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/placeholder.svg',
         width: 1200,
         height: 630,
         alt: 'Martich Productions - High-End Media Production',
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Martich Productions - High-End Media Production",
     description: "Professional videography and photography for luxury resorts, realtors, and hospitality brands.",
-    images: ['/og-image.jpg'],
+    images: ['/placeholder.svg'],
   },
   robots: {
     index: true,

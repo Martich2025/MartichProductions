@@ -39,10 +39,10 @@ const Footer = () => {
   }
 
   const socialLinks = [
-    { name: 'Instagram', href: 'https://www.instagram.com/martichproductions', icon: Instagram, color: 'hover:text-pink-500' },
-    { name: 'Facebook', href: 'https://www.facebook.com/martichproductions', icon: Facebook, color: 'hover:text-blue-600' },
-    { name: 'YouTube', href: 'https://www.youtube.com/c/MartichProductions', icon: Youtube, color: 'hover:text-red-600' },
-    { name: 'LinkedIn', href: 'https://www.linkedin.com/company/martich-productions', icon: Linkedin, color: 'hover:text-blue-700' },
+    { name: 'Instagram', href: 'https://www.instagram.com/martichproductions/', icon: Instagram, color: 'hover:text-pink-500' },
+    { name: 'Facebook', href: 'https://www.facebook.com/martichproductions/', icon: Facebook, color: 'hover:text-blue-600' },
+    { name: 'YouTube', href: 'https://www.youtube.com/@martichproductions', icon: Youtube, color: 'hover:text-red-600' },
+    { name: 'LinkedIn', href: 'https://www.linkedin.com/company/martich-productions/', icon: Linkedin, color: 'hover:text-blue-700' },
   ]
 
   const stats = [
@@ -318,6 +318,8 @@ const Footer = () => {
                   <motion.a
                     key={item.name}
                     href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     initial={{ opacity: 0, scale: 0 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ delay: 0.3 + index * 0.1 }}

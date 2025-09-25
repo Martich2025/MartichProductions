@@ -1,6 +1,12 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+
+declare global {
+  interface Window {
+    __mp_popup_open?: boolean
+  }
+}
 import { ArrowRight, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
@@ -8,11 +14,18 @@ export function StickyCTA() {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    const dismissed = sessionStorage.getItem('mp_sticky_cta_dismissed') === '1'
-    if (!dismissed) {
-      const t = setTimeout(() => setShow(true), 8000)
-      return () => clearTimeout(t)
-    }
+    if (typeof window === 'undefined') return
+    const snoozedUntil = Number(localStorage.getItem('mp_sticky_snoozed_until') || '0')
+    if (Date.now() < snoozedUntil) return
+    const already = sessionStorage.getItem('mp_sticky_seen_session') === '1'
+    if (already) return
+    const t = setTimeout(() => {
+      if (!window.__mp_popup_open) {
+        setShow(true)
+        sessionStorage.setItem('mp_sticky_seen_session', '1')
+      }
+    }, 10000)
+    return () => clearTimeout(t)
   }, [])
 
   if (!show) return null
@@ -31,7 +44,7 @@ export function StickyCTA() {
             </Button>
             <button
               aria-label="Dismiss"
-              onClick={() => { sessionStorage.setItem('mp_sticky_cta_dismissed', '1'); setShow(false) }}
+              onClick={() => { localStorage.setItem('mp_sticky_snoozed_until', String(Date.now() + 6*60*60*1000)); setShow(false) }}
               className="p-2 rounded-lg text-mp-gray-400 hover:bg-mp-gray-800"
             >
               <X className="w-4 h-4" />

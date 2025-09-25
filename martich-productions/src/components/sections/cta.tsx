@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import { ArrowRight, Calendar, Phone, Mail } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
@@ -52,7 +53,7 @@ const CTA = () => {
             
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
               <Button 
-                href="/book" 
+                href="/engine/map"
                 size="lg" 
                 className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
               >
@@ -124,31 +125,31 @@ const CTA = () => {
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center">
               {/* Client Logos */}
               <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
-                <img src="/client-logos/espn-logo.png" alt="ESPN" className="max-h-12 w-auto filter brightness-0 invert" />
+                <Image src="/client-logos/espn-logo.png" alt="ESPN" width={128} height={48} className="max-h-12 w-auto filter brightness-0 invert" onError={(e) => { try { (e.target as HTMLImageElement).src = '/placeholder.svg' } catch {} }} />
               </div>
               <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
-                <img src="/client-logos/miss-usa-logo.png" alt="Miss USA Pageant" className="max-h-12 w-auto filter brightness-0 invert" />
+                <Image src="/client-logos/miss-usa-logo.png" alt="Miss USA Pageant" width={128} height={48} className="max-h-12 w-auto filter brightness-0 invert" onError={(e) => { try { (e.target as HTMLImageElement).src = '/placeholder.svg' } catch {} }} />
               </div>
               <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
-                <img src="/client-logos/moreland-properties-logo.png" alt="Moreland Properties" className="max-h-12 w-auto filter brightness-0 invert" />
+                <Image src="/client-logos/moreland-properties-logo.png" alt="Moreland Properties" width={128} height={48} className="max-h-12 w-auto filter brightness-0 invert" onError={(e) => { try { (e.target as HTMLImageElement).src = '/placeholder.svg' } catch {} }} />
               </div>
               <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
-                <img src="/client-logos/carvahal-group-logo.png" alt="Carvahal Group" className="max-h-12 w-auto filter brightness-0 invert" />
+                <Image src="/client-logos/carvahal-group-logo.png" alt="Carvahal Group" width={128} height={48} className="max-h-12 w-auto filter brightness-0 invert" onError={(e) => { try { (e.target as HTMLImageElement).src = '/placeholder.svg' } catch {} }} />
               </div>
               <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
-                <img src="/client-logos/the-club-logo.png" alt="The Club" className="max-h-12 w-auto filter brightness-0 invert" />
+                <Image src="/client-logos/the-club-logo.png" alt="The Club" width={128} height={48} className="max-h-12 w-auto filter brightness-0 invert" onError={(e) => { try { (e.target as HTMLImageElement).src = '/placeholder.svg' } catch {} }} />
               </div>
               <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
-                <img src="/client-logos/horseshoe-bay-logo.png" alt="Horseshoe Bay Resort" className="max-h-12 w-auto filter brightness-0 invert" />
+                <Image src="/client-logos/horseshoe-bay-logo.png" alt="Horseshoe Bay Resort" width={128} height={48} className="max-h-12 w-auto filter brightness-0 invert" onError={(e) => { try { (e.target as HTMLImageElement).src = '/placeholder.svg' } catch {} }} />
               </div>
               <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
-                <img src="/client-logos/whittlesey-logo.png" alt="Whittlesey Landscape Supplies" className="max-h-12 w-auto filter brightness-0 invert" />
+                <Image src="/client-logos/whittlesey-logo.png" alt="Whittlesey Landscape Supplies" width={128} height={48} className="max-h-12 w-auto filter brightness-0 invert" onError={(e) => { try { (e.target as HTMLImageElement).src = '/placeholder.svg' } catch {} }} />
               </div>
               <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
-                <img src="/client-logos/loraloma-logo.png" alt="LORALOMA" className="max-h-12 w-auto filter brightness-0 invert" />
+                <Image src="/client-logos/loraloma-logo.png" alt="LORALOMA" width={128} height={48} className="max-h-12 w-auto filter brightness-0 invert" onError={(e) => { try { (e.target as HTMLImageElement).src = '/placeholder.svg' } catch {} }} />
               </div>
               <div className="w-32 h-16 flex items-center justify-center opacity-60 hover:opacity-100 transition-all duration-300">
-                <img src="/client-logos/thomas-ranch-logo.png" alt="Thomas Ranch" className="max-h-12 w-auto filter brightness-0 invert" />
+                <Image src="/client-logos/thomas-ranch-logo.png" alt="Thomas Ranch" width={128} height={48} className="max-h-12 w-auto filter brightness-0 invert" onError={(e) => { try { (e.target as HTMLImageElement).src = '/placeholder.svg' } catch {} }} />
               </div>
             </div>
           </motion.div>

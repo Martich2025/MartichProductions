@@ -22,6 +22,21 @@ export default function WorkPage() {
 
   const caseStudies = [
     {
+      id: 0,
+      title: 'Austin Luxury Listing Launch',
+      client: 'Bill Oosland',
+      category: 'realtors',
+      image: '/placeholder.svg',
+      video: '/placeholder-realtor-video.mp4',
+      description: 'Full-funnel listing launch: story film + 12 verticals + property page.',
+      metrics: {
+        views: '1.9M',
+        engagement: '13.4%',
+        leads: '+220%'
+      },
+      slug: 'bill-oosland'
+    },
+    {
       id: 1,
       title: 'Luxury Resort Brand Story',
       client: 'The Grand Resort',

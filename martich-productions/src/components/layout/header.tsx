@@ -94,10 +94,10 @@ const Header = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-display text-xl font-bold text-white group-hover:text-mp-gold transition-colors duration-300">
+                <span className="text-display text-xl font-bold text-white group-hover:text-mp-gold transition-colors duration-300 whitespace-nowrap">
                   <span className="hidden sm:inline">Martich Productions</span>
                 </span>
-                <span className="text-xs text-mp-gray-300 hidden sm:block">
+                <span className="text-xs text-mp-gray-300 hidden lg:block">
                   Media + Web + Social
                 </span>
               </div>
@@ -203,7 +203,7 @@ const Header = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Button 
-                href="/book" 
+                href="/engine/map?step=book" 
                 className="bg-mp-gold hover:bg-mp-gold-600 text-mp-black font-semibold transition-colors duration-200"
               >
                 Book a Consult
@@ -365,7 +365,7 @@ const Header = () => {
                       transition={{ delay: 0.6 }}
                     >
                       <Button 
-                        href="/book" 
+                        href="/engine/map?step=book" 
                         className="w-full bg-mp-gold hover:bg-mp-gold-600 text-black font-bold text-lg py-4"
                       >
                         <Sparkles className="mr-3 h-5 w-5" />

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Calendar, Clock, CheckCircle, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input, Textarea, Select } from '@/components/ui/input'
@@ -22,8 +22,33 @@ export default function BookConsult() {
     consent: false
   })
 
+  const [journey, setJourney] = useState<{ persona?: string; focus?: string; cadence?: string } | null>(null)
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+
+  // Prefill from Engine Map journey params
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const persona = params.get('persona') || undefined
+    const focus = params.get('focus') || undefined
+    const cadence = params.get('cadence') || undefined
+    if (persona || focus || cadence) {
+      setJourney({ persona, focus, cadence })
+      const personaToProject: Record<string, string> = {
+        resort: 'resort',
+        realtor: 'realtor',
+        hospitality: 'hospitality',
+        events: 'weddings-events',
+      }
+      setFormData(prev => ({
+        ...prev,
+        project_type: persona && personaToProject[persona] ? personaToProject[persona] : prev.project_type,
+        message: prev.message || `From Engine Map → Persona: ${persona || '—'} | Focus: ${focus || '—'} | Cadence: ${cadence || '—'}`,
+      }))
+    }
+  }, [])
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -127,6 +152,26 @@ export default function BookConsult() {
       <div className="min-h-screen bg-mp-black py-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
+            {journey && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4 }}
+                className="mb-6 rounded-xl border border-mp-gold/30 bg-mp-charcoal/60 p-4"
+              >
+                <div className="text-sm text-mp-gray-300">Pre‑filled from your Engine Map</div>
+                <div className="mt-1 text-white font-medium">
+                  Persona: <span className="text-mp-gold">{journey.persona}</span>
+                  <span className="mx-2 text-mp-gray-500">•</span>
+                  Focus: <span className="text-mp-gold">{journey.focus}</span>
+                  <span className="mx-2 text-mp-gray-500">•</span>
+                  Cadence: <span className="text-mp-gold">{journey.cadence}</span>
+                </div>
+                <div className="mt-2 text-sm">
+                  Not quite right? <a href="/engine/map" className="text-mp-gold underline">Remap my plan</a>
+                </div>
+              </motion.div>
+            )}
             {/* Header */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}

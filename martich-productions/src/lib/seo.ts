@@ -18,7 +18,7 @@ export function generateMetadata({
   title,
   description,
   keywords = [],
-  image = '/og-image.jpg',
+  image = '/placeholder.svg',
   url,
   type = 'website',
   publishedTime,
