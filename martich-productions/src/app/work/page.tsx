@@ -357,7 +357,7 @@ export default function WorkPage() {
                   href="/book" 
                   size="lg" 
                   onClick={() => trackCTAClick('Book a Free Consult','work_footer_primary')}
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold"
                 >
                   Book a Free Consult
                 </Button>

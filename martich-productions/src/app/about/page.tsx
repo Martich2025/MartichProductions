@@ -291,7 +291,7 @@ export default function AboutPage() {
                 <Button 
                   href="/book" 
                   size="lg" 
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
                 >
                   Map My 90‑Day Rollout
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />

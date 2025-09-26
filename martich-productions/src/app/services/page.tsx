@@ -318,7 +318,7 @@ export default function ServicesPage() {
                   <Button 
                     href="/book" 
                     size="lg" 
-                    className="w-full bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold"
+                    className="w-full bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold"
                   >
                     Map My 90‑Day Rollout
                   </Button>
@@ -357,7 +357,7 @@ export default function ServicesPage() {
                 <Button 
                   href="/book" 
                   size="lg" 
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold"
                 >
                   Book a Free Consult
                 </Button>

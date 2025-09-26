@@ -146,7 +146,7 @@ export default function RealtorsPage() {
                   href="/book" 
                   size="lg" 
                   onClick={() => trackCTAClick('Book a Free Consult','realtors_hero_primary')}
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
                 >
                   Book a Free Consult
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
@@ -315,7 +315,7 @@ export default function RealtorsPage() {
                       <Button 
                         href="/book" 
                         onClick={() => trackCTAClick('Get Started','realtors_pricing_cta')}
-                        className={`w-full ${package_.name === 'Agent Package' ? 'bg-mp-gold text-mp-black hover:bg-mp-gold-dark' : ''}`}
+                        className={`w-full ${package_.name === 'Agent Package' ? 'bg-mp-gold text-mp-black hover:bg-mp-gold-600' : ''}`}
                         variant={package_.name === 'Agent Package' ? 'default' : 'outline'}
                       >
                         Get Started
@@ -350,7 +350,7 @@ export default function RealtorsPage() {
                   href="/book" 
                   size="lg" 
                   onClick={() => trackCTAClick('Book a Free Consult','realtors_footer_primary')}
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
                 >
                   Book a Free Consult
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />

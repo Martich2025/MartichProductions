@@ -146,7 +146,7 @@ export default function HospitalityPage() {
                   href="/book" 
                   size="lg" 
                   onClick={() => trackCTAClick('Book a Free Consult','hospitality_hero_primary')}
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
                 >
                   Book a Free Consult
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
@@ -316,7 +316,7 @@ export default function HospitalityPage() {
                       <Button 
                         href="/book" 
                         onClick={() => trackCTAClick('Get Started','hospitality_pricing_cta')}
-                        className={`w-full ${package_.name === 'Hotel Package' ? 'bg-mp-gold text-mp-black hover:bg-mp-gold-dark' : ''}`}
+                        className={`w-full ${package_.name === 'Hotel Package' ? 'bg-mp-gold text-mp-black hover:bg-mp-gold-600' : ''}`}
                         variant={package_.name === 'Hotel Package' ? 'default' : 'outline'}
                       >
                         Get Started
@@ -351,7 +351,7 @@ export default function HospitalityPage() {
                   href="/book" 
                   size="lg" 
                   onClick={() => trackCTAClick('Book a Free Consult','hospitality_footer_primary')}
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
                 >
                   Book a Free Consult
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />

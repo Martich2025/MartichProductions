@@ -276,7 +276,7 @@ export default function CaseStudyPage() {
                   href="/book" 
                   size="lg" 
                   onClick={() => analytics.customEvent('work_case_cta_book', { case: caseStudy.title })}
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
                 >
                   Book a Free Consult
                   <ArrowLeft className="ml-2 w-5 h-5 group-hover:-translate-x-1 transition-transform duration-200" />
