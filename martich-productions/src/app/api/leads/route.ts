@@ -37,7 +37,40 @@ export async function POST(request: Request) {
     const utm = typeof body.utm === 'object' ? body.utm : undefined
     const referrer = typeof body.referrer === 'string' ? body.referrer : undefined
 
-    // TODO: send to ESP/CRM; for now, also forward to analytics endpoint
+    // Optional: send to Slack and CRM if configured
+    try {
+      const slack = process.env.SLACK_WEBHOOK_URL
+      if (slack) {
+        await fetch(slack, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: `New Lead\nEmail: ${email}\nRole: ${role || '—'}\nTimeline: ${timeline || '—'}\nMessage: ${(message || '').slice(0, 200)}` }),
+        })
+      }
+    } catch {}
+    try {
+      const crm = process.env.CRM_WEBHOOK_URL
+      if (crm) {
+        await fetch(crm, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            role,
+            timeline,
+            message,
+            consent,
+            ip,
+            audit,
+            utm,
+            referrer,
+            source: 'lead_form',
+          }),
+        })
+      }
+    } catch {}
+
+    // Mirror to analytics endpoint
     try {
       await fetch(process.env.NEXT_PUBLIC_ANALYTICS_URL || '/api/analytics', {
         method: 'POST',
@@ -46,7 +79,7 @@ export async function POST(request: Request) {
       })
     } catch {}
     return NextResponse.json({ ok: true })
-  } catch (e) {
+  } catch {
     return NextResponse.json({ ok: false }, { status: 400 })
   }
 }

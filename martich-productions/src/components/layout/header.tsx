@@ -87,7 +87,7 @@ const Header = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Link href="/" className="flex items-center space-x-3 group">
+            <Link href="/" prefetch={false} className="flex items-center space-x-3 group" onClick={(e) => { e.preventDefault(); if (typeof window !== 'undefined') window.location.assign('/') }}>
               <div className="relative">
                 <div className="flex h-[56px] w-[56px] sm:h-[63px] sm:w-[63px] items-center justify-center">
                   <Image src="/favicon-64.png" alt="MP" width={63} height={63} priority className="h-[56px] w-[56px] sm:h-[63px] sm:w-[63px]" />
@@ -116,6 +116,7 @@ const Header = () => {
                   >
                     <Link
                       href={item.href}
+                      prefetch={false}
                       className="flex items-center space-x-2 px-4 py-2 rounded-lg text-white hover:text-mp-gold transition-all duration-300 font-medium group-hover:bg-mp-gold/10"
                       onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.name)}
                       onMouseLeave={() => setActiveDropdown(null)}
@@ -157,6 +158,7 @@ const Header = () => {
                                 <Link
                                   key={service.name}
                                   href={service.href}
+                                  prefetch={false}
                                   className="flex items-center justify-between p-3 rounded-xl hover:bg-mp-gold/10 transition-all duration-200 group"
                                 >
                                   <div>
@@ -291,6 +293,7 @@ const Header = () => {
                         >
                           <Link
                             href={item.href}
+                            prefetch={false}
                             className="flex items-center space-x-3 px-3 py-2.5 text-base font-medium text-white hover:text-mp-gold hover:bg-mp-gold/10 rounded-lg transition-all duration-200 group min-h-[40px]"
                             onClick={() => setIsMenuOpen(false)}
                           >
@@ -323,6 +326,7 @@ const Header = () => {
                                 >
                                   <Link
                                     href={service.href}
+                                    prefetch={false}
                                     className="flex items-center space-x-3 px-3 py-2 text-[15px] text-mp-gray-300 hover:text-mp-gold hover:bg-mp-gold/5 rounded-md transition-all duration-200 group min-h-[38px]"
                                     onClick={() => setIsMenuOpen(false)}
                                   >
@@ -354,6 +358,7 @@ const Header = () => {
                         variant="ghost" 
                         href="/client" 
                         className="w-full justify-center text-lg py-4 bg-mp-gold/10 hover:bg-mp-gold/20 text-white font-semibold transition-all duration-300"
+                        onClick={() => setIsMenuOpen(false)}
                       >
                         <Camera className="mr-3 h-5 w-5" />
                         Client Login
@@ -367,6 +372,7 @@ const Header = () => {
                       <Button 
                         href="/engine/map?step=book" 
                         className="w-full bg-mp-gold hover:bg-mp-gold-600 text-black font-bold text-lg py-4"
+                        onClick={() => setIsMenuOpen(false)}
                       >
                         <Sparkles className="mr-3 h-5 w-5" />
                         Book a Consult

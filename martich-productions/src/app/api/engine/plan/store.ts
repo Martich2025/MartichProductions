@@ -31,7 +31,7 @@ export async function savePlan(plan: MiniPlan, audit?: AuditSnapshot): Promise<s
       created_at timestamptz default now()
     )` as unknown as Promise<void>
     const pid = randomUUID()
-    await sql`insert into plans (pid, plan, audit) values (${pid}, ${plan as any}, ${audit as any})`
+    await sql`insert into plans (pid, plan, audit) values (${pid}, ${JSON.stringify(plan)}::jsonb, ${audit ? JSON.stringify(audit) : null}::jsonb)`
     return pid
   } catch {
     // fallback to memory

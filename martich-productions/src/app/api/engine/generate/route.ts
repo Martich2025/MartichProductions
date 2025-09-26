@@ -108,7 +108,7 @@ export async function POST(req: Request) {
     } catch {
       return NextResponse.json(fallbackGenerate(body))
     }
-  } catch (e) {
+  } catch {
     // Always return JSON fallback instead of throwing so the UI never hard-fails
     return NextResponse.json(fallbackGenerate({}))
   }

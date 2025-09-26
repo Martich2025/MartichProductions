@@ -1,11 +1,13 @@
 'use client'
 
 import React from 'react'
-import { Camera, Video, Drone, Edit, Share2, CheckCircle, ArrowRight, Star, Users, Clock } from 'lucide-react'
+import { Camera, Video, Drone, Share2, CheckCircle, ArrowRight, Clock } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { MainLayout } from '@/components/layout/main-layout'
+import { StickyConsultBar } from '@/components/global/sticky-consult-bar'
+import { trackCTAClick } from '@/lib/analytics'
 
 export default function ResortsPage() {
   const services = [
@@ -146,6 +148,7 @@ export default function ResortsPage() {
                 <Button 
                   href="/book" 
                   size="lg" 
+                  onClick={() => trackCTAClick('Book a Free Consult','resorts_hero_primary')}
                   className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
                 >
                   Book a Free Consult
@@ -155,6 +158,7 @@ export default function ResortsPage() {
                   href="/work?filter=resorts" 
                   variant="outline" 
                   size="lg"
+                  onClick={() => trackCTAClick('View Resort Work','resorts_hero_secondary')}
                   className="border-mp-white text-mp-white hover:bg-mp-gold/10"
                 >
                   View Resort Work
@@ -318,6 +322,7 @@ export default function ResortsPage() {
                       </ul>
                       <Button 
                         href="/book" 
+                        onClick={() => trackCTAClick('Get Started','resorts_pricing_cta')}
                         className={`w-full ${package_.name === 'Professional' ? 'bg-mp-gold text-mp-black hover:bg-mp-gold-dark' : ''}`}
                         variant={package_.name === 'Professional' ? 'default' : 'outline'}
                       >
@@ -352,6 +357,7 @@ export default function ResortsPage() {
                 <Button 
                   href="/book" 
                   size="lg" 
+                  onClick={() => trackCTAClick('Book a Free Consult','resorts_footer_primary')}
                   className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
                 >
                   Book a Free Consult
@@ -361,6 +367,7 @@ export default function ResortsPage() {
                   href="/work?filter=resorts" 
                   variant="outline" 
                   size="lg"
+                  onClick={() => trackCTAClick('View Resort Work','resorts_footer_secondary')}
                   className="border-mp-white text-mp-white hover:bg-mp-gold/10"
                 >
                   View Resort Work
@@ -370,6 +377,7 @@ export default function ResortsPage() {
           </div>
         </section>
       </div>
+      <StickyConsultBar />
     </MainLayout>
   )
 }
