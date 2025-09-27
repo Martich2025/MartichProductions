@@ -1,0 +1,11 @@
+{
+  "name": "Default Client Theme",
+  "colors": {
+    "primary": "#D4AF37",
+    "background": "#0A0A0A",
+    "surface": "#1A1A1A",
+    "text": "#FFFFFF"
+  }
+}
+
+
