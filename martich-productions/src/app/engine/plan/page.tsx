@@ -461,7 +461,7 @@ export default function MiniPlanPage() {
                             const p = (plan?.choices?.persona || '').toString()
                             const ctas = p === 'resort' ? ['Book Your Stay','Explore Amenities'] : p === 'realtor' ? ['Book a Tour','See Availability'] : p === 'hospitality' ? ['Reserve a Table','View Menu'] : p === 'events' ? ['Inquire Now','See Packages'] : ['Book a Consult','See Work']
                             return ctas.map((t, i) => (
-                              <button key={i} className="px-3 py-1.5 rounded-full border border-mp-gray-700 bg-canvas/60 text-sm hover:border-mp-gold" onClick={() => applyChoice('primaryCta', t)} title="Apply this CTA">{t}</button>
+                              <button key={i} className="px-3 py-1.5 rounded-full border border-mp-gray-700 bg-canvas/60 text-sm hover:border-mp-gold" onClick={() => applyChoice('primaryCta', t)} title="Apply this CTA" aria-label={`Apply CTA: ${t}`}>{t}</button>
                             ))
                           })()}
                         </div>
