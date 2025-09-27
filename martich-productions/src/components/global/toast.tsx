@@ -23,7 +23,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {children}
       <div className="fixed bottom-6 right-6 z-[10000] space-y-2" aria-live="polite" role="status">
         {toasts.map((t) => (
-          <div key={t.id} className={`px-3 py-2 rounded-md text-sm shadow border ${t.type === 'error' ? 'bg-red-900/80 text-red-200 border-red-700' : 'bg-green-900/80 text-green-200 border-green-700'}`}>{t.text}</div>
+          <div key={t.id} className={`px-3 py-2 rounded-md text-sm shadow border ${t.type === 'error' ? 'bg-danger/20 text-danger border-danger/30' : 'bg-success/20 text-success border-success/30'}`}>{t.text}</div>
         ))}
       </div>
     </ToastCtx.Provider>

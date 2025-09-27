@@ -146,9 +146,9 @@ export default function ServicesPage() {
           { question: 'How quickly can we start?', answer: 'Discovery and planning can start immediately. Production typically begins within 1–2 weeks after alignment.' }
         ]))}
       </Script>
-      <div className="min-h-screen bg-mp-black">
+      <div className="min-h-screen bg-canvas">
         {/* Hero Section */}
-        <section className="py-12 sm:py-14 md:py-16 bg-mp-charcoal text-mp-white">
+        <section className="py-12 sm:py-14 md:py-16 bg-surface text-primary">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -159,7 +159,7 @@ export default function ServicesPage() {
               <h1 className="text-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
                 Our Services
               </h1>
-              <p className="text-xl text-mp-gray-light mb-8">
+              <p className="text-xl text-secondary mb-8">
                 Don’t buy assets—hire the engine. Each service plugs into one flow from plan → shoot → edit → publish → measure, so every piece compounds into revenue.
               </p>
             </motion.div>
@@ -182,23 +182,23 @@ export default function ServicesPage() {
                     <Card className="h-full hover:shadow-xl transition-shadow duration-300 group">
                       <CardHeader className="text-center">
                         <div className="w-16 h-16 bg-mp-gold/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200">
-                          <Icon className="w-8 h-8 text-mp-gold" />
+                          <Icon className="w-8 h-8 text-brand" />
                         </div>
                         <CardTitle className="text-2xl">{service.title}</CardTitle>
-                        <p className="text-mp-gray">{service.description}</p>
+                        <p className="text-secondary">{service.description}</p>
                       </CardHeader>
                       <CardContent>
                         <ul className="space-y-3 mb-6">
                           {service.features.map((feature, featureIndex) => (
                             <li key={featureIndex} className="flex items-start">
-                              <CheckCircle className="w-4 h-4 text-mp-gold mr-3 mt-0.5 flex-shrink-0" />
+                              <CheckCircle className="w-4 h-4 text-brand mr-3 mt-0.5 flex-shrink-0" />
                               <span className="text-sm">{feature}</span>
                             </li>
                           ))}
                         </ul>
                         <div className="text-center mb-6">
-                          <div className="text-sm text-mp-gray mb-2">Starting from</div>
-                          <div className="text-2xl font-bold text-mp-gold">{service.priceRange}</div>
+                          <div className="text-sm text-secondary mb-2">Starting from</div>
+                          <div className="text-2xl font-bold text-brand">{service.priceRange}</div>
                         </div>
                         <Button 
                           href={service.href} 
@@ -217,7 +217,7 @@ export default function ServicesPage() {
         </section>
 
         {/* Capabilities Matrix */}
-        <section className="py-12 sm:py-14 md:py-16 bg-mp-black text-mp-white">
+        <section className="py-12 sm:py-14 md:py-16 bg-canvas text-primary">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -227,7 +227,7 @@ export default function ServicesPage() {
               className="text-center mb-10"
             >
               <h2 className="text-display text-3xl sm:text-4xl font-bold mb-3">Capabilities</h2>
-              <p className="text-xl text-mp-gray-light">Film. Photo. Web. Social. One engine from plan → publish → measure.</p>
+              <p className="text-xl text-secondary">Film. Photo. Web. Social. One engine from plan → publish → measure.</p>
             </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
               {[{
@@ -243,15 +243,15 @@ export default function ServicesPage() {
                 title: 'Social',
                 items: ['Hook frameworks', 'Verticals at cadence', 'Scheduling + DM flows', 'Reporting dashboards']
               }].map((cap) => (
-                <div key={cap.title} className="p-6 rounded-2xl border border-mp-gray-800 bg-mp-black/40">
+                <div key={cap.title} className="p-6 rounded-2xl border border-mp-gray-800 bg-canvas/40">
                   <div className="text-display text-xl font-semibold mb-3">{cap.title}</div>
-                  <ul className="text-sm text-mp-gray-300 space-y-2">
+                  <ul className="text-sm text-secondary-300 space-y-2">
                     {cap.items.map((it) => (<li key={it}>• {it}</li>))}
                   </ul>
                 </div>
               ))}
             </div>
-            <div className="mt-6 text-center text-sm text-mp-gray-400">Typical rollout: plan (week 1) → shoot (weeks 1–2) → edit/publish (weeks 2–4). Then weekly cadence.</div>
+            <div className="mt-6 text-center text-sm text-secondary-400">Typical rollout: plan (week 1) → shoot (weeks 1–2) → edit/publish (weeks 2–4). Then weekly cadence.</div>
           </div>
         </section>
 
@@ -268,7 +268,7 @@ export default function ServicesPage() {
               <h2 className="text-display text-3xl sm:text-4xl font-bold text-white mb-6">
                 Our Process
               </h2>
-              <p className="text-xl text-mp-gray max-w-3xl mx-auto">
+              <p className="text-xl text-secondary max-w-3xl mx-auto">
                 From concept to delivery, we follow a proven methodology that ensures 
                 your content not only looks amazing but drives real business results.
               </p>
@@ -287,12 +287,12 @@ export default function ServicesPage() {
                     className="text-center"
                   >
                     <div className="w-16 h-16 bg-mp-gold rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Icon className="w-8 h-8 text-mp-gold" />
+                    <Icon className="w-8 h-8 text-brand" />
                     </div>
                     <h3 className="text-display text-xl font-semibold text-white mb-2">
                       {step.title}
                     </h3>
-                    <p className="text-mp-gray">
+                    <p className="text-secondary">
                       {step.description}
                     </p>
                   </motion.div>
@@ -303,11 +303,11 @@ export default function ServicesPage() {
         </section>
 
         {/* Nudge: Need help choosing? */}
-        <section className="py-8 bg-mp-black border-t border-mp-gray-800">
+        <section className="py-8 bg-canvas border-t border-mp-gray-800">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-mp-charcoal/60 rounded-lg p-4">
-              <p className="text-sm text-mp-gray-300">Need help choosing? Map your engine in 90 seconds and get a mini plan.</p>
-              <Link href="/engine/map" className="text-mp-gold hover:text-mp-gold-600 text-sm font-semibold">Map my engine →</Link>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-surface/60 rounded-lg p-4">
+              <p className="text-sm text-secondary-300">Need help choosing? Map your engine in 90 seconds and get a mini plan.</p>
+              <Link href="/engine/map" className="text-brand hover:text-brand-600 text-sm font-semibold">Map my engine →</Link>
             </div>
           </div>
         </section>
@@ -325,14 +325,14 @@ export default function ServicesPage() {
               <h2 className="text-display text-3xl sm:text-4xl font-bold text-white mb-6">
                   What's Included
                 </h2>
-                <p className="text-xl text-mp-gray mb-8">
+                <p className="text-xl text-secondary mb-8">
                   Every project includes our full-service approach with professional 
                   equipment, expert crew, and comprehensive post-production.
                 </p>
                 <ul className="space-y-4">
                   {includedServices.map((service, index) => (
                     <li key={index} className="flex items-start">
-                      <CheckCircle className="w-5 h-5 text-mp-gold mr-3 mt-0.5 flex-shrink-0" />
+                      <CheckCircle className="w-5 h-5 text-brand mr-3 mt-0.5 flex-shrink-0" />
                       <span className="text-white">{service}</span>
                     </li>
                   ))}
@@ -344,12 +344,12 @@ export default function ServicesPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
-                className="bg-mp-charcoal rounded-2xl p-8 text-mp-white"
+                className="bg-surface rounded-2xl p-8 text-primary"
               >
                 <h3 className="text-display text-2xl font-bold mb-6">
                   Ready to Get Started?
                 </h3>
-                <p className="text-mp-gray-light mb-8">
+                <p className="text-secondary mb-8">
                   Let's discuss your project and create a custom proposal 
                   tailored to your specific needs and goals.
                 </p>
@@ -365,7 +365,7 @@ export default function ServicesPage() {
                     href="/work" 
                     variant="outline" 
                     size="lg"
-                    className="w-full border-mp-white text-mp-white hover:bg-mp-gold/10"
+                    className="w-full border-mp-white text-primary hover:bg-mp-gold/10"
                   >
                     View Our Work
                   </Button>
@@ -376,7 +376,7 @@ export default function ServicesPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-12 sm:py-14 md:py-16 bg-mp-charcoal text-mp-white">
+        <section className="py-12 sm:py-14 md:py-16 bg-surface text-primary">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -388,7 +388,7 @@ export default function ServicesPage() {
               <h2 className="text-display text-3xl sm:text-4xl font-bold mb-6">
                 Let's Create Something Amazing Together
               </h2>
-              <p className="text-xl text-mp-gray-light mb-8">
+              <p className="text-xl text-secondary mb-8">
                 Ready to elevate your brand with cinematic content that drives results? 
                 Let's discuss your project and see how we can help.
               </p>
@@ -404,7 +404,7 @@ export default function ServicesPage() {
                   href="/work" 
                   variant="outline" 
                   size="lg"
-                  className="border-mp-white text-mp-white hover:bg-mp-gold/10"
+                  className="border-mp-white text-primary hover:bg-mp-gold/10"
                 >
                   View Our Work
                 </Button>
@@ -413,7 +413,7 @@ export default function ServicesPage() {
           </div>
         </section>
         {/* FAQ Section */}
-        <section className="py-12 sm:py-14 md:py-16 bg-mp-black text-mp-white">
+        <section className="py-12 sm:py-14 md:py-16 bg-canvas text-primary">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
             <h2 className="text-display text-2xl sm:text-3xl font-bold mb-6">Frequently Asked Questions</h2>
             <div className="divide-y divide-mp-gray-800 border border-mp-gray-800 rounded-xl overflow-hidden">
@@ -423,13 +423,13 @@ export default function ServicesPage() {
                 { q: 'How quickly can we start?', a: 'Discovery and planning can start immediately. Production typically begins within 1–2 weeks after alignment.' },
               ].map((item, i) => (
                 <details key={i} className="group">
-                  <summary className="cursor-pointer list-none p-4 sm:p-5 bg-mp-black/40 group-open:bg-mp-charcoal/40">
+                  <summary className="cursor-pointer list-none p-4 sm:p-5 bg-canvas/40 group-open:bg-surface/40">
                     <div className="flex items-center justify-between gap-4">
                       <span className="font-semibold">{item.q}</span>
-                      <span className="text-mp-gray-400">+</span>
+                      <span className="text-secondary-400">+</span>
                     </div>
                   </summary>
-                  <div className="p-4 sm:p-5 text-mp-gray-300 border-t border-mp-gray-800">{item.a}</div>
+                  <div className="p-4 sm:p-5 text-secondary-300 border-t border-mp-gray-800">{item.a}</div>
                 </details>
               ))}
             </div>

@@ -33,7 +33,7 @@ const CTA = () => {
   ]
 
   return (
-    <section className="py-20 bg-mp-black text-mp-white">
+    <section className="py-20 bg-canvas text-primary">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
           {/* Main CTA */}
@@ -47,7 +47,7 @@ const CTA = () => {
             <h2 className="text-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-6">
               Ready to Hand Us the Keys?
             </h2>
-            <p className="text-xl text-mp-gray-light mb-8 max-w-3xl mx-auto">
+            <p className="text-xl text-secondary mb-8 max-w-3xl mx-auto">
               We’ll operate your content, site, and social as one compounding system—measured in leads and bookings.
             </p>
             
@@ -55,7 +55,7 @@ const CTA = () => {
               <Button 
                 href="/engine/map"
                 size="lg" 
-                className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
+                className="bg-brand text-canvas hover:bg-brand-600 shadow-gold group"
               >
                 Map My 90‑Day Rollout
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
@@ -64,7 +64,7 @@ const CTA = () => {
                 href="/work" 
                 variant="outline" 
                 size="lg"
-                className="border-mp-white text-mp-white hover:bg-mp-gold/10"
+                className="border-primary text-primary hover:bg-brand/10"
               >
                 View Our Work
               </Button>
@@ -90,18 +90,18 @@ const CTA = () => {
                   viewport={{ once: true }}
                   className="text-center"
                 >
-                  <div className="w-16 h-16 bg-mp-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Icon className="w-8 h-8 text-mp-gold" />
+                  <div className="w-16 h-16 bg-brand/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Icon className="w-8 h-8 text-brand" />
                   </div>
                   <h3 className="text-display text-xl font-semibold mb-2">
                     {method.title}
                   </h3>
-                  <p className="text-mp-gray-light mb-4">
+                  <p className="text-secondary mb-4">
                     {method.description}
                   </p>
                   <a
                     href={method.href}
-                    className="inline-flex items-center text-mp-gold hover:text-mp-gold-light transition-colors duration-200 font-medium"
+                    className="inline-flex items-center text-brand hover:text-brand-light transition-colors duration-200 font-medium"
                   >
                     {method.action}
                     <ArrowRight className="ml-1 w-4 h-4" />
@@ -117,9 +117,9 @@ const CTA = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             viewport={{ once: true }}
-            className="mt-16 pt-8 border-t border-mp-gray"
+            className="mt-16 pt-8 border-t border-subtle"
           >
-            <p className="text-mp-gray-light mb-6">
+            <p className="text-secondary mb-6">
               Trusted by luxury brands across Texas and beyond
             </p>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 items-center justify-items-center">

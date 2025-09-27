@@ -3,17 +3,17 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-mp-gold text-mp-black hover:bg-mp-gold-600 focus-visible:ring-mp-gold",
-        primary: "bg-mp-gold text-mp-black hover:bg-mp-gold-600 focus-visible:ring-mp-gold",
-        secondary: "bg-mp-charcoal text-mp-white hover:bg-mp-gray-800",
-        outline: "border-2 border-mp-gold text-mp-gold hover:bg-mp-gold/10 hover:text-mp-gold",
-        ghost: "text-mp-gold hover:bg-mp-gold/10",
-        destructive: "bg-mp-red-500 text-mp-white hover:bg-mp-red-600",
-        link: "text-mp-gold underline-offset-4 hover:underline",
+        default: "bg-brand text-canvas hover:bg-brand-hover focus-visible:ring-brand",
+        primary: "bg-brand text-canvas hover:bg-brand-hover focus-visible:ring-brand",
+        secondary: "bg-surface text-primary hover:bg-surface-elevated",
+        outline: "border-2 border-brand text-brand hover:bg-brand-wash hover:text-brand",
+        ghost: "text-brand hover:bg-brand-wash",
+        destructive: "bg-danger text-primary hover:bg-danger/90",
+        link: "text-brand underline-offset-4 hover:underline",
       },
       size: {
         default: "h-10 px-4 py-2",

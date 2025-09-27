@@ -39,10 +39,10 @@ const Footer = () => {
   }
 
   const socialLinks = [
-    { name: 'Instagram', href: 'https://www.instagram.com/martichproductions/', icon: Instagram, color: 'hover:text-pink-500' },
-    { name: 'Facebook', href: 'https://www.facebook.com/martichproductions/', icon: Facebook, color: 'hover:text-blue-600' },
-    { name: 'YouTube', href: 'https://www.youtube.com/@martichproductions', icon: Youtube, color: 'hover:text-red-600' },
-    { name: 'LinkedIn', href: 'https://www.linkedin.com/company/martich-productions/', icon: Linkedin, color: 'hover:text-blue-700' },
+    { name: 'Instagram', href: 'https://www.instagram.com/martichproductions/', icon: Instagram, color: 'hover:text-brand' },
+    { name: 'Facebook', href: 'https://www.facebook.com/martichproductions/', icon: Facebook, color: 'hover:text-brand' },
+    { name: 'YouTube', href: 'https://www.youtube.com/@martichproductions', icon: Youtube, color: 'hover:text-brand' },
+    { name: 'LinkedIn', href: 'https://www.linkedin.com/company/martich-productions/', icon: Linkedin, color: 'hover:text-brand' },
   ]
 
   const stats = [
@@ -53,7 +53,7 @@ const Footer = () => {
   ]
 
   return (
-    <footer className="relative bg-mp-black text-mp-white overflow-hidden">
+    <footer className="relative bg-canvas text-primary overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5"></div>
       
@@ -64,7 +64,7 @@ const Footer = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="py-12 border-b border-mp-gray-700/50"
+          className="py-12 border-b border-subtle/50"
         >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -75,10 +75,10 @@ const Footer = () => {
                 transition={{ delay: index * 0.1 }}
                 className="text-center"
               >
-                <div className="text-3xl md:text-4xl font-bold text-mp-gold mb-2">
+                <div className="text-3xl md:text-4xl font-bold text-brand mb-2">
                   {stat.value}
                 </div>
-                <div className="text-sm text-mp-gray-300">
+                <div className="text-sm text-secondary">
                   {stat.label}
                 </div>
               </motion.div>
@@ -98,19 +98,19 @@ const Footer = () => {
             >
               <Link href="/" className="flex items-center space-x-3 mb-6 group">
                   <div className="relative">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-mp-gold transition-colors duration-200">
-                    <Camera className="h-6 w-6 text-mp-black group-hover:rotate-12 transition-transform duration-300" />
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand transition-colors duration-200">
+                    <Camera className="h-6 w-6 text-canvas group-hover:rotate-12 transition-transform duration-300" />
                   </div>
                 </div>
                 <div>
-                  <span className="text-display text-2xl font-bold group-hover:text-mp-gold transition-colors duration-300">
+                  <span className="text-display text-2xl font-bold group-hover:text-brand transition-colors duration-300">
                     Martich Productions
                   </span>
-                  <div className="text-sm text-mp-gray-400">Cinematic Media Excellence</div>
+                  <div className="text-sm text-tertiary">Cinematic Media Excellence</div>
                 </div>
               </Link>
               
-              <p className="text-mp-gray-300 mb-8 max-w-md leading-relaxed">
+              <p className="text-secondary mb-8 max-w-md leading-relaxed">
                 High-end media production with a personal touch. We create cinematic content 
                 that drives results for luxury resorts, realtors, and hospitality brands.
               </p>
@@ -121,12 +121,12 @@ const Footer = () => {
                   whileHover={{ x: 5 }}
                   className="flex items-center space-x-3 group"
                 >
-                  <div className="p-2 rounded-lg bg-mp-gold/10 group-hover:bg-mp-gold/20 transition-colors duration-300">
-                    <Mail className="h-4 w-4 text-mp-gold" />
+                  <div className="p-2 rounded-lg bg-brand/10 group-hover:bg-brand/20 transition-colors duration-300">
+                    <Mail className="h-4 w-4 text-brand" />
                   </div>
                   <a 
                     href={`mailto:${CONTACT_EMAIL}`} 
-                    className="text-mp-gray-300 hover:text-mp-gold transition-colors duration-300"
+                    className="text-secondary hover:text-brand transition-colors duration-300"
                   >
                     {CONTACT_EMAIL}
                   </a>
@@ -136,12 +136,12 @@ const Footer = () => {
                   whileHover={{ x: 5 }}
                   className="flex items-center space-x-3 group"
                 >
-                  <div className="p-2 rounded-lg bg-mp-gold/10 group-hover:bg-mp-gold/20 transition-colors duration-300">
-                    <Phone className="h-4 w-4 text-mp-gold" />
+                  <div className="p-2 rounded-lg bg-brand/10 group-hover:bg-brand/20 transition-colors duration-300">
+                    <Phone className="h-4 w-4 text-brand" />
                   </div>
                   <a 
                     href={`tel:${CONTACT_PHONE_TEL}`} 
-                    className="text-mp-gray-300 hover:text-mp-gold transition-colors duration-300"
+                    className="text-secondary hover:text-brand transition-colors duration-300"
                   >
                     {CONTACT_PHONE}
                   </a>
@@ -151,10 +151,10 @@ const Footer = () => {
                   whileHover={{ x: 5 }}
                   className="flex items-center space-x-3 group"
                 >
-                  <div className="p-2 rounded-lg bg-mp-gold/10 group-hover:bg-mp-gold/20 transition-colors duration-300">
-                    <MapPin className="h-4 w-4 text-mp-gold" />
+                  <div className="p-2 rounded-lg bg-brand/10 group-hover:bg-brand/20 transition-colors duration-300">
+                    <MapPin className="h-4 w-4 text-brand" />
                   </div>
-                  <span className="text-mp-gray-300">
+                  <span className="text-secondary">
                     {CONTACT_ADDRESS}
                   </span>
                 </motion.div>
@@ -172,7 +172,7 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-display text-lg font-semibold mb-6 flex items-center">
-              <Sparkles className="h-5 w-5 text-mp-gold mr-2" />
+              <Sparkles className="h-5 w-5 text-brand mr-2" />
               Services
             </h3>
             <ul className="space-y-3">
@@ -186,7 +186,7 @@ const Footer = () => {
                 >
                   <Link
                     href={item.href}
-                    className="flex items-center text-mp-gray-300 hover:text-mp-gold transition-all duration-300 group"
+                    className="flex items-center text-secondary hover:text-brand transition-all duration-300 group"
                   >
                     <ArrowRight className="h-3 w-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     {item.name}
@@ -204,7 +204,7 @@ const Footer = () => {
             viewport={{ once: true }}
           >
             <h3 className="text-display text-lg font-semibold mb-6 flex items-center">
-              <Zap className="h-5 w-5 text-mp-gold mr-2" />
+              <Zap className="h-5 w-5 text-brand mr-2" />
               Company
             </h3>
             <ul className="space-y-3">
@@ -218,7 +218,7 @@ const Footer = () => {
                 >
                   <Link
                     href={item.href}
-                    className="flex items-center text-mp-gray-300 hover:text-mp-gold transition-all duration-300 group"
+                    className="flex items-center text-secondary hover:text-brand transition-all duration-300 group"
                   >
                     <ArrowRight className="h-3 w-3 mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     {item.name}
@@ -235,7 +235,7 @@ const Footer = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
-          className="py-12 border-t border-mp-gray-700/50"
+          className="py-12 border-t border-subtle/50"
         >
           <div className="text-center px-4">
             <motion.div
@@ -245,11 +245,11 @@ const Footer = () => {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="relative bg-mp-charcoal rounded-2xl p-8 lg:p-12 border border-mp-gray-800">
+              <div className="relative bg-surface rounded-2xl p-8 lg:p-12 border border-subtle">
                 <h3 className="text-display text-2xl lg:text-3xl font-bold mb-4 text-white">
                   Book a Free 20‑Minute Mapping Call
                 </h3>
-                <p className="text-mp-gray-300 mb-8 max-w-2xl mx-auto text-lg">
+                <p className="text-secondary mb-8 max-w-2xl mx-auto text-lg">
                   We’ll map your next 90 days—shoot plan, channel mix, and quick wins. No pressure, real value.
                 </p>
                 <motion.div
@@ -259,7 +259,7 @@ const Footer = () => {
                   <Button 
                     href="/book" 
                     size="lg" 
-                    className="bg-mp-gold hover:bg-mp-gold-600 text-mp-black font-bold text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto"
+                    className="bg-brand hover:bg-brand-600 text-canvas font-bold text-lg px-6 sm:px-8 py-3 sm:py-4 w-full sm:w-auto"
                   >
                     <Star className="mr-2 h-5 w-5" />
                     Book a Free Consult
@@ -272,7 +272,7 @@ const Footer = () => {
         </motion.div>
 
         {/* Enhanced Bottom Section */}
-        <div className="py-8 border-t border-mp-gray-700/50">
+        <div className="py-8 border-t border-subtle/50">
           <div className="flex flex-col lg:flex-row justify-between items-center space-y-6 lg:space-y-0">
             {/* Copyright */}
             <motion.div
@@ -280,7 +280,7 @@ const Footer = () => {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
-              className="text-mp-gray-400 text-sm"
+              className="text-tertiary text-sm"
             >
               © {currentYear} Martich Productions. All rights reserved.
             </motion.div>
@@ -297,7 +297,7 @@ const Footer = () => {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-mp-gray-400 hover:text-mp-gold transition-colors duration-300 text-sm"
+                  className="text-tertiary hover:text-brand transition-colors duration-300 text-sm"
                 >
                   {item.name}
                 </Link>
@@ -325,7 +325,7 @@ const Footer = () => {
                     transition={{ delay: 0.3 + index * 0.1 }}
                     whileHover={{ scale: 1.2, y: -2 }}
                     whileTap={{ scale: 0.9 }}
-                    className={`p-3 rounded-xl bg-mp-gray-800/50 hover:bg-mp-gold/10 text-mp-gray-400 ${item.color} transition-all duration-300 group`}
+                    className={`p-3 rounded-xl bg-surface/50 hover:bg-brand/10 text-tertiary ${item.color} transition-all duration-300 group`}
                     aria-label={item.name}
                   >
                     <Icon className="h-5 w-5 group-hover:scale-110 transition-transform duration-300" />
