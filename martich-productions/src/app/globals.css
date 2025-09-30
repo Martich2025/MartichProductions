@@ -319,6 +319,19 @@ body {
 
 /* Optimal Theme Engine - 2024/2025 Conversion-Focused Palette */
 :root {
+  /* Legacy Variables - Keep for compatibility */
+  --mp-black: #0A0A0A;
+  --mp-white: #FFFFFF;
+  --mp-gold: #D4AF37;
+  --mp-gold-light: #F5C847;
+  --mp-gold-dark: #9C7A17;
+  --mp-gray-light: #C8CBD2;
+  --mp-gray-400: #9AA0AA;
+  --mp-gray-500: #9AA0AA;
+  --mp-gray-700: #1E2026;
+  --mp-gray-800: #2A2D35;
+  --mp-charcoal: #121317;
+  
   /* Canvas & Surfaces */
   --theme-canvas: #0B0C0F;        /* Off-black for better readability */
   --theme-surface: #121317;       /* Charcoal for cards/sections */
@@ -352,8 +365,8 @@ body {
 
 /* Apply theme variables to body */
 body {
-  background-color: var(--theme-canvas);
-  color: var(--theme-text-primary);
+  background-color: var(--mp-black);
+  color: var(--mp-white);
 }
 
 /* Semantic Utility Classes - Theme Engine */
