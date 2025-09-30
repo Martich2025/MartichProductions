@@ -1,13 +1,11 @@
 'use client'
 
 import React from 'react'
-import { Heart, Mic, Users, ArrowRight, CheckCircle } from 'lucide-react'
+import { Heart, Camera, Mic, Users, Calendar, ArrowRight, CheckCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { MainLayout } from '@/components/layout/main-layout'
-import { StickyConsultBar } from '@/components/global/sticky-consult-bar'
-import { trackCTAClick } from '@/lib/analytics'
 
 export default function WeddingsEventsPage() {
   const packages = [
@@ -83,11 +81,11 @@ export default function WeddingsEventsPage() {
                 Elegant, story-driven films crafted with cinematic precision for weddings, galas, and corporate events.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <Button href="/book" size="lg" onClick={() => trackCTAClick('Book a Consult','weddings_hero_primary')} className="bg-mp-gold text-mp-black hover:bg-mp-gold-600">
+                <Button href="/book" size="lg" className="bg-mp-gold text-mp-black hover:bg-mp-gold-600">
                   Book a Consult
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
-                <Button href="/work" variant="outline" size="lg" onClick={() => trackCTAClick('View Our Work','weddings_hero_secondary')} className="border-mp-white text-mp-white hover:bg-mp-gold/10">
+                <Button href="/work" variant="outline" size="lg" className="border-mp-white text-mp-white hover:bg-mp-gold/10">
                   View Our Work
                 </Button>
               </div>
@@ -140,7 +138,7 @@ export default function WeddingsEventsPage() {
                           </li>
                         ))}
                       </ul>
-                      <Button href="/book" onClick={() => trackCTAClick('Get Started','weddings_packages_cta')} className="w-full bg-mp-gold text-mp-black hover:bg-mp-gold-600">Get Started</Button>
+                      <Button href="/book" className="w-full bg-mp-gold text-mp-black hover:bg-mp-gold-600">Get Started</Button>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -154,14 +152,13 @@ export default function WeddingsEventsPage() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-display text-3xl sm:text-4xl font-bold mb-6">Ready to Plan Your Day?</h2>
             <p className="text-xl text-mp-gray-light mb-8">We’ll build a package around your timeline and priorities.</p>
-            <Button href="/book" size="lg" onClick={() => trackCTAClick('Book a Consult','weddings_footer_primary')} className="bg-mp-gold text-mp-black hover:bg-mp-gold-600">
+            <Button href="/book" size="lg" className="bg-mp-gold text-mp-black hover:bg-mp-gold-600">
               Book a Consult
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </div>
         </section>
       </div>
-      <StickyConsultBar />
     </MainLayout>
   )
 }

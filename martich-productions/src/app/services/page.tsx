@@ -6,10 +6,6 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { MainLayout } from '@/components/layout/main-layout'
-import Script from 'next/script'
-import { generateBreadcrumbSchema, generateFAQSchema } from '@/lib/seo'
-import { StickyConsultBar } from '@/components/global/sticky-consult-bar'
-import Link from 'next/link'
 
 export default function ServicesPage() {
   const services = [
@@ -133,22 +129,9 @@ export default function ServicesPage() {
 
   return (
     <MainLayout>
-      <Script id="services-breadcrumb-schema" type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify(generateBreadcrumbSchema([
-          { name: 'Home', url: '/' },
-          { name: 'Services', url: '/services' },
-        ]))}
-      </Script>
-      <Script id="services-faq-schema" type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify(generateFAQSchema([
-          { question: 'What does a typical 90‑day rollout include?', answer: 'Hero brand film, 12–20 verticals, conversion page updates, and a weekly cadence tuned to your goals.' },
-          { question: 'Do you handle strategy and publishing?', answer: 'Yes. We plan, shoot, edit, and publish. We also define cadence, CTAs, and analytics so results compound.' },
-          { question: 'How quickly can we start?', answer: 'Discovery and planning can start immediately. Production typically begins within 1–2 weeks after alignment.' }
-        ]))}
-      </Script>
       <div className="min-h-screen bg-mp-black">
         {/* Hero Section */}
-        <section className="py-12 sm:py-14 md:py-16 bg-mp-charcoal text-mp-white">
+        <section className="py-20 bg-mp-charcoal text-mp-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -167,9 +150,9 @@ export default function ServicesPage() {
         </section>
 
         {/* Services Grid */}
-        <section className="py-12 sm:py-14 md:py-16">
+        <section className="py-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {services.map((service, index) => {
                 const Icon = service.icon
                 return (
@@ -216,47 +199,8 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* Capabilities Matrix */}
-        <section className="py-12 sm:py-14 md:py-16 bg-mp-black text-mp-white">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-              className="text-center mb-10"
-            >
-              <h2 className="text-display text-3xl sm:text-4xl font-bold mb-3">Capabilities</h2>
-              <p className="text-xl text-mp-gray-light">Film. Photo. Web. Social. One engine from plan → publish → measure.</p>
-            </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-              {[{
-                title: 'Film',
-                items: ['Brand hero film', 'Property/resort tours', 'Aerials + motion plates', 'Color + mix + master']
-              }, {
-                title: 'Photo',
-                items: ['Editorial brand stills', 'Lifestyle + amenities', 'Product/menu sets', 'Delivery in web + print']
-              }, {
-                title: 'Web',
-                items: ['Conversion pages', 'Proof + CTA orchestration', 'Speed + SEO fixes', 'Analytics + A/B hooks']
-              }, {
-                title: 'Social',
-                items: ['Hook frameworks', 'Verticals at cadence', 'Scheduling + DM flows', 'Reporting dashboards']
-              }].map((cap) => (
-                <div key={cap.title} className="p-6 rounded-2xl border border-mp-gray-800 bg-mp-black/40">
-                  <div className="text-display text-xl font-semibold mb-3">{cap.title}</div>
-                  <ul className="text-sm text-mp-gray-300 space-y-2">
-                    {cap.items.map((it) => (<li key={it}>• {it}</li>))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 text-center text-sm text-mp-gray-400">Typical rollout: plan (week 1) → shoot (weeks 1–2) → edit/publish (weeks 2–4). Then weekly cadence.</div>
-          </div>
-        </section>
-
         {/* Process Section */}
-        <section className="py-12 sm:py-14 md:py-16 bg-mp-gray-light">
+        <section className="py-20 bg-mp-gray-light">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -274,7 +218,7 @@ export default function ServicesPage() {
               </p>
             </motion.div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {processSteps.map((step, index) => {
                 const Icon = step.icon
                 return (
@@ -302,18 +246,8 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        {/* Nudge: Need help choosing? */}
-        <section className="py-8 bg-mp-black border-t border-mp-gray-800">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-mp-charcoal/60 rounded-lg p-4">
-              <p className="text-sm text-mp-gray-300">Need help choosing? Map your engine in 90 seconds and get a mini plan.</p>
-              <Link href="/engine/map" className="text-mp-gold hover:text-mp-gold-600 text-sm font-semibold">Map my engine →</Link>
-            </div>
-          </div>
-        </section>
-
         {/* What's Included Section */}
-        <section className="py-12 sm:py-14 md:py-16">
+        <section className="py-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
               <motion.div
@@ -357,7 +291,7 @@ export default function ServicesPage() {
                   <Button 
                     href="/book" 
                     size="lg" 
-                    className="w-full bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold"
+                    className="w-full bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold"
                   >
                     Map My 90‑Day Rollout
                   </Button>
@@ -376,7 +310,7 @@ export default function ServicesPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-12 sm:py-14 md:py-16 bg-mp-charcoal text-mp-white">
+        <section className="py-20 bg-mp-charcoal text-mp-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -396,7 +330,7 @@ export default function ServicesPage() {
                 <Button 
                   href="/book" 
                   size="lg" 
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold"
                 >
                   Book a Free Consult
                 </Button>
@@ -412,30 +346,6 @@ export default function ServicesPage() {
             </motion.div>
           </div>
         </section>
-        {/* FAQ Section */}
-        <section className="py-12 sm:py-14 md:py-16 bg-mp-black text-mp-white">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-            <h2 className="text-display text-2xl sm:text-3xl font-bold mb-6">Frequently Asked Questions</h2>
-            <div className="divide-y divide-mp-gray-800 border border-mp-gray-800 rounded-xl overflow-hidden">
-              {[
-                { q: 'What does a typical 90‑day rollout include?', a: 'Hero brand film, 12–20 verticals, conversion page updates, and a weekly cadence tuned to your goals.' },
-                { q: 'Do you handle strategy and publishing?', a: 'Yes. We plan, shoot, edit, and publish. We also define cadence, CTAs, and analytics so results compound.' },
-                { q: 'How quickly can we start?', a: 'Discovery and planning can start immediately. Production typically begins within 1–2 weeks after alignment.' },
-              ].map((item, i) => (
-                <details key={i} className="group">
-                  <summary className="cursor-pointer list-none p-4 sm:p-5 bg-mp-black/40 group-open:bg-mp-charcoal/40">
-                    <div className="flex items-center justify-between gap-4">
-                      <span className="font-semibold">{item.q}</span>
-                      <span className="text-mp-gray-400">+</span>
-                    </div>
-                  </summary>
-                  <div className="p-4 sm:p-5 text-mp-gray-300 border-t border-mp-gray-800">{item.a}</div>
-                </details>
-              ))}
-            </div>
-          </div>
-        </section>
-        <StickyConsultBar />
       </div>
     </MainLayout>
   )

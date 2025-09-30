@@ -1,23 +1,16 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import Script from 'next/script'
 import Image from 'next/image'
-import { Play, Filter, ArrowRight } from 'lucide-react'
+import { Play, ExternalLink, Filter, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { MetricGrid, MetricItem } from '@/components/ui/metric-grid'
 import { Card, CardContent } from '@/components/ui/card'
 import { MainLayout } from '@/components/layout/main-layout'
-import { generateBreadcrumbSchema } from '@/lib/seo'
-import { StickyConsultBar } from '@/components/global/sticky-consult-bar'
-import { analytics } from '@/lib/analytics'
-import { trackCTAClick } from '@/lib/analytics'
-import Link from 'next/link'
 
 export default function WorkPage() {
   const [activeFilter, setActiveFilter] = useState('all')
-  const [ctaText, setCtaText] = useState('View Case Study')
 
   // Read filter from query (?filter=)
   useEffect(() => {
@@ -25,32 +18,9 @@ export default function WorkPage() {
     const params = new URLSearchParams(window.location.search)
     const q = params.get('filter')
     if (q) setActiveFilter(q)
-    // AB test CTA text
-    let v = sessionStorage.getItem('work_cta_v') as 'A' | 'B' | null
-    if (!v) {
-      v = Math.random() < 0.5 ? 'A' : 'B'
-      sessionStorage.setItem('work_cta_v', v)
-    }
-    if (v === 'B') setCtaText('See Results')
-    analytics.customEvent('work_cta_variant', { variant: v })
   }, [])
 
   const caseStudies = [
-    {
-      id: 0,
-      title: 'Austin Luxury Listing Launch',
-      client: 'Bill Oosland',
-      category: 'realtors',
-      image: '/placeholder.svg',
-      video: '/placeholder-realtor-video.mp4',
-      description: 'Full-funnel listing launch: story film + 12 verticals + property page.',
-      metrics: {
-        views: '1.9M',
-        engagement: '13.4%',
-        leads: '+220%'
-      },
-      slug: 'bill-oosland'
-    },
     {
       id: 1,
       title: 'Luxury Resort Brand Story',
@@ -180,15 +150,9 @@ export default function WorkPage() {
 
   return (
     <MainLayout>
-      <Script id="work-breadcrumb-schema" type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify(generateBreadcrumbSchema([
-          { name: 'Home', url: '/' },
-          { name: 'Work', url: '/work' },
-        ]))}
-      </Script>
       <div className="min-h-screen bg-mp-black">
         {/* Hero Section */}
-        <section className="py-12 sm:py-14 md:py-16 bg-mp-charcoal text-mp-white">
+        <section className="py-20 bg-mp-charcoal text-mp-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -207,7 +171,7 @@ export default function WorkPage() {
         </section>
 
         {/* Filter Section */}
-        <section className="py-6 sm:py-8 bg-mp-black border-b border-mp-gray-800">
+        <section className="py-8 bg-mp-black border-b border-mp-gray-800">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-wrap items-center justify-center gap-4">
               <div className="flex items-center space-x-2 text-mp-gray">
@@ -231,18 +195,8 @@ export default function WorkPage() {
           </div>
         </section>
 
-        {/* Nudge: Need help choosing? */}
-        <section className="py-6 sm:py-8 bg-mp-black border-y border-mp-gray-800">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-mp-charcoal/60 rounded-lg p-4">
-              <p className="text-sm text-mp-gray-300">Not sure which direction fits? Map your engine in 90 seconds and get a mini plan.</p>
-              <Link href="/engine/map" className="text-mp-gold hover:text-mp-gold-600 text-sm font-semibold">Map my engine →</Link>
-            </div>
-          </div>
-        </section>
-
         {/* Case Studies Grid */}
-        <section className="py-12 sm:py-14 md:py-16">
+        <section className="py-20">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredCaseStudies.map((study, index) => (
@@ -308,10 +262,9 @@ export default function WorkPage() {
                       <Button 
                         variant="outline" 
                         className="w-full mt-auto group"
-                        onClick={() => { trackCTAClick(ctaText,'work_grid_card'); analytics.customEvent('work_cta_click', { variant: ctaText }) }}
                         href={`/work/${study.slug}`}
                       >
-                        {ctaText}
+                        View Case Study
                         <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform duration-200" />
                       </Button>
                     </CardContent>
@@ -336,7 +289,7 @@ export default function WorkPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-12 sm:py-14 md:py-16 bg-mp-charcoal text-mp-white">
+        <section className="py-20 bg-mp-charcoal text-mp-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -356,8 +309,7 @@ export default function WorkPage() {
                 <Button 
                   href="/book" 
                   size="lg" 
-                  onClick={() => trackCTAClick('Book a Free Consult','work_footer_primary')}
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold"
                 >
                   Book a Free Consult
                 </Button>
@@ -365,7 +317,6 @@ export default function WorkPage() {
                   href="/services" 
                   variant="outline" 
                   size="lg"
-                  onClick={() => trackCTAClick('View Our Services','work_footer_secondary')}
                   className="border-mp-white text-mp-white hover:bg-mp-gold/10"
                 >
                   View Our Services
@@ -375,7 +326,6 @@ export default function WorkPage() {
           </div>
         </section>
       </div>
-      <StickyConsultBar />
     </MainLayout>
   )
 }

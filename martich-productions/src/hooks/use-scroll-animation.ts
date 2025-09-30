@@ -20,14 +20,13 @@ export function useScrollAnimation() {
       }
     )
 
-    const el = ref.current
-    if (el) {
-      observer.observe(el)
+    if (ref.current) {
+      observer.observe(ref.current)
     }
 
     return () => {
-      if (el) {
-        observer.unobserve(el)
+      if (ref.current) {
+        observer.unobserve(ref.current)
       }
     }
   }, [])

@@ -13,9 +13,6 @@ export async function POST(request: Request) {
   try {
     const ip = (request.headers.get('x-forwarded-for') || '').split(',')[0]
     const body = await request.json()
-    if (Object.keys(body || {}).length > 50) {
-      return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 })
-    }
 
     // Basic validation & size limits
     const email = sanitize(body.email)
@@ -32,54 +29,16 @@ export async function POST(request: Request) {
     if (Object.keys(body).length > 25) {
       return NextResponse.json({ ok: false, error: 'rate_limited' }, { status: 429 })
     }
-    // Optional: audit snapshot and utm/referrer
-    const audit = typeof body.audit === 'object' ? body.audit : undefined
-    const utm = typeof body.utm === 'object' ? body.utm : undefined
-    const referrer = typeof body.referrer === 'string' ? body.referrer : undefined
-
-    // Optional: send to Slack and CRM if configured
-    try {
-      const slack = process.env.SLACK_WEBHOOK_URL
-      if (slack) {
-        await fetch(slack, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: `New Lead\nEmail: ${email}\nRole: ${role || '—'}\nTimeline: ${timeline || '—'}\nMessage: ${(message || '').slice(0, 200)}` }),
-        })
-      }
-    } catch {}
-    try {
-      const crm = process.env.CRM_WEBHOOK_URL
-      if (crm) {
-        await fetch(crm, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            email,
-            role,
-            timeline,
-            message,
-            consent,
-            ip,
-            audit,
-            utm,
-            referrer,
-            source: 'lead_form',
-          }),
-        })
-      }
-    } catch {}
-
-    // Mirror to analytics endpoint
+    // TODO: send to ESP/CRM; for now, also forward to analytics endpoint
     try {
       await fetch(process.env.NEXT_PUBLIC_ANALYTICS_URL || '/api/analytics', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ event: 'lead_submit', properties: { email, role, timeline, message, consent, ip, audit, utm, referrer } }),
+        body: JSON.stringify({ event: 'lead_submit', properties: { email, role, timeline, message, consent, ip } }),
       })
     } catch {}
     return NextResponse.json({ ok: true })
-  } catch {
+  } catch (e) {
     return NextResponse.json({ ok: false }, { status: 400 })
   }
 }

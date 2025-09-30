@@ -1,15 +1,8 @@
 import type { Metadata } from "next";
-import Script from 'next/script';
 import { Inter } from "next/font/google";
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import "./globals.css";
-import { CookieConsent } from '@/components/global/cookie-consent'
-import { MonitoringInit } from '@/components/global/monitoring-init'
-import { ToastProvider } from '@/components/global/toast'
-import { generateOrganizationSchema, generateLocalBusinessSchema } from '@/lib/seo'
-import { ConsentScripts } from '@/components/global/consent-scripts'
-import React from 'react'
 
 const inter = Inter({
   subsets: ["latin"],
@@ -59,7 +52,7 @@ export const metadata: Metadata = {
     siteName: 'Martich Productions',
     images: [
       {
-        url: '/og-image.svg',
+        url: '/og-image.jpg',
         width: 1200,
         height: 630,
         alt: 'Martich Productions - High-End Media Production',
@@ -72,7 +65,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: "Martich Productions - High-End Media Production",
     description: "Professional videography and photography for luxury resorts, realtors, and hospitality brands.",
-    images: ['/og-image.svg'],
+    images: ['/og-image.jpg'],
   },
   robots: {
     index: true,
@@ -89,8 +82,6 @@ export const metadata: Metadata = {
     google: 'your-google-verification-code',
   },
 };
-
-// moved to client component in components/global/consent-scripts
 
 export default function RootLayout({
   children,
@@ -114,30 +105,11 @@ export default function RootLayout({
                 <meta name="theme-color" content="#D4AF37" />
                 <meta name="msapplication-TileColor" content="#0A0A0A" />
                 <meta name="msapplication-config" content="/browserconfig.xml" />
-                {/* Preconnects for performance */}
-                <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
-                <link rel="preconnect" href="https://app.posthog.com" crossOrigin="anonymous" />
-                <link rel="preconnect" href="https://player.vimeo.com" crossOrigin="anonymous" />
-                <link rel="preconnect" href="https://i.vimeocdn.com" crossOrigin="anonymous" />
-                {/* Preload hero poster to improve LCP */}
-                <link rel="preload" as="image" href="/placeholder.svg" />
               </head>
       <body className="font-body antialiased">
-        <ConsentScripts />
-        <ToastProvider>
-          {children}
-        </ToastProvider>
+        {children}
         <Analytics />
         <SpeedInsights />
-        <CookieConsent />
-        <MonitoringInit />
-        {/* Organization / LocalBusiness schema */}
-        <Script id="org-schema" type="application/ld+json" strategy="afterInteractive">
-          {JSON.stringify(generateOrganizationSchema())}
-        </Script>
-        <Script id="localbusiness-schema" type="application/ld+json" strategy="afterInteractive">
-          {JSON.stringify(generateLocalBusinessSchema())}
-        </Script>
       </body>
     </html>
   );

@@ -1,16 +1,21 @@
 'use client'
 
 import React from 'react'
-import Script from 'next/script'
-import { generateVideoObjectSchema, generateBreadcrumbSchema } from '@/lib/seo'
-import { analytics } from '@/lib/analytics'
-import { Play, ArrowLeft, Calendar, Clock } from 'lucide-react'
+import { Play, ArrowLeft, ExternalLink, Calendar, Clock, TrendingUp, Users, Eye } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
+import { Card, CardContent } from '@/components/ui/card'
 import { MainLayout } from '@/components/layout/main-layout'
 import Link from 'next/link'
 
-export default function CaseStudyPage() {
+interface CaseStudyPageProps {
+  params: Promise<{
+    slug: string
+  }>
+}
+
+export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
+  const { slug } = await params
   // This would normally fetch data based on the slug
   // For now, we'll use placeholder data
   const caseStudy = {
@@ -37,34 +42,6 @@ export default function CaseStudyPage() {
 
   return (
     <MainLayout>
-      <Script id="case-video-schema" type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify(generateVideoObjectSchema({
-          name: caseStudy.title,
-          description: caseStudy.problem,
-          thumbnailUrl: caseStudy.images[0] || '/placeholder.svg',
-          contentUrl: caseStudy.videoUrl,
-          uploadDate: caseStudy.publishedAt,
-        }))}
-      </Script>
-      <Script id="case-breadcrumb-schema" type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify(generateBreadcrumbSchema([
-          { name: 'Home', url: '/' },
-          { name: 'Work', url: '/work' },
-          { name: caseStudy.title, url: `/work/${caseStudy.title.toLowerCase().replace(/\s+/g,'-')}` },
-        ]))}
-      </Script>
-      <Script id="case-article-schema" type="application/ld+json" strategy="afterInteractive">
-        {JSON.stringify({
-          '@context': 'https://schema.org',
-          '@type': 'Article',
-          headline: caseStudy.title,
-          datePublished: caseStudy.publishedAt,
-          author: { '@type': 'Organization', name: 'Martich Productions' },
-          publisher: { '@type': 'Organization', name: 'Martich Productions' },
-          mainEntityOfPage: { '@type': 'WebPage', '@id': typeof window !== 'undefined' ? window.location.href : '' },
-          description: caseStudy.problem,
-        })}
-      </Script>
       <div className="min-h-screen bg-mp-black">
         {/* Back Button */}
         <section className="py-8 bg-mp-black">
@@ -275,8 +252,7 @@ export default function CaseStudyPage() {
                 <Button 
                   href="/book" 
                   size="lg" 
-                  onClick={() => analytics.customEvent('work_case_cta_book', { case: caseStudy.title })}
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
                 >
                   Book a Free Consult
                   <ArrowLeft className="ml-2 w-5 h-5 group-hover:-translate-x-1 transition-transform duration-200" />
@@ -285,27 +261,11 @@ export default function CaseStudyPage() {
                   href="/work" 
                   variant="outline" 
                   size="lg"
-                  onClick={() => analytics.customEvent('work_case_cta_more_work', { case: caseStudy.title })}
                 >
                   View More Work
                 </Button>
               </div>
             </motion.div>
-          </div>
-        </section>
-
-        {/* Next 7 Days Plan */}
-        <section className="py-12 bg-mp-black">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto p-4 rounded-xl border border-mp-gray-800 bg-mp-black/40">
-              <h3 className="text-xl font-semibold text-white mb-3">Next 7 Days</h3>
-              <ul className="text-mp-gray-300 text-sm space-y-1">
-                <li>• Align on hooks, story beats, and shotlist</li>
-                <li>• Lock locations, talent, and schedule</li>
-                <li>• Capture hero film + micro verticals</li>
-                <li>• Ship conversion updates and tracked CTAs</li>
-              </ul>
-            </div>
           </div>
         </section>
       </div>

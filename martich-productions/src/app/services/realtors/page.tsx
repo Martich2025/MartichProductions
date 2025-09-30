@@ -1,13 +1,11 @@
 'use client'
 
 import React from 'react'
-import { Home, Video, Drone, Share2, CheckCircle, ArrowRight } from 'lucide-react'
+import { Home, Video, Drone, Edit, Share2, CheckCircle, ArrowRight, Star, Users, Clock, DollarSign } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { MainLayout } from '@/components/layout/main-layout'
-import { StickyConsultBar } from '@/components/global/sticky-consult-bar'
-import { trackCTAClick } from '@/lib/analytics'
 
 export default function RealtorsPage() {
   const services = [
@@ -145,8 +143,7 @@ export default function RealtorsPage() {
                 <Button 
                   href="/book" 
                   size="lg" 
-                  onClick={() => trackCTAClick('Book a Free Consult','realtors_hero_primary')}
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
                 >
                   Book a Free Consult
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
@@ -155,7 +152,6 @@ export default function RealtorsPage() {
                   href="/work?filter=realtors" 
                   variant="outline" 
                   size="lg"
-                  onClick={() => trackCTAClick('View Real Estate Work','realtors_hero_secondary')}
                   className="border-mp-white text-mp-white hover:bg-mp-gold/10"
                 >
                   View Real Estate Work
@@ -314,8 +310,7 @@ export default function RealtorsPage() {
                       </ul>
                       <Button 
                         href="/book" 
-                        onClick={() => trackCTAClick('Get Started','realtors_pricing_cta')}
-                        className={`w-full ${package_.name === 'Agent Package' ? 'bg-mp-gold text-mp-black hover:bg-mp-gold-600' : ''}`}
+                        className={`w-full ${package_.name === 'Agent Package' ? 'bg-mp-gold text-mp-black hover:bg-mp-gold-dark' : ''}`}
                         variant={package_.name === 'Agent Package' ? 'default' : 'outline'}
                       >
                         Get Started
@@ -349,8 +344,7 @@ export default function RealtorsPage() {
                 <Button 
                   href="/book" 
                   size="lg" 
-                  onClick={() => trackCTAClick('Book a Free Consult','realtors_footer_primary')}
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
                 >
                   Book a Free Consult
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
@@ -359,7 +353,6 @@ export default function RealtorsPage() {
                   href="/work?filter=realtors" 
                   variant="outline" 
                   size="lg"
-                  onClick={() => trackCTAClick('View Real Estate Work','realtors_footer_secondary')}
                   className="border-mp-white text-mp-white hover:bg-mp-gold/10"
                 >
                   View Real Estate Work
@@ -369,7 +362,6 @@ export default function RealtorsPage() {
           </div>
         </section>
       </div>
-      <StickyConsultBar />
     </MainLayout>
   )
 }

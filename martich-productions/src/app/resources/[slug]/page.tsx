@@ -90,7 +90,7 @@ export default function ResourceDetail({ params }: PageProps) {
           <h1 className="text-3xl font-bold mb-4">{title}</h1>
           <p className="text-mp-gray-300 mb-8">{summary}</p>
           <div className="flex gap-3">
-            <Button href="/resources" variant="outline" className="border-mp-gold text-mp-gold hover:bg-mp-gold/10 hover:text-mp-gold">
+            <Button href="/resources" variant="outline" className="border-mp-gold text-mp-gold hover:bg-mp-gold hover:text-mp-black">
               Back to Resources
             </Button>
             <Button href="/book" className="bg-mp-gold text-mp-black hover:bg-mp-gold-600">
