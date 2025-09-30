@@ -28,7 +28,7 @@ const Testimonials = () => {
   ]
 
   return (
-    <section className="py-20 bg-surface content-visibility-auto">
+    <section className="py-20 bg-mp-gray-light content-visibility-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -41,7 +41,7 @@ const Testimonials = () => {
           <h2 className="text-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-6">
             What Our Clients Say
           </h2>
-          <p className="text-xl text-secondary max-w-3xl mx-auto">
+          <p className="text-xl text-mp-gray max-w-3xl mx-auto">
             Don't just take our word for it. Here's what our clients have to say 
             about working with Martich Productions.
           </p>
@@ -61,33 +61,33 @@ const Testimonials = () => {
                 <CardContent className="p-6">
                   {/* Quote Icon */}
                   <div className="mb-4">
-                    <Quote className="w-8 h-8 text-brand" />
+                    <Quote className="w-8 h-8 text-mp-gold" />
                   </div>
 
                   {/* Rating */}
                   <div className="flex items-center mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 text-brand fill-current" />
+                      <Star key={i} className="w-4 h-4 text-mp-gold fill-current" />
                     ))}
                   </div>
 
                   {/* Quote */}
-                  <blockquote className="text-secondary-200 mb-6 leading-relaxed">
+                  <blockquote className="text-mp-gray-200 mb-6 leading-relaxed">
                     "{testimonial.quote}"
                   </blockquote>
 
                   {/* Author Info */}
-                  <div className="border-t border-subtle pt-4">
+                  <div className="border-t border-mp-gray-light pt-4">
                     <div className="font-semibold text-white">
                       {testimonial.author}
                     </div>
-                    <div className="text-sm text-secondary">
+                    <div className="text-sm text-mp-gray">
                       {testimonial.role}
                     </div>
-                    <div className="text-sm text-brand font-medium">
+                    <div className="text-sm text-mp-gold font-medium">
                       {testimonial.company}
                     </div>
-                    <div className="text-xs text-secondary mt-1">
+                    <div className="text-xs text-mp-gray mt-1">
                       Project: {testimonial.project}
                     </div>
                   </div>
@@ -105,37 +105,37 @@ const Testimonials = () => {
           viewport={{ once: true }}
           className="mt-16"
         >
-          <div className="bg-surface rounded-2xl p-8 lg:p-12">
+          <div className="bg-mp-charcoal rounded-2xl p-8 lg:p-12">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
               <div>
-                <div className="text-3xl lg:text-4xl font-bold text-brand mb-2">
+                <div className="text-3xl lg:text-4xl font-bold text-mp-gold mb-2">
                   98%
                 </div>
-                <div className="text-secondary-light">
+                <div className="text-mp-gray-light">
                   Client Satisfaction Rate
                 </div>
               </div>
               <div>
-                <div className="text-3xl lg:text-4xl font-bold text-brand mb-2">
+                <div className="text-3xl lg:text-4xl font-bold text-mp-gold mb-2">
                   500+
                 </div>
-                <div className="text-secondary-light">
+                <div className="text-mp-gray-light">
                   Projects Completed
                 </div>
               </div>
               <div>
-                <div className="text-3xl lg:text-4xl font-bold text-brand mb-2">
+                <div className="text-3xl lg:text-4xl font-bold text-mp-gold mb-2">
                   15+
                 </div>
-                <div className="text-secondary-light">
+                <div className="text-mp-gray-light">
                   Years of Experience
                 </div>
               </div>
               <div>
-                <div className="text-3xl lg:text-4xl font-bold text-brand mb-2">
+                <div className="text-3xl lg:text-4xl font-bold text-mp-gold mb-2">
                   50M+
                 </div>
-                <div className="text-secondary-light">
+                <div className="text-mp-gray-light">
                   Views Generated
                 </div>
               </div>

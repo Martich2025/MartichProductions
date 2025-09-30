@@ -76,8 +76,8 @@ const Header = () => {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className={`sticky top-0 z-50 w-full transition-all duration-300 ${
         isScrolled 
-          ? 'bg-canvas border-b border-brand/20 shadow-lg' 
-          : 'bg-canvas border-b border-brand/10'
+          ? 'bg-mp-black border-b border-mp-gold/20 shadow-lg' 
+          : 'bg-mp-black border-b border-mp-gold/10'
       }`}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -87,17 +87,17 @@ const Header = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Link href="/" prefetch={false} className="flex items-center space-x-3 group">
+            <Link href="/" prefetch={false} className="flex items-center space-x-3 group" onClick={(e) => { e.preventDefault(); if (typeof window !== 'undefined') window.location.assign('/') }}>
               <div className="relative">
                 <div className="flex h-[56px] w-[56px] sm:h-[63px] sm:w-[63px] items-center justify-center">
                   <Image src="/favicon-64.png" alt="MP" width={63} height={63} priority className="h-[56px] w-[56px] sm:h-[63px] sm:w-[63px]" />
                 </div>
               </div>
               <div className="flex flex-col">
-                <span className="text-display text-xl font-bold text-primary group-hover:text-brand transition-colors duration-300 whitespace-nowrap">
+                <span className="text-display text-xl font-bold text-white group-hover:text-mp-gold transition-colors duration-300 whitespace-nowrap">
                   <span className="hidden sm:inline">Martich Productions</span>
                 </span>
-                <span className="text-xs text-secondary hidden lg:block">
+                <span className="text-xs text-mp-gray-300 hidden lg:block">
                   Media + Web + Social
                 </span>
               </div>
@@ -117,7 +117,7 @@ const Header = () => {
                     <Link
                       href={item.href}
                       prefetch={false}
-                      className="flex items-center space-x-2 px-4 py-2 rounded-lg text-primary hover:text-brand transition-all duration-300 font-medium group-hover:bg-brand/10"
+                      className="flex items-center space-x-2 px-4 py-2 rounded-lg text-white hover:text-mp-gold transition-all duration-300 font-medium group-hover:bg-mp-gold/10"
                       onMouseEnter={() => item.hasDropdown && setActiveDropdown(item.name)}
                       onMouseLeave={() => setActiveDropdown(null)}
                     >
@@ -140,16 +140,16 @@ const Header = () => {
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
                           transition={{ duration: 0.2 }}
-                          className="absolute top-full left-0 mt-2 w-80 bg-surface rounded-2xl shadow-2xl border border-brand/20 overflow-hidden"
+                          className="absolute top-full left-0 mt-2 w-80 bg-mp-charcoal rounded-2xl shadow-2xl border border-mp-gold/20 overflow-hidden"
                           onMouseEnter={() => setActiveDropdown(item.name)}
                           onMouseLeave={() => setActiveDropdown(null)}
                         >
                           <div className="p-6">
                             <div className="mb-4">
-                              <h3 className="text-lg font-semibold text-primary mb-2">
+                              <h3 className="text-lg font-semibold text-white mb-2">
                                 Our Services
                               </h3>
-                              <p className="text-sm text-secondary">
+                              <p className="text-sm text-mp-gray-300">
                                 Professional media production for every industry
                               </p>
                             </div>
@@ -159,24 +159,24 @@ const Header = () => {
                                   key={service.name}
                                   href={service.href}
                                   prefetch={false}
-                                  className="flex items-center justify-between p-3 rounded-xl hover:bg-brand/10 transition-all duration-200 group"
+                                  className="flex items-center justify-between p-3 rounded-xl hover:bg-mp-gold/10 transition-all duration-200 group"
                                 >
                                   <div>
-                                    <div className="font-medium text-primary group-hover:text-brand transition-colors duration-200">
+                                    <div className="font-medium text-white group-hover:text-mp-gold transition-colors duration-200">
                                       {service.name}
                                     </div>
-                                    <div className="text-sm text-secondary">
+                                    <div className="text-sm text-mp-gray-300">
                                       {service.description}
                                     </div>
                                   </div>
-                                  <div className="w-2 h-2 rounded-full bg-brand opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                                  <div className="w-2 h-2 rounded-full bg-mp-gold opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                                 </Link>
                               ))}
                             </div>
-                            <div className="mt-4 pt-4 border-t border-brand/20">
+                            <div className="mt-4 pt-4 border-t border-mp-gold/20">
                               <Link
                                 href="/services"
-                                className="flex items-center justify-center w-full py-2 px-4 bg-brand text-canvas rounded-lg font-medium hover:bg-brand-600 transition-colors duration-200"
+                                className="flex items-center justify-center w-full py-2 px-4 bg-mp-gold text-mp-black rounded-lg font-medium hover:bg-mp-gold-600 transition-colors duration-200"
                               >
                                 View All Services
                               </Link>
@@ -196,7 +196,7 @@ const Header = () => {
             <Button 
               variant="ghost" 
               href="/client"
-              className="hover:bg-brand/10 hover:text-brand transition-all duration-300"
+              className="hover:bg-mp-gold/10 hover:text-mp-gold transition-all duration-300"
             >
               Client Login
             </Button>
@@ -206,7 +206,7 @@ const Header = () => {
             >
               <Button 
                 href="/engine/map?step=book" 
-                className="bg-brand hover:bg-brand-600 text-canvas font-semibold transition-colors duration-200"
+                className="bg-mp-gold hover:bg-mp-gold-600 text-mp-black font-semibold transition-colors duration-200"
               >
                 Book a Consult
               </Button>
@@ -217,7 +217,7 @@ const Header = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="md:hidden p-3 rounded-xl text-primary hover:bg-brand/10 transition-all duration-300 relative"
+            className="md:hidden p-3 rounded-xl text-white hover:bg-mp-gold/10 transition-all duration-300 relative"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
             aria-expanded={isMenuOpen}
@@ -244,7 +244,7 @@ const Header = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden fixed inset-0 z-[9999] bg-canvas"
+              className="md:hidden fixed inset-0 z-[9999] bg-mp-black"
               onClick={() => setIsMenuOpen(false)}
             >
               <motion.div
@@ -252,7 +252,7 @@ const Header = () => {
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: "-100%", opacity: 0 }}
                 transition={{ type: "spring", damping: 30, stiffness: 300 }}
-                className="absolute inset-0 bg-canvas"
+                className="absolute inset-0 bg-mp-black"
                 onClick={(e) => e.stopPropagation()}
                 role="dialog"
                 aria-modal="true"
@@ -260,21 +260,21 @@ const Header = () => {
               >
                 <div className="flex flex-col h-full">
                   {/* Mobile Header */}
-                  <div className="flex items-center justify-between p-4 border-b border-brand/20" style={{ paddingTop: 'max(env(safe-area-inset-top), 0.75rem)' }}>
+                  <div className="flex items-center justify-between p-4 border-b border-mp-gold/20" style={{ paddingTop: 'max(env(safe-area-inset-top), 0.75rem)' }}>
                     <div className="flex items-center space-x-3">
                   <div className="flex h-[56px] w-[56px] sm:h-[63px] sm:w-[63px] items-center justify-center">
                         <Image src="/favicon-64.png" alt="MP" width={63} height={63} priority className="h-[56px] w-[56px] sm:h-[63px] sm:w-[63px]" />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-primary">Menu</h2>
-                        <p className="text-sm text-secondary">Navigate our site</p>
+                        <h2 className="text-xl font-bold text-white">Menu</h2>
+                        <p className="text-sm text-mp-gray-300">Navigate our site</p>
                       </div>
                     </div>
                     <motion.button
                       whileHover={{ scale: 1.1, rotate: 90 }}
                       whileTap={{ scale: 0.9 }}
                       onClick={() => setIsMenuOpen(false)}
-                      className="p-3 rounded-xl bg-brand/10 hover:bg-brand/20 text-brand transition-all duration-300"
+                      className="p-3 rounded-xl bg-mp-gold/10 hover:bg-mp-gold/20 text-mp-gold transition-all duration-300"
                     >
                       <X className="h-6 w-6" />
                     </motion.button>
@@ -294,19 +294,19 @@ const Header = () => {
                           <Link
                             href={item.href}
                             prefetch={false}
-                            className="flex items-center space-x-3 px-3 py-2.5 text-base font-medium text-primary hover:text-brand hover:bg-brand/10 rounded-lg transition-all duration-200 group min-h-[40px]"
+                            className="flex items-center space-x-3 px-3 py-2.5 text-base font-medium text-white hover:text-mp-gold hover:bg-mp-gold/10 rounded-lg transition-all duration-200 group min-h-[40px]"
                             onClick={() => setIsMenuOpen(false)}
                           >
-                            <div className="p-2 rounded-md bg-brand/20 group-hover:bg-brand/30 transition-colors duration-200">
+                            <div className="p-2 rounded-md bg-mp-gold/20 group-hover:bg-mp-gold/30 transition-colors duration-200">
                               <Icon className="h-5 w-5" />
                             </div>
                             <div className="flex-1">
                               <div className="font-semibold text-base">{item.name}</div>
-                              <div className="text-[11px] text-secondary leading-tight">
+                              <div className="text-[11px] text-mp-gray-300 leading-tight">
                                 {item.description}
                               </div>
                             </div>
-                            <div className="w-2 h-2 rounded-full bg-brand opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+                            <div className="w-2 h-2 rounded-full bg-mp-gold opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
                           </Link>
                           
                           {/* Services Submenu */}
@@ -327,13 +327,13 @@ const Header = () => {
                                   <Link
                                     href={service.href}
                                     prefetch={false}
-                                    className="flex items-center space-x-3 px-3 py-2 text-[15px] text-secondary hover:text-brand hover:bg-brand/5 rounded-md transition-all duration-200 group min-h-[38px]"
+                                    className="flex items-center space-x-3 px-3 py-2 text-[15px] text-mp-gray-300 hover:text-mp-gold hover:bg-mp-gold/5 rounded-md transition-all duration-200 group min-h-[38px]"
                                     onClick={() => setIsMenuOpen(false)}
                                   >
-                                    <div className="w-2 h-2 rounded-full bg-brand opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
+                                    <div className="w-2 h-2 rounded-full bg-mp-gold opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
                                     <div className="flex-1">
                                       <div className="font-medium leading-tight">{service.name}</div>
-                                      <div className="text-[11px] text-tertiary leading-tight">
+                                      <div className="text-[11px] text-mp-gray-400 leading-tight">
                                         {service.description}
                                       </div>
                                     </div>
@@ -348,7 +348,7 @@ const Header = () => {
                   </div>
 
                   {/* Mobile CTA Buttons */}
-                  <div className="p-6 border-t border-brand/20 space-y-4 bg-canvas/50">
+                  <div className="p-6 border-t border-mp-gold/20 space-y-4 bg-mp-black/50">
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
@@ -357,7 +357,7 @@ const Header = () => {
                       <Button 
                         variant="ghost" 
                         href="/client" 
-                        className="w-full justify-center text-lg py-4 bg-brand/10 hover:bg-brand/20 text-primary font-semibold transition-all duration-300"
+                        className="w-full justify-center text-lg py-4 bg-mp-gold/10 hover:bg-mp-gold/20 text-white font-semibold transition-all duration-300"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         <Camera className="mr-3 h-5 w-5" />
@@ -371,7 +371,7 @@ const Header = () => {
                     >
                       <Button 
                         href="/engine/map?step=book" 
-                        className="w-full bg-brand hover:bg-brand-600 text-canvas font-bold text-lg py-4"
+                        className="w-full bg-mp-gold hover:bg-mp-gold-600 text-mp-black font-bold text-lg py-4"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         <Sparkles className="mr-3 h-5 w-5" />

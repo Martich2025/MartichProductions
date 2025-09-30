@@ -29,7 +29,7 @@ export default function ResortsLP() {
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-canvas">
+      <div className="min-h-screen bg-mp-black">
         <Script id="jsonld-service-resorts" type="application/ld+json">
           {JSON.stringify(
             generateServiceSchema({
@@ -41,22 +41,22 @@ export default function ResortsLP() {
             })
           )}
         </Script>
-        <section className="py-16 bg-surface text-primary">
+        <section className="py-16 bg-mp-charcoal text-mp-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
             <h1 className="text-display text-3xl sm:text-4xl font-bold mb-4">Resort Content That Books Stays</h1>
-            <p className="text-xl text-secondary mb-8">From brand films to room tours and amenity reels—built to convert across web and social.</p>
+            <p className="text-xl text-mp-gray-light mb-8">From brand films to room tours and amenity reels—built to convert across web and social.</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-              <Button onClick={startFreeCheck} size="lg" className="bg-brand text-canvas hover:bg-brand-600">Start Free Check <ArrowRight className="ml-2 w-5 h-5"/></Button>
+              <Button onClick={startFreeCheck} size="lg" className="bg-mp-gold text-mp-black hover:bg-mp-gold-600">Start Free Check <ArrowRight className="ml-2 w-5 h-5"/></Button>
               <Button href="/book" variant="outline" size="lg">Book a Resort Mapping Call</Button>
             </div>
-            <div className="text-sm text-tertiary mt-2">90‑second check → Mini Plan → 20‑min call. No commitment.</div>
+            <div className="text-sm text-mp-gray-400 mt-2">90‑second check → Mini Plan → 20‑min call. No commitment.</div>
           </div>
         </section>
 
         {/* Trust band */}
         <section className="py-6">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div className="text-[11px] tracking-wider uppercase text-tertiary mb-3">Trusted by teams across Texas</div>
+            <div className="text-[11px] tracking-wider uppercase text-mp-gray-400 mb-3">Trusted by teams across Texas</div>
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 opacity-90">
               <Image src="/client-logos/horseshoe-bay-logo.png" alt="Horseshoe Bay" width={120} height={24} className="h-6 w-auto" />
               <Image src="/client-logos/loraloma-logo.png" alt="Loraloma" width={110} height={24} className="h-6 w-auto" />
@@ -70,10 +70,10 @@ export default function ResortsLP() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {["Signature Brand Story","Suite & Amenity Tours","Always‑On Social Edits"].map((f) => (
-                <div key={f} className="bg-surface rounded-xl p-6 border border-subtle">
-                  <CheckCircle className="w-5 h-5 text-brand mb-3"/>
+                <div key={f} className="bg-mp-charcoal rounded-xl p-6 border border-mp-gray-800">
+                  <CheckCircle className="w-5 h-5 text-mp-gold mb-3"/>
                   <div className="text-white font-semibold mb-1">{f}</div>
-                  <div className="text-sm text-secondary">Plan → produce → publish with landing pages and tracked CTAs.</div>
+                  <div className="text-sm text-mp-gray-300">Plan → produce → publish with landing pages and tracked CTAs.</div>
                 </div>
               ))}
             </div>
@@ -83,35 +83,35 @@ export default function ResortsLP() {
         {/* ROI mini-calculator */}
         <section className="py-10">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-            <div className="bg-surface rounded-2xl p-6 border border-subtle">
+            <div className="bg-mp-charcoal rounded-2xl p-6 border border-mp-gray-800">
               <div className="text-display text-2xl font-bold text-white mb-2">Will this pencil?</div>
-              <div className="text-sm text-tertiary mb-4">Quick estimate. Adjust numbers to your resort. Actual results vary.</div>
+              <div className="text-sm text-mp-gray-400 mb-4">Quick estimate. Adjust numbers to your resort. Actual results vary.</div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <label className="text-sm text-secondary">Rooms
-                  <input type="number" value={rooms} onChange={(e) => setRooms(parseInt(e.target.value || '0', 10))} className="mt-1 w-full rounded-md bg-canvas border border-subtle px-3 py-2" />
+                <label className="text-sm text-mp-gray-300">Rooms
+                  <input type="number" value={rooms} onChange={(e) => setRooms(parseInt(e.target.value || '0', 10))} className="mt-1 w-full rounded-md bg-mp-black border border-mp-gray-800 px-3 py-2" />
                 </label>
-                <label className="text-sm text-secondary">ADR ($)
-                  <input type="number" value={adr} onChange={(e) => setAdr(parseInt(e.target.value || '0', 10))} className="mt-1 w-full rounded-md bg-canvas border border-subtle px-3 py-2" />
+                <label className="text-sm text-mp-gray-300">ADR ($)
+                  <input type="number" value={adr} onChange={(e) => setAdr(parseInt(e.target.value || '0', 10))} className="mt-1 w-full rounded-md bg-mp-black border border-mp-gray-800 px-3 py-2" />
                 </label>
-                <label className="text-sm text-secondary">Occupancy (%)
-                  <input type="number" value={occ} onChange={(e) => setOcc(parseInt(e.target.value || '0', 10))} className="mt-1 w-full rounded-md bg-canvas border border-subtle px-3 py-2" />
+                <label className="text-sm text-mp-gray-300">Occupancy (%)
+                  <input type="number" value={occ} onChange={(e) => setOcc(parseInt(e.target.value || '0', 10))} className="mt-1 w-full rounded-md bg-mp-black border border-mp-gray-800 px-3 py-2" />
                 </label>
-                <label className="text-sm text-secondary">Potential lift (%)
-                  <input type="number" value={uplift} onChange={(e) => setUplift(parseInt(e.target.value || '0', 10))} className="mt-1 w-full rounded-md bg-canvas border border-subtle px-3 py-2" />
+                <label className="text-sm text-mp-gray-300">Potential lift (%)
+                  <input type="number" value={uplift} onChange={(e) => setUplift(parseInt(e.target.value || '0', 10))} className="mt-1 w-full rounded-md bg-mp-black border border-mp-gray-800 px-3 py-2" />
                 </label>
               </div>
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
-                <div className="p-3 rounded-lg border border-subtle bg-canvas/40">
-                  <div className="text-tertiary text-xs mb-1">Monthly revenue (est.)</div>
+                <div className="p-3 rounded-lg border border-mp-gray-800 bg-mp-black/40">
+                  <div className="text-mp-gray-400 text-xs mb-1">Monthly revenue (est.)</div>
                   <div className="text-white font-semibold">${Math.round(baseMonthly).toLocaleString()}</div>
                 </div>
-                <div className="p-3 rounded-lg border border-subtle bg-canvas/40">
-                  <div className="text-tertiary text-xs mb-1">Potential lift</div>
-                  <div className="text-brand font-semibold">+${upliftValue.toLocaleString()}</div>
+                <div className="p-3 rounded-lg border border-mp-gray-800 bg-mp-black/40">
+                  <div className="text-mp-gray-400 text-xs mb-1">Potential lift</div>
+                  <div className="text-mp-gold font-semibold">+${upliftValue.toLocaleString()}</div>
                 </div>
-                <div className="p-3 rounded-lg border border-subtle bg-canvas/40">
-                  <div className="text-tertiary text-xs mb-1">Next step</div>
-                  <Button onClick={startFreeCheck} className="bg-brand text-canvas hover:bg-brand-600 w-full">Start Free Check</Button>
+                <div className="p-3 rounded-lg border border-mp-gray-800 bg-mp-black/40">
+                  <div className="text-mp-gray-400 text-xs mb-1">Next step</div>
+                  <Button onClick={startFreeCheck} className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 w-full">Start Free Check</Button>
                 </div>
               </div>
             </div>
@@ -128,26 +128,26 @@ export default function ResortsLP() {
                 {t:'Produce', d:'2–3 day shoot; aerials; talent and lifestyle coverage.'},
                 {t:'Publish', d:'Site pages and social rollout with tracked CTAs.'},
               ].map((s) => (
-                <div key={s.t} className="bg-surface rounded-xl p-6 border border-subtle text-center">
+                <div key={s.t} className="bg-mp-charcoal rounded-xl p-6 border border-mp-gray-800 text-center">
                   <div className="text-white font-semibold mb-2">{s.t}</div>
-                  <div className="text-sm text-secondary">{s.d}</div>
+                  <div className="text-sm text-mp-gray-300">{s.d}</div>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="py-12 bg-canvas text-center">
+        <section className="py-12 bg-mp-black text-center">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
-            <div className="text-brand font-bold mb-2">Recent outcomes</div>
-            <div className="text-secondary mb-6">+340% bookings • +180% leads • 2–4× content output per shoot</div>
+            <div className="text-mp-gold font-bold mb-2">Recent outcomes</div>
+            <div className="text-mp-gray-300 mb-6">+340% bookings • +180% leads • 2–4× content output per shoot</div>
             <Button href="/work?filter=resorts" variant="outline" className="">See Resort Outcomes <ArrowRight className="ml-2 w-5 h-5"/></Button>
           </div>
         </section>
 
         {/* Sticky mobile CTA */}
-        <div className="md:hidden fixed inset-x-0 bottom-0 z-40 bg-surface/95 border-t border-subtle p-3 backdrop-blur-sm">
-          <Button onClick={startFreeCheck} className="w-full bg-brand text-canvas hover:bg-brand-600">Start Free Check</Button>
+        <div className="md:hidden fixed inset-x-0 bottom-0 z-40 bg-mp-charcoal/95 border-t border-mp-gray-800 p-3 backdrop-blur-sm">
+          <Button onClick={startFreeCheck} className="w-full bg-mp-gold text-mp-black hover:bg-mp-gold-600">Start Free Check</Button>
         </div>
       </div>
     </MainLayout>

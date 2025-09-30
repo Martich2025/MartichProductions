@@ -122,24 +122,14 @@ export default function MapMyEnginePage() {
   useEffect(() => {
     if (typeof window === 'undefined') return
     try {
-      let c = null
-      try {
-        c = window.sessionStorage.getItem('engine_map_choices')
-      } catch (e) {
-        console.warn('Failed to read engine_map_choices from sessionStorage:', e)
-      }
+      const c = window.sessionStorage.getItem('engine_map_choices')
       if (c) {
         const parsed = JSON.parse(c)
         setPersona(parsed.persona || null)
         setChoices(parsed.choices || {})
         setTone(parsed.tone || 'Elegant')
       }
-      let f = null
-      try {
-        f = window.sessionStorage.getItem('engine_map_form')
-      } catch (e) {
-        console.warn('Failed to read engine_map_form from sessionStorage:', e)
-      }
+      const f = window.sessionStorage.getItem('engine_map_form')
       if (f) {
         const parsed = JSON.parse(f)
         setForm(prev => ({ ...prev, ...parsed }))
@@ -151,12 +141,8 @@ export default function MapMyEnginePage() {
   useEffect(() => {
     if (typeof window === 'undefined') return
     try {
-      try {
-        window.sessionStorage.setItem('engine_map_choices', JSON.stringify({ persona, choices, tone }))
-        window.sessionStorage.setItem('engine_map_form', JSON.stringify(form))
-      } catch (e) {
-        console.warn('Failed to save to sessionStorage:', e)
-      }
+      window.sessionStorage.setItem('engine_map_choices', JSON.stringify({ persona, choices, tone }))
+      window.sessionStorage.setItem('engine_map_form', JSON.stringify(form))
     } catch {}
   }, [persona, choices, tone, form])
 
@@ -201,7 +187,7 @@ export default function MapMyEnginePage() {
   }, [hasSnapshot, stepIndex])
 
   const container = 'max-w-4xl mx-auto'
-  const card = 'bg-surface/80 border border-subtle rounded-2xl p-6 sm:p-8'
+  const card = 'bg-mp-charcoal/80 border border-mp-gray-800 rounded-2xl p-6 sm:p-8'
   const host = useMemo(() => {
     try {
       if (!intake.domain) return ''
@@ -327,16 +313,16 @@ export default function MapMyEnginePage() {
 
     return (
       <div className="mb-6" aria-live="polite">
-        {loading && <div className="text-sm text-tertiary">Loading availability…</div>}
+        {loading && <div className="text-sm text-mp-gray-400">Loading availability…</div>}
         {/* Optional producer selection */}
         {employees.length > 1 && (
           <div className="mb-3">
-            <div className="text-xs uppercase tracking-wide text-tertiary mb-2">Meet with</div>
+            <div className="text-xs uppercase tracking-wide text-mp-gray-400 mb-2">Meet with</div>
             <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Select producer">
               <button
                 type="button"
                 onClick={() => { if (submitting) return; setProducerId(''); analytics.customEvent('engine_booking_producer_any') }}
-                className={`px-3 py-1.5 rounded-full border ${producerId === '' ? 'border-brand text-primary' : 'border-subtle text-secondary'} hover:border-brand`}
+                className={`px-3 py-1.5 rounded-full border ${producerId === '' ? 'border-mp-gold text-white' : 'border-mp-gray-700 text-mp-gray-300'} hover:border-mp-gold`}
                 role="radio"
                 aria-checked={producerId === ''}
               >Any</button>
@@ -345,7 +331,7 @@ export default function MapMyEnginePage() {
                   type="button"
                   key={emp.id}
                   onClick={() => { if (submitting) return; setProducerId(emp.id); analytics.customEvent('engine_booking_producer', { id: emp.id, name: emp.name }) }}
-                  className={`px-3 py-1.5 rounded-full border ${producerId === emp.id ? 'border-brand text-primary' : 'border-subtle text-secondary'} hover:border-brand`}
+                  className={`px-3 py-1.5 rounded-full border ${producerId === emp.id ? 'border-mp-gold text-white' : 'border-mp-gray-700 text-mp-gray-300'} hover:border-mp-gold`}
                   role="radio"
                   aria-checked={producerId === emp.id}
                 >{emp.name}</button>
@@ -354,25 +340,25 @@ export default function MapMyEnginePage() {
           </div>
         )}
         {employees.length === 1 && (
-          <div className="mb-3 text-sm text-tertiary">Meeting with: <span className="text-brand">{employees[0].name}</span></div>
+          <div className="mb-3 text-sm text-mp-gray-400">Meeting with: <span className="text-mp-gold">{employees[0].name}</span></div>
         )}
         {/* Reschedule/cancel banners */}
         {typeof window !== 'undefined' && (() => {
           const p = new URLSearchParams(window.location.search)
           const wasCanceled = p.get('canceled')
-          if (wasCanceled === '1') return <div className="text-sm text-success mb-2">Your booking was canceled.</div>
-          if (wasCanceled === '0') return <div className="text-sm text-danger mb-2">Cancel link expired or invalid.</div>
-          if (p.get('r')) return <div className="text-sm text-secondary mb-2">Rescheduling: pick a new slot and confirm.</div>
+          if (wasCanceled === '1') return <div className="text-sm text-green-400 mb-2">Your booking was canceled.</div>
+          if (wasCanceled === '0') return <div className="text-sm text-red-400 mb-2">Cancel link expired or invalid.</div>
+          if (p.get('r')) return <div className="text-sm text-mp-gray-300 mb-2">Rescheduling: pick a new slot and confirm.</div>
           return null
         })()}
-        {error && <div className="text-sm text-danger mb-2" role="alert" aria-live="assertive">{error}</div>}
+        {error && <div className="text-sm text-red-400 mb-2" role="alert" aria-live="assertive">{error}</div>}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2" role="radiogroup" aria-label="Choose date">
               {days.map(d => (
             <button
               type="button"
               key={d.date}
               onClick={() => { if (submitting) return; setSelectedDate(d.date); setSelectedSlot(''); analytics.customEvent('engine_booking_day', { date: d.date, slots: d.slots.length }) }}
-              className={`h-10 sm:h-auto p-3 rounded-xl border ${selectedDate === d.date ? 'border-brand' : 'border-subtle'} bg-canvas/40 hover:border-brand text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold`}
+              className={`h-10 sm:h-auto p-3 rounded-xl border ${selectedDate === d.date ? 'border-mp-gold' : 'border-mp-gray-800'} bg-mp-black/40 hover:border-mp-gold text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold`}
                   disabled={submitting}
                   aria-disabled={submitting}
               role="radio"
@@ -380,14 +366,14 @@ export default function MapMyEnginePage() {
               aria-label={`${new Date(d.date).toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' })}, ${d.slots.length} available slots`}
             >
               <div className="text-sm font-semibold">{new Date(d.date).toLocaleDateString([], { month: 'short', day: 'numeric', weekday: 'short' })}</div>
-              <div className="text-xs text-tertiary">{d.slots.length} slots</div>
+              <div className="text-xs text-mp-gray-400">{d.slots.length} slots</div>
             </button>
           ))}
         </div>
         {selectedDate && (
           <div className="mt-4">
             <div className="flex items-center justify-between mb-2">
-              <div className="text-xs uppercase tracking-wide text-tertiary">Slots</div>
+              <div className="text-xs uppercase tracking-wide text-mp-gray-400">Slots</div>
               <div className="text-[11px] text-mp-gray-500">Times shown in {tzName}</div>
             </div>
             <div className="flex flex-wrap gap-2" role="listbox" aria-label={`Available time slots for ${new Date(selectedDate).toLocaleDateString([], { weekday: 'long', month: 'short', day: 'numeric' })}`}>
@@ -396,7 +382,7 @@ export default function MapMyEnginePage() {
                   type="button"
                   key={s}
                   onClick={() => { if (submitting) return; setSelectedSlot(s); analytics.customEvent('engine_booking_slot', { iso: s }) }}
-                  className={`h-9 px-3 text-sm sm:h-10 sm:px-4 rounded-full border ${selectedSlot === s ? 'border-brand text-primary' : 'border-subtle text-secondary'} hover:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold`}
+                  className={`h-9 px-3 text-sm sm:h-10 sm:px-4 rounded-full border ${selectedSlot === s ? 'border-mp-gold text-white' : 'border-mp-gray-800 text-mp-gray-300'} hover:border-mp-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold`}
                       disabled={submitting}
                       aria-disabled={submitting}
                   role="option"
@@ -405,7 +391,7 @@ export default function MapMyEnginePage() {
                 >{localTime(s)}</button>
               ))}
               {(days.find(d => d.date === selectedDate)?.slots || []).length === 0 && (
-                <div className="text-sm text-tertiary">No slots available this day.</div>
+                <div className="text-sm text-mp-gray-400">No slots available this day.</div>
               )}
             </div>
           </div>
@@ -436,7 +422,7 @@ export default function MapMyEnginePage() {
                   />
                 ))}
               </div>
-              <div className="text-sm text-tertiary">Step {stepIndex + 1} of {steps.length}</div>
+              <div className="text-sm text-mp-gray-400">Step {stepIndex + 1} of {steps.length}</div>
             </div>
 
             <div className="grid lg:grid-cols-3 gap-6">
@@ -453,11 +439,11 @@ export default function MapMyEnginePage() {
                 {stepIndex === 0 && (
                   <div className={`${card} p-4 sm:p-8`}>
                     <div className="flex items-center gap-3 mb-3">
-                      <Compass className="w-5 h-5 text-brand" />
-                      <div className="uppercase tracking-wider text-xs text-tertiary">Interactive</div>
+                      <Compass className="w-5 h-5 text-mp-gold" />
+                      <div className="uppercase tracking-wider text-xs text-mp-gray-400">Interactive</div>
                     </div>
                     <h1 ref={stepHeadingRef} tabIndex={-1} className="text-display text-3xl sm:text-4xl font-bold mb-2">Map My Growth Engine</h1>
-                    <p className="text-secondary text-lg mb-1">
+                    <p className="text-mp-gray-300 text-lg mb-1">
                       90‑second brand scan → instant mini plan. See what we’d build, how it compounds, and what we’d fix—before you ever book.
                     </p>
                     <div className="text-sm text-mp-gray-500 mb-6">We analyze your site + socials, draft hooks and formats, outline cadence, and highlight quick wins—so your next step is obvious.</div>
@@ -511,25 +497,25 @@ export default function MapMyEnginePage() {
                       <Button href="/work" variant="outline">See Outcomes</Button>
                     </div>
                     {scanError && (
-                      <div className="mt-3 text-sm text-danger" role="alert" aria-live="assertive">{scanError}</div>
+                      <div className="mt-3 text-sm text-red-400" role="alert" aria-live="assertive">{scanError}</div>
                     )}
                     {!intake.domain && !(intake.instagram || intake.facebook || intake.youtube) && (
-                      <div className="mt-2 text-sm text-tertiary" role="status" aria-live="polite">Add an https:// website or at least one social URL to scan.</div>
+                      <div className="mt-2 text-sm text-mp-gray-400" role="status" aria-live="polite">Add an https:// website or at least one social URL to scan.</div>
                     )}
                     <div className="text-[11px] text-mp-gray-500 mt-2">Privacy: we fetch only publicly available signals (your page HTML and social profiles). Nothing sensitive is stored; you can request deletion anytime.</div>
                         {scanning && (
-                      <div className="mt-4 text-sm text-secondary">
+                      <div className="mt-4 text-sm text-mp-gray-300">
                         {/* Radar animation */}
                         <div className="mb-3 flex items-center gap-4">
                           <div className="relative w-16 h-16">
-                            <div className="absolute inset-0 rounded-full border border-subtle" />
-                            <div className="absolute inset-2 rounded-full border border-subtle" />
-                            <div className="absolute inset-4 rounded-full border border-subtle" />
+                            <div className="absolute inset-0 rounded-full border border-mp-gray-800" />
+                            <div className="absolute inset-2 rounded-full border border-mp-gray-800" />
+                            <div className="absolute inset-4 rounded-full border border-mp-gray-800" />
                                 <div className="absolute inset-0 origin-center animate-spin motion-reduce:animate-none" style={{ animationDuration: '3s' }}>
                               <div className="absolute w-1/2 h-1/2 bg-gradient-to-tr from-mp-gold/40 to-transparent" style={{ clipPath: 'polygon(0 0, 100% 0, 0 100%)' }} />
                             </div>
                           </div>
-                          <div className="text-xs text-tertiary">Scanning public signals…</div>
+                          <div className="text-xs text-mp-gray-400">Scanning public signals…</div>
                         </div>
                             <div className="animate-shimmer motion-reduce:animate-none bg-gradient-to-r from-mp-gray-800 via-mp-gray-700 to-mp-gray-800 bg-[length:200%_100%] rounded px-3 py-2 inline-block mr-2 mb-2">Finding hooks…</div>
                             <div className="animate-shimmer motion-reduce:animate-none bg-gradient-to-r from-mp-gray-800 via-mp-gray-700 to-mp-gray-800 bg-[length:200%_100%] rounded px-3 py-2 inline-block mr-2 mb-2">Spotting proof…</div>
@@ -553,70 +539,70 @@ export default function MapMyEnginePage() {
                 {stepIndex === 1 && (
                   <div className={card}>
                     <div className="flex items-center gap-3 mb-3">
-                      <Brain className="w-5 h-5 text-brand" />
-                      <div className="uppercase tracking-wider text-xs text-tertiary">Persona</div>
+                      <Brain className="w-5 h-5 text-mp-gold" />
+                      <div className="uppercase tracking-wider text-xs text-mp-gray-400">Persona</div>
                     </div>
                     <h2 ref={stepHeadingRef} tabIndex={-1} className="text-display text-2xl font-semibold mb-1">Who are we optimizing for?</h2>
-                    <div className="text-sm text-tertiary mb-4">{host ? `For ${host}` : 'Select your primary buyer/vertical'}</div>
+                    <div className="text-sm text-mp-gray-400 mb-4">{host ? `For ${host}` : 'Select your primary buyer/vertical'}</div>
                     {/* Snapshot summary */}
                     {(snapshot?.insights || snapshot?.site) && (
                       <div className="mb-5 grid grid-cols-1 lg:grid-cols-3 gap-3">
                         {/* Score ring */}
-                        <div className="p-3 rounded-xl border border-subtle bg-canvas/40 flex items-center gap-4">
+                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40 flex items-center gap-4">
                           <div className="relative w-16 h-16">
                             <svg viewBox="0 0 36 36" className="w-16 h-16">
                               <path className="text-mp-gray-800" strokeWidth="4" stroke="currentColor" fill="none" d="M18 2a16 16 0 1 1 0 32 16 16 0 0 1 0-32" />
-                              <path className="text-brand" strokeWidth="4" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2a16 16 0 1 1 0 32 16 16 0 0 1 0-32" style={{ strokeDasharray: `${(snapshot.score || 0) * 0.01 * 100}, 100` }} />
+                              <path className="text-mp-gold" strokeWidth="4" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2a16 16 0 1 1 0 32 16 16 0 0 1 0-32" style={{ strokeDasharray: `${(snapshot.score || 0) * 0.01 * 100}, 100` }} />
                             </svg>
                             <div className="absolute inset-0 flex items-center justify-center text-sm font-semibold">{Math.max(0, Math.min(100, snapshot.score || 0))}</div>
                           </div>
                           <div>
                             <div className="font-semibold mb-1">Audit Score</div>
-                            <div className="text-sm text-secondary">Higher = stronger funnel (proof, CTA, basics)</div>
+                            <div className="text-sm text-mp-gray-300">Higher = stronger funnel (proof, CTA, basics)</div>
                           </div>
                         </div>
                         {/* KPI bars */
                         }
-                        <div className="p-3 rounded-xl border border-subtle bg-canvas/40">
+                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                           <div className="font-semibold mb-2">KPI Snapshot</div>
-                          <div className="text-sm text-secondary">CTAs: {(snapshot.site?.ctas || []).length}</div>
-                          <div className="text-sm text-secondary">Proof: {snapshot.site?.hasProofSignals ? 'Present' : 'Missing'}</div>
-                          <div className="text-sm text-secondary">Canonical: {snapshot.site?.canonical ? 'Present' : 'Missing'}</div>
-                          <div className="text-sm text-secondary">Indexable: {snapshot.site?.seo?.noindex ? 'No' : 'Yes'}</div>
+                          <div className="text-sm text-mp-gray-300">CTAs: {(snapshot.site?.ctas || []).length}</div>
+                          <div className="text-sm text-mp-gray-300">Proof: {snapshot.site?.hasProofSignals ? 'Present' : 'Missing'}</div>
+                          <div className="text-sm text-mp-gray-300">Canonical: {snapshot.site?.canonical ? 'Present' : 'Missing'}</div>
+                          <div className="text-sm text-mp-gray-300">Indexable: {snapshot.site?.seo?.noindex ? 'No' : 'Yes'}</div>
                           {typeof snapshot.targetScore === 'number' && (
-                            <div className="text-sm text-secondary">Opportunity: +{Math.max(0, (snapshot.targetScore || 0) - (snapshot.score || 0))} → target {snapshot.targetScore}</div>
+                            <div className="text-sm text-mp-gray-300">Opportunity: +{Math.max(0, (snapshot.targetScore || 0) - (snapshot.score || 0))} → target {snapshot.targetScore}</div>
                           )}
                           {typeof snapshot.confidence === 'number' && (
-                            <div className="text-sm text-secondary">Confidence: {Math.round((snapshot.confidence || 0) * 100)}%</div>
+                            <div className="text-sm text-mp-gray-300">Confidence: {Math.round((snapshot.confidence || 0) * 100)}%</div>
                           )}
                         </div>
                         {/* Social KPI */}
-                        <div className="p-3 rounded-xl border border-subtle bg-canvas/40">
+                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                           <div className="font-semibold mb-2">Social Reach (approx)</div>
-                          <div className="text-sm text-secondary">Instagram: {snapshot.socialsMeta?.instagram?.followersApprox ?? '—'}</div>
-                          <div className="text-sm text-secondary">Facebook: {snapshot.socialsMeta?.facebook?.followersApprox ?? '—'}</div>
-                          <div className="text-sm text-secondary">YouTube: {snapshot.socialsMeta?.youtube?.subscribersApprox ?? '—'}</div>
+                          <div className="text-sm text-mp-gray-300">Instagram: {snapshot.socialsMeta?.instagram?.followersApprox ?? '—'}</div>
+                          <div className="text-sm text-mp-gray-300">Facebook: {snapshot.socialsMeta?.facebook?.followersApprox ?? '—'}</div>
+                          <div className="text-sm text-mp-gray-300">YouTube: {snapshot.socialsMeta?.youtube?.subscribersApprox ?? '—'}</div>
                           <div className="text-xs text-mp-gray-500 mt-1">Note: best‑effort public estimate.</div>
                         </div>
                         {/* Ecosystem Overview */}
-                        <div className="p-3 rounded-xl border border-subtle bg-canvas/40">
+                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                           <div className="font-semibold mb-2">Ecosystem Overview</div>
-                          <div className="text-sm text-secondary">Links: {snapshot.site?.ecosystem?.linksTotal ?? '—'} ({snapshot.site?.ecosystem?.linksExternal ?? 0} external)</div>
-                          <div className="text-sm text-secondary">Images: {snapshot.site?.ecosystem?.images ?? '—'}</div>
-                          <div className="text-sm text-secondary">Videos: {snapshot.site?.ecosystem?.videos ?? '—'}</div>
+                          <div className="text-sm text-mp-gray-300">Links: {snapshot.site?.ecosystem?.linksTotal ?? '—'} ({snapshot.site?.ecosystem?.linksExternal ?? 0} external)</div>
+                          <div className="text-sm text-mp-gray-300">Images: {snapshot.site?.ecosystem?.images ?? '—'}</div>
+                          <div className="text-sm text-mp-gray-300">Videos: {snapshot.site?.ecosystem?.videos ?? '—'}</div>
                           <div className="text-xs text-mp-gray-500 mt-1">Signal density only—no private data inspected.</div>
                         </div>
                         {/* Accessibility Snapshot */}
-                        <div className="p-3 rounded-xl border border-subtle bg-canvas/40">
+                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                           <div className="font-semibold mb-2">Accessibility Snapshot</div>
-                          <div className="text-sm text-secondary">H1 Count: {snapshot.site?.a11y?.h1Count ?? '—'}</div>
-                          <div className="text-sm text-secondary">Images missing alt: {snapshot.site?.a11y?.imagesMissingAlt ?? '—'}</div>
+                          <div className="text-sm text-mp-gray-300">H1 Count: {snapshot.site?.a11y?.h1Count ?? '—'}</div>
+                          <div className="text-sm text-mp-gray-300">Images missing alt: {snapshot.site?.a11y?.imagesMissingAlt ?? '—'}</div>
                           <div className="text-xs text-mp-gray-500 mt-1">Alt text improves SEO and accessibility.</div>
                         </div>
                         {/* Schema Checklist */}
-                        <div className="p-3 rounded-xl border border-subtle bg-canvas/40">
+                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                           <div className="font-semibold mb-2">Schema Checklist</div>
-                          <ul className="text-sm text-secondary space-y-1">
+                          <ul className="text-sm text-mp-gray-300 space-y-1">
                             <li>{snapshot.schemaChecklist?.hasOrganization ? '✓' : '—'} Organization</li>
                             <li>{snapshot.schemaChecklist?.hasLocalBusiness ? '✓' : '—'} LocalBusiness</li>
                             <li>{snapshot.schemaChecklist?.hasBreadcrumbList ? '✓' : '—'} BreadcrumbList</li>
@@ -625,7 +611,7 @@ export default function MapMyEnginePage() {
                           </ul>
                         </div>
                         {/* Radial Opportunity */}
-                        <div className="p-3 rounded-xl border border-subtle bg-canvas/40 flex items-center gap-4">
+                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40 flex items-center gap-4">
                           <div className="relative w-16 h-16">
                             {(() => {
                               const score = Math.max(0, Math.min(100, snapshot.score || 0))
@@ -635,7 +621,7 @@ export default function MapMyEnginePage() {
                               return (
                                 <svg viewBox="0 0 36 36" className="w-16 h-16">
                                   <path className="text-mp-gray-800" strokeWidth="4" stroke="currentColor" fill="none" d="M18 2a16 16 0 1 1 0 32 16 16 0 0 1 0-32" />
-                                  <path className="text-danger" strokeWidth="4" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2a16 16 0 1 1 0 32 16 16 0 0 1 0-32" style={{ strokeDasharray: `${pct}, 100` }} />
+                                  <path className="text-red-500" strokeWidth="4" strokeLinecap="round" stroke="currentColor" fill="none" d="M18 2a16 16 0 1 1 0 32 16 16 0 0 1 0-32" style={{ strokeDasharray: `${pct}, 100` }} />
                                 </svg>
                               )
                             })()}
@@ -643,30 +629,30 @@ export default function MapMyEnginePage() {
                           </div>
                           <div>
                             <div className="font-semibold mb-1">Opportunity</div>
-                            <div className="text-sm text-secondary">Delta to target score</div>
+                            <div className="text-sm text-mp-gray-300">Delta to target score</div>
                           </div>
                         </div>
                         {/* Wins/Gaps */}
-                        <div className="p-3 rounded-xl border border-subtle bg-canvas/40">
+                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                           <div className="font-semibold mb-1">Wins</div>
-                          <ul className="text-sm text-secondary list-disc list-inside space-y-1">
+                          <ul className="text-sm text-mp-gray-300 list-disc list-inside space-y-1">
                             {(snapshot.insights?.strengths || []).map((s, i) => <li key={i}>{s}</li>)}
                           </ul>
                         </div>
-                        <div className="p-3 rounded-xl border border-subtle bg-canvas/40">
+                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                           <div className="font-semibold mb-1">Gaps</div>
-                          <ul className="text-sm text-secondary list-disc list-inside space-y-1">
+                          <ul className="text-sm text-mp-gray-300 list-disc list-inside space-y-1">
                             {(snapshot.insights?.gaps || []).map((s, i) => <li key={i}>{s}</li>)}
                           </ul>
                         </div>
                         {/* Issues */}
                         {Array.isArray(snapshot.issues) && snapshot.issues.length > 0 && (
-                          <div className="p-3 rounded-xl border border-subtle bg-canvas/40 lg:col-span-3">
+                          <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40 lg:col-span-3">
                             <div className="font-semibold mb-2">Issues</div>
-                            <ul className="text-sm text-secondary space-y-1">
+                            <ul className="text-sm text-mp-gray-300 space-y-1">
                               {snapshot.issues.slice(0, 6).map((iss) => (
                                 <li key={iss.id} className="flex items-start gap-2">
-                                  <span className={`mt-1 inline-block h-2 w-2 rounded-full ${iss.severity === 'high' ? 'bg-danger' : iss.severity === 'medium' ? 'bg-warning' : 'bg-brand'}`} aria-label={`${iss.severity} severity`} />
+                                  <span className={`mt-1 inline-block h-2 w-2 rounded-full ${iss.severity === 'high' ? 'bg-red-500' : iss.severity === 'medium' ? 'bg-yellow-400' : 'bg-mp-gold'}`} aria-label={`${iss.severity} severity`} />
                                   <span><span className="font-medium">{iss.title}</span> — {iss.fix}</span>
                                 </li>
                               ))}
@@ -674,9 +660,9 @@ export default function MapMyEnginePage() {
                           </div>
                         )}
                         {/* Opportunity Narrative */}
-                        <div className="p-3 rounded-xl border border-subtle bg-canvas/40 lg:col-span-3">
+                        <div className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40 lg:col-span-3">
                           <div className="font-semibold mb-2">Opportunity Narrative</div>
-                          <div className="text-sm text-secondary">
+                          <div className="text-sm text-mp-gray-300">
                             {(() => {
                               const sc = Math.max(0, Math.min(100, snapshot.score || 0))
                               const target = snapshot.targetScore ?? 92
@@ -689,7 +675,7 @@ export default function MapMyEnginePage() {
                         </div>
                         {/* Social Mosaic */}
                         <div className="lg:col-span-3">
-                          <div className="text-xs uppercase tracking-wide text-tertiary mb-2">Social Mosaic</div>
+                          <div className="text-xs uppercase tracking-wide text-mp-gray-400 mb-2">Social Mosaic</div>
                           <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
                             {Array.from({ length: 6 }).map((_, i) => {
                               const href = intake.instagram || intake.facebook || intake.youtube || '#'
@@ -701,7 +687,7 @@ export default function MapMyEnginePage() {
                         </div>
                       </div>
                     )}
-                    <p className="text-secondary mb-6">This sets your hooks, story beats, calendar rhythm, and on‑site conversion paths.</p>
+                    <p className="text-mp-gray-300 mb-6">This sets your hooks, story beats, calendar rhythm, and on‑site conversion paths.</p>
                     <div role="radiogroup" aria-label="Persona" className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                       {([
                         { k: 'resort', label: 'Luxury Resort' },
@@ -714,10 +700,10 @@ export default function MapMyEnginePage() {
                           onClick={() => { setPersona(p.k); next({ persona: p.k }) }}
                           role="radio"
                           aria-checked={persona === p.k}
-                          className={`text-left p-3 sm:p-4 rounded-xl border ${persona === p.k ? 'border-brand' : 'border-subtle'} bg-canvas/40 hover:border-brand transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold`}
+                          className={`text-left p-3 sm:p-4 rounded-xl border ${persona === p.k ? 'border-mp-gold' : 'border-mp-gray-800'} bg-mp-black/40 hover:border-mp-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold`}
                         >
                           <div className="font-semibold">{p.label}</div>
-                          <div className="text-sm text-tertiary">Tailored hooks, visuals, and funnels</div>
+                          <div className="text-sm text-mp-gray-400">Tailored hooks, visuals, and funnels</div>
                         </button>
                       ))}
                     </div>
@@ -727,9 +713,9 @@ export default function MapMyEnginePage() {
                       <Input label="Phone" value={form.phone} onChange={(e) => { setForm({ ...form, phone: e.target.value }); analytics.customEvent('engine_profile_partial', { field: 'phone' }) }} />
                     </div>
                     {snapshot && (
-                      <div className="mt-4 p-3 rounded-xl border border-subtle bg-canvas/40">
+                      <div className="mt-4 p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                         <div className="font-semibold mb-2">Fix Plan</div>
-                        <ul className="text-sm text-secondary list-disc list-inside space-y-1">
+                        <ul className="text-sm text-mp-gray-300 list-disc list-inside space-y-1">
                           {!snapshot.site?.hasProofSignals && <li>Add proof band above the fold (logos/testimonial/case study)</li>}
                           {(snapshot.site?.ctas || []).length === 0 && <li>Add a primary hero CTA (Book/Consult) and make it persistent</li>}
                           {!snapshot.site?.canonical && <li>Add canonical URL in &lt;head&gt; to consolidate signals</li>}
@@ -738,7 +724,7 @@ export default function MapMyEnginePage() {
                         </ul>
                         {/* Opportunity Meter */}
                         <div className="mt-4">
-                          <div className="text-xs uppercase tracking-wide text-tertiary mb-1">Opportunity Meter</div>
+                          <div className="text-xs uppercase tracking-wide text-mp-gray-400 mb-1">Opportunity Meter</div>
                           <div className="w-full h-3 rounded-full bg-mp-gray-900 overflow-hidden">
                             <div className="h-full bg-gradient-to-r from-red-500 via-yellow-500 to-mp-gold" style={{ width: `${100 - Math.max(0, Math.min(100, snapshot.score || 0))}%` }} />
                           </div>
@@ -747,10 +733,10 @@ export default function MapMyEnginePage() {
                       </div>
                     )}
                     {snapshot.benchmarks && (
-                      <div className="mt-4 p-3 rounded-xl border border-subtle bg-canvas/40">
-                        <div className="text-xs uppercase tracking-wide text-tertiary mb-1">Benchmarks</div>
-                        <div className="text-sm text-secondary">Cadence: {snapshot.benchmarks.cadencePerWeek?.your ?? '—'}/wk vs {snapshot.benchmarks.cadencePerWeek?.top}/wk</div>
-                        <div className="text-sm text-secondary">CTA: {(snapshot.benchmarks.cta?.yourCount || 0)} found; {snapshot.benchmarks.cta?.note}</div>
+                      <div className="mt-4 p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
+                        <div className="text-xs uppercase tracking-wide text-mp-gray-400 mb-1">Benchmarks</div>
+                        <div className="text-sm text-mp-gray-300">Cadence: {snapshot.benchmarks.cadencePerWeek?.your ?? '—'}/wk vs {snapshot.benchmarks.cadencePerWeek?.top}/wk</div>
+                        <div className="text-sm text-mp-gray-300">CTA: {(snapshot.benchmarks.cta?.yourCount || 0)} found; {snapshot.benchmarks.cta?.note}</div>
                       </div>
                     )}
                     <div className="mt-6 flex gap-3">
@@ -762,17 +748,17 @@ export default function MapMyEnginePage() {
                 {stepIndex === 2 && (
                   <div className={card}>
                     <div className="flex items-center gap-3 mb-3">
-                      <Sparkles className="w-5 h-5 text-brand" />
-                      <div className="uppercase tracking-wider text-xs text-tertiary">Formats</div>
+                      <Sparkles className="w-5 h-5 text-mp-gold" />
+                      <div className="uppercase tracking-wider text-xs text-mp-gray-400">Formats</div>
                     </div>
                     <h2 ref={stepHeadingRef} tabIndex={-1} className="text-display text-2xl font-semibold mb-4">Signature Hooks & Formats</h2>
-                    <p className="text-secondary mb-3">Pick a focus to shape your 90‑day run. Choose a tone and generate draft hooks, captions, titles, and beats.</p>
+                    <p className="text-mp-gray-300 mb-3">Pick a focus to shape your 90‑day run. Choose a tone and generate draft hooks, captions, titles, and beats.</p>
                     <div className="flex items-center gap-2 mb-6" aria-hidden="true">
-                      <span className="text-[11px] px-2 py-1 rounded bg-mp-gold/10 text-brand">AI‑assisted</span>
-                      <span className="text-[12px] text-tertiary hidden sm:inline">We draft. You approve. Simple.</span>
+                      <span className="text-[11px] px-2 py-1 rounded bg-mp-gold/10 text-mp-gold">AI‑assisted</span>
+                      <span className="text-[12px] text-mp-gray-400 hidden sm:inline">We draft. You approve. Simple.</span>
                     </div>
                     <div className="mb-4">
-                      <div className="text-sm text-tertiary mb-2">Tone</div>
+                      <div className="text-sm text-mp-gray-400 mb-2">Tone</div>
                       <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Tone">
                         {(['Elegant', 'Bold', 'Minimal', 'Friendly'] as const).map(t => (
                           <button
@@ -780,7 +766,7 @@ export default function MapMyEnginePage() {
                             role="radio"
                             aria-checked={tone === t}
                             onClick={() => setTone(t)}
-                            className={`h-9 px-3 text-sm sm:h-10 sm:px-4 rounded-full border ${tone === t ? 'border-brand text-primary' : 'border-subtle text-secondary'} hover:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold`}
+                            className={`h-9 px-3 text-sm sm:h-10 sm:px-4 rounded-full border ${tone === t ? 'border-mp-gold text-white' : 'border-mp-gray-700 text-mp-gray-300'} hover:border-mp-gold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold`}
                           >
                             {t}
                           </button>
@@ -798,10 +784,10 @@ export default function MapMyEnginePage() {
                           role="radio"
                           aria-checked={choices.focus === f.k}
                           onClick={() => next({ focus: f.k })}
-                          className={`text-left p-4 rounded-xl border ${choices.focus === f.k ? 'border-brand' : 'border-subtle'} bg-canvas/40 hover:border-brand transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold`}
+                          className={`text-left p-4 rounded-xl border ${choices.focus === f.k ? 'border-mp-gold' : 'border-mp-gray-800'} bg-mp-black/40 hover:border-mp-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold`}
                         >
                           <div className="font-semibold">{f.title}</div>
-                          <div className="text-sm text-tertiary">{f.desc}</div>
+                          <div className="text-sm text-mp-gray-400">{f.desc}</div>
                         </button>
                       ))}
                     </div>
@@ -875,13 +861,13 @@ export default function MapMyEnginePage() {
                             <div role="status" aria-live="polite" className="sr-only">Generating content…</div>
                           )}
                           {genError && (
-                            <div className="text-sm text-tertiary" role="status" aria-live="polite">{genError}</div>
+                            <div className="text-sm text-mp-gray-400" role="status" aria-live="polite">{genError}</div>
                           )}
                     </div>
                     {aiLoading && (
                       <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4" aria-busy="true" aria-live="polite" role="status">
                         {Array.from({ length: 4 }).map((_, i) => (
-                          <div key={i} className="p-4 rounded-xl border border-subtle bg-canvas/40">
+                          <div key={i} className="p-4 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                             <div className="h-4 w-2/3 mb-2 animate-shimmer motion-reduce:animate-none bg-gradient-to-r from-mp-gray-800 via-mp-gray-700 to-mp-gray-800 bg-[length:200%_100%]" />
                             <div className="space-y-1">
                               {Array.from({ length: 4 }).map((__, j) => (
@@ -894,27 +880,27 @@ export default function MapMyEnginePage() {
                     )}
                     { (aiData.hooks || aiData.captions || aiData.titles || aiData.beats) && (
                       <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="p-4 rounded-xl border border-subtle bg-canvas/40">
+                        <div className="p-4 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                           <div className="font-semibold mb-2">Hooks</div>
-                          <ul className="text-secondary text-sm space-y-1">
+                          <ul className="text-mp-gray-300 text-sm space-y-1">
                             {(aiData.hooks || []).map((h, i) => <li key={i}>• {h}</li>)}
                           </ul>
                         </div>
-                        <div className="p-4 rounded-xl border border-subtle bg-canvas/40">
+                        <div className="p-4 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                           <div className="font-semibold mb-2">Captions</div>
-                          <ul className="text-secondary text-sm space-y-1">
+                          <ul className="text-mp-gray-300 text-sm space-y-1">
                             {(aiData.captions || []).map((c, i) => <li key={i}>• {c}</li>)}
                           </ul>
                         </div>
-                        <div className="p-4 rounded-xl border border-subtle bg-canvas/40">
+                        <div className="p-4 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                           <div className="font-semibold mb-2">YouTube Titles</div>
-                          <ul className="text-secondary text-sm space-y-1">
+                          <ul className="text-mp-gray-300 text-sm space-y-1">
                             {(aiData.titles || []).map((t, i) => <li key={i}>• {t}</li>)}
                           </ul>
                         </div>
-                        <div className="p-4 rounded-xl border border-subtle bg-canvas/40">
+                        <div className="p-4 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                           <div className="font-semibold mb-2">Storyboard Beats</div>
-                          <ul className="text-secondary text-sm space-y-1">
+                          <ul className="text-mp-gray-300 text-sm space-y-1">
                             {(aiData.beats || []).map((b, i) => <li key={i}>• {b}</li>)}
                           </ul>
                         </div>
@@ -926,11 +912,11 @@ export default function MapMyEnginePage() {
                 {stepIndex === 3 && (
                   <div className={card}>
                     <div className="flex items-center gap-3 mb-3">
-                      <Rocket className="w-5 h-5 text-brand" />
-                      <div className="uppercase tracking-wider text-xs text-tertiary">Cadence</div>
+                      <Rocket className="w-5 h-5 text-mp-gold" />
+                      <div className="uppercase tracking-wider text-xs text-mp-gray-400">Cadence</div>
                     </div>
                     <h2 ref={stepHeadingRef} tabIndex={-1} className="text-display text-2xl font-semibold mb-4">90‑Day Release Calendar</h2>
-                    <p className="text-secondary mb-6">Select a publishing cadence—our engine sequences for reach now and compounding results over 90 days.</p>
+                    <p className="text-mp-gray-300 mb-6">Select a publishing cadence—our engine sequences for reach now and compounding results over 90 days.</p>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3" role="radiogroup" aria-label="Cadence">
                       {[
                         { k: 'steady', title: 'Steady', desc: '2x/wk verticals + 1x/wk longform' },
@@ -942,10 +928,10 @@ export default function MapMyEnginePage() {
                           role="radio"
                           aria-checked={choices.cadence === c.k}
                           onClick={() => next({ cadence: c.k })}
-                          className={`text-left p-4 rounded-xl border ${choices.cadence === c.k ? 'border-brand' : 'border-subtle'} bg-canvas/40 hover:border-brand transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold`}
+                          className={`text-left p-4 rounded-xl border ${choices.cadence === c.k ? 'border-mp-gold' : 'border-mp-gray-800'} bg-mp-black/40 hover:border-mp-gold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mp-gold`}
                         >
                           <div className="font-semibold">{c.title}</div>
-                          <div className="text-sm text-tertiary">{c.desc}</div>
+                          <div className="text-sm text-mp-gray-400">{c.desc}</div>
                         </button>
                       ))}
                     </div>
@@ -958,9 +944,9 @@ export default function MapMyEnginePage() {
                             const cadence = choices.cadence || 'steady'
                             const items = cadence === 'surge' ? ['Reel', 'Reel', 'Carousel', 'Hero beat'] : cadence === 'fast' ? ['Reel', 'Carousel', 'Hero beat'] : ['Reel', 'Hero beat']
                             return (
-                              <div key={w} className="p-3 rounded-xl border border-subtle bg-canvas/40">
-                                <div className="text-xs text-tertiary mb-2">Week {w + 1}</div>
-                                <ul className="text-sm text-secondary space-y-1">
+                              <div key={w} className="p-3 rounded-xl border border-mp-gray-800 bg-mp-black/40">
+                                <div className="text-xs text-mp-gray-400 mb-2">Week {w + 1}</div>
+                                <ul className="text-sm text-mp-gray-300 space-y-1">
                                   {items.map((label, i) => <li key={i}>• {label}</li>)}
                                 </ul>
                               </div>
@@ -975,26 +961,26 @@ export default function MapMyEnginePage() {
                 {stepIndex === 4 && (
                   <div className={card}>
                     <div className="flex items-center gap-3 mb-3">
-                      <Video className="w-5 h-5 text-brand" />
-                      <div className="uppercase tracking-wider text-xs text-tertiary">System</div>
+                      <Video className="w-5 h-5 text-mp-gold" />
+                      <div className="uppercase tracking-wider text-xs text-mp-gray-400">System</div>
                     </div>
                     <h2 ref={stepHeadingRef} tabIndex={-1} className="text-display text-2xl font-semibold mb-4">One Engine: Social + Site</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="p-4 rounded-xl border border-subtle bg-canvas/40">
+                      <div className="p-4 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                         <div className="font-semibold mb-1">Content Ops</div>
-                        <div className="text-sm text-tertiary">Shotlist → Batch Edit → QC → Calendar → Publish (best‑time)</div>
+                        <div className="text-sm text-mp-gray-400">Shotlist → Batch Edit → QC → Calendar → Publish (best‑time)</div>
                       </div>
-                      <div className="p-4 rounded-xl border border-subtle bg-canvas/40">
+                      <div className="p-4 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                         <div className="font-semibold mb-1">Site Conversion</div>
-                        <div className="text-sm text-tertiary">Hero + Proof + Offer → CTA orchestration → Lead capture</div>
+                        <div className="text-sm text-mp-gray-400">Hero + Proof + Offer → CTA orchestration → Lead capture</div>
                       </div>
-                      <div className="p-4 rounded-xl border border-subtle bg-canvas/40">
+                      <div className="p-4 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                         <div className="font-semibold mb-1">AI Assist</div>
-                        <div className="text-sm text-tertiary">Hooks, captions, titles, and weekly recap—auto‑drafted to speed output</div>
+                        <div className="text-sm text-mp-gray-400">Hooks, captions, titles, and weekly recap—auto‑drafted to speed output</div>
                       </div>
-                      <div className="p-4 rounded-xl border border-subtle bg-canvas/40">
+                      <div className="p-4 rounded-xl border border-mp-gray-800 bg-mp-black/40">
                         <div className="font-semibold mb-1">Measurement</div>
-                        <div className="text-sm text-tertiary">Views → Engaged → Leads → Consults → Bookings</div>
+                        <div className="text-sm text-mp-gray-400">Views → Engaged → Leads → Consults → Bookings</div>
                       </div>
                     </div>
                     <div className="mt-6 flex gap-3">
@@ -1012,14 +998,14 @@ export default function MapMyEnginePage() {
                 {stepIndex === 5 && (
                   <div className={card}>
                     <div className="flex items-center gap-3 mb-3">
-                      <Wand2 className="w-5 h-5 text-brand" />
-                      <div className="uppercase tracking-wider text-xs text-tertiary">Your Plan</div>
+                      <Wand2 className="w-5 h-5 text-mp-gold" />
+                      <div className="uppercase tracking-wider text-xs text-mp-gray-400">Your Plan</div>
                     </div>
                     <h2 ref={stepHeadingRef} tabIndex={-1} className="text-display text-2xl font-semibold mb-4">Your Personal 90‑Day Plan</h2>
-                    <div className="text-secondary mb-4">
-                      We’ll tune this to <span className="text-brand font-semibold">{persona || 'your brand'}</span> with a <span className="text-brand font-semibold">{choices.focus || 'balanced'}</span> focus and a <span className="text-brand font-semibold">{choices.cadence || 'steady'}</span> cadence.
+                    <div className="text-mp-gray-300 mb-4">
+                      We’ll tune this to <span className="text-mp-gold font-semibold">{persona || 'your brand'}</span> with a <span className="text-mp-gold font-semibold">{choices.focus || 'balanced'}</span> focus and a <span className="text-mp-gold font-semibold">{choices.cadence || 'steady'}</span> cadence.
                     </div>
-                    <ul className="list-disc list-inside text-secondary mb-6">
+                    <ul className="list-disc list-inside text-mp-gray-300 mb-6">
                       <li>Hero film + micro verticals mapped to your hooks</li>
                       <li>Weekly publish rhythm with on‑site conversion orchestration</li>
                       <li>AI‑drafted captions/titles and a Monday recap with KPI glidepath</li>
@@ -1033,12 +1019,8 @@ export default function MapMyEnginePage() {
                         if (typeof window === 'undefined') return
                         try {
                           const planData = { hooks: aiData.hooks || [], captions: aiData.captions || [], titles: aiData.titles || [], beats: aiData.beats || [], choices: { ...choices, persona, tone } }
-                          try {
-                            sessionStorage.setItem('engine_mini_plan', JSON.stringify(planData))
-                            sessionStorage.setItem('engine_mini_plan_audit', JSON.stringify(snapshot))
-                          } catch (e) {
-                            console.warn('Failed to save plan to sessionStorage:', e)
-                          }
+                          sessionStorage.setItem('engine_mini_plan', JSON.stringify(planData))
+                          sessionStorage.setItem('engine_mini_plan_audit', JSON.stringify(snapshot))
                           const res = await fetch('/api/engine/plan/save', {
                             method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ plan: planData, audit: snapshot })
                           })
@@ -1061,22 +1043,22 @@ export default function MapMyEnginePage() {
                     {!isSubmitted ? (
                       <>
                         <div className="flex items-center gap-3 mb-3">
-                          <Wand2 className="w-5 h-5 text-brand" />
-                          <div className="uppercase tracking-wider text-xs text-tertiary">Booking</div>
+                          <Wand2 className="w-5 h-5 text-mp-gold" />
+                          <div className="uppercase tracking-wider text-xs text-mp-gray-400">Booking</div>
                         </div>
                         <h2 ref={stepHeadingRef} tabIndex={-1} className="text-display text-2xl font-semibold mb-4">Book Your Mapping Call</h2>
-                        <p className="text-secondary mb-2">We’ll review this plan and map your next 90 days—no pressure, real value.</p>
+                        <p className="text-mp-gray-300 mb-2">We’ll review this plan and map your next 90 days—no pressure, real value.</p>
                         <div className="text-[12px] text-mp-gray-500 mb-6">First call is with our Client Development team. Your producer (Mark or Krystal) is assigned after that.</div>
                         {/* Qualifiers */}
                         <div className="mb-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
                           <div>
-                            <div className="text-xs uppercase tracking-wide text-tertiary mb-2">Your Role</div>
+                            <div className="text-xs uppercase tracking-wide text-mp-gray-400 mb-2">Your Role</div>
                             <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Your Role">
                               {['Owner/Founder','Marketing Lead','Sales Lead','Agent/Broker','Other'].map((r) => (
                                 <button
                                   key={r}
                                   onClick={() => { setChoices((c) => ({ ...c, role: r })); analytics.customEvent('engine_booking_role', { role: r }) }}
-                                  className={`px-3 py-1.5 rounded-full border ${choices.role === r ? 'border-brand text-primary' : 'border-subtle text-secondary'} hover:border-brand`}
+                                  className={`px-3 py-1.5 rounded-full border ${choices.role === r ? 'border-mp-gold text-white' : 'border-mp-gray-700 text-mp-gray-300'} hover:border-mp-gold`}
                                 role="radio"
                                 aria-checked={choices.role === r}
                                 >{r}</button>
@@ -1084,13 +1066,13 @@ export default function MapMyEnginePage() {
                             </div>
                           </div>
                           <div>
-                            <div className="text-xs uppercase tracking-wide text-tertiary mb-2">Timeline</div>
+                            <div className="text-xs uppercase tracking-wide text-mp-gray-400 mb-2">Timeline</div>
                             <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Timeline">
                               {['0–30 days','30–60 days','60–90 days','90+ days'].map((t) => (
                                 <button
                                   key={t}
                                   onClick={() => { setChoices((c) => ({ ...c, timeline: t })); analytics.customEvent('engine_booking_timeline', { timeline: t }) }}
-                                  className={`px-3 py-1.5 rounded-full border ${choices.timeline === t ? 'border-brand text-primary' : 'border-subtle text-secondary'} hover:border-brand`}
+                                  className={`px-3 py-1.5 rounded-full border ${choices.timeline === t ? 'border-mp-gold text-white' : 'border-mp-gray-700 text-mp-gray-300'} hover:border-mp-gold`}
                                 role="radio"
                                 aria-checked={choices.timeline === t}
                                 >{t}</button>
@@ -1100,14 +1082,14 @@ export default function MapMyEnginePage() {
                         </div>
                         {/* Service interest selector */}
                         <div className="mb-4">
-                          <div className="text-xs uppercase tracking-wide text-tertiary mb-2">What are you most interested in?</div>
+                          <div className="text-xs uppercase tracking-wide text-mp-gray-400 mb-2">What are you most interested in?</div>
                           <div className="flex flex-wrap gap-2" role="group" aria-label="Service interest">
                             {['Film','Photography','Website','Social'].map(s => (
                               <button
                                 key={s}
                                 type="button"
                                 onClick={() => { setChoices((c) => ({ ...c, service: s })); analytics.customEvent('engine_booking_service', { service: s }) }}
-                                className={`px-3 py-1.5 rounded-full border ${choices.service === s ? 'border-brand text-primary' : 'border-subtle text-secondary'} hover:border-brand`}
+                                className={`px-3 py-1.5 rounded-full border ${choices.service === s ? 'border-mp-gold text-white' : 'border-mp-gray-700 text-mp-gray-300'} hover:border-mp-gold`}
                                 aria-pressed={choices.service === s}
                               >{s}</button>
                             ))}
@@ -1159,7 +1141,7 @@ export default function MapMyEnginePage() {
                             <Input label="Phone" name="phone" autoComplete="tel" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} />
                             <Input label="Company" name="company" autoComplete="organization" value={form.company} onChange={(e) => setForm({ ...form, company: e.target.value })} />
                           </div>
-                          <label className="flex items-start gap-2 text-sm text-secondary">
+                          <label className="flex items-start gap-2 text-sm text-mp-gray-300">
                             <input type="checkbox" checked={form.consent} onChange={(e) => setForm({ ...form, consent: e.target.checked })} className="mt-1" />
                             <span>I consent to be contacted by Martich Productions and agree to the Privacy Policy.</span>
                           </label>
@@ -1168,7 +1150,7 @@ export default function MapMyEnginePage() {
                           </Button>
                           <div id="booking-note" className="text-xs text-mp-gray-500">You’ll get a confirmation email with an .ics calendar invite. Need to reschedule? Reply to the confirmation at any time.</div>
                           <div className="text-[11px] text-mp-gray-500 mt-1">
-                            Prefer a producer call? <a href={`tel:${CONTACT_PHONE_TEL}`} onClick={() => analytics.customEvent('engine_producer_call', { from: 'map_booking' })} className="underline hover:text-brand">Call us</a> or <a href={`mailto:${CONTACT_EMAIL}`} onClick={() => analytics.customEvent('engine_producer_email', { from: 'map_booking' })} className="underline hover:text-brand">email the team</a>.
+                            Prefer a producer call? <a href={`tel:${CONTACT_PHONE_TEL}`} onClick={() => analytics.customEvent('engine_producer_call', { from: 'map_booking' })} className="underline hover:text-mp-gold">Call us</a> or <a href={`mailto:${CONTACT_EMAIL}`} onClick={() => analytics.customEvent('engine_producer_email', { from: 'map_booking' })} className="underline hover:text-mp-gold">email the team</a>.
                           </div>
                         </form>
                         <div className="mt-6">
@@ -1178,10 +1160,10 @@ export default function MapMyEnginePage() {
                     ) : (
                       <div className="text-center">
                         <div className="w-16 h-16 bg-mp-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                          <CheckCircle className="w-8 h-8 text-brand" />
+                          <CheckCircle className="w-8 h-8 text-mp-gold" />
                         </div>
                         <h3 className="text-display text-2xl font-bold mb-2">Booked—see you soon.</h3>
-                        <p className="text-secondary mb-6">We’ll confirm details by email. In the meantime, preview your Mini Plan or explore outcomes.</p>
+                        <p className="text-mp-gray-300 mb-6">We’ll confirm details by email. In the meantime, preview your Mini Plan or explore outcomes.</p>
                         <div className="flex flex-wrap justify-center gap-3">
                           <Button href="/engine/plan" className="bg-mp-gold text-mp-black hover:bg-mp-gold-600">View My Mini Plan</Button>
                           <Button href="/work" variant="outline">See Client Outcomes</Button>
@@ -1196,10 +1178,10 @@ export default function MapMyEnginePage() {
               {/* Live Story Panel */}
               <div className="hidden lg:block">
                 <div className="sticky top-20">
-                  <div className="bg-surface/80 border border-subtle rounded-2xl p-5">
-                    <div className="uppercase tracking-wider text-xs text-tertiary mb-2">Live Story</div>
+                  <div className="bg-mp-charcoal/80 border border-mp-gray-800 rounded-2xl p-5">
+                    <div className="uppercase tracking-wider text-xs text-mp-gray-400 mb-2">Live Story</div>
                     <div className="text-lg font-semibold mb-2">{persona ? `${persona.toUpperCase()} • ${choices.focus || '—'} • ${choices.cadence || '—'}` : 'Choose your persona'}</div>
-                    <div className="text-sm text-secondary mb-4">Tone: <span className="text-brand">{tone}</span></div>
+                    <div className="text-sm text-mp-gray-300 mb-4">Tone: <span className="text-mp-gold">{tone}</span></div>
                     {aiData.hooks && aiData.hooks.length > 0 && (
                       <div className="mb-4">
                         <div className="font-semibold mb-1">Top Hook</div>
@@ -1209,12 +1191,12 @@ export default function MapMyEnginePage() {
                     {aiData.beats && aiData.beats.length > 0 && (
                       <div className="mb-4">
                         <div className="font-semibold mb-1">Beats</div>
-                        <ul className="text-sm text-secondary space-y-1">
+                        <ul className="text-sm text-mp-gray-300 space-y-1">
                           {aiData.beats.slice(0, 4).map((b, i) => <li key={i}>• {b}</li>)}
                         </ul>
                       </div>
                     )}
-                    <div className="border-t border-subtle pt-3 mt-3 text-sm text-secondary">
+                    <div className="border-t border-mp-gray-800 pt-3 mt-3 text-sm text-mp-gray-300">
                       <div>Name: {form.name || '—'}</div>
                       <div>Email: {form.email || '—'}</div>
                       <div>Phone: {form.phone || '—'}</div>

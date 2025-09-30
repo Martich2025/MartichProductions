@@ -61,7 +61,7 @@ const WorkShowcase = () => {
   const categories = ['All', 'Resorts', 'Realtors', 'Hospitality', 'Weddings & Events']
 
   return (
-    <section className="py-16 bg-canvas content-visibility-auto">
+    <section className="py-16 bg-mp-black content-visibility-auto">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -71,8 +71,8 @@ const WorkShowcase = () => {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <h2 className="text-cinematic font-display text-primary mb-8">Featured Work</h2>
-          <p className="text-hero text-tertiary max-w-4xl mx-auto mb-12 font-light">
+          <h2 className="text-cinematic font-display text-white mb-8">Featured Work</h2>
+          <p className="text-hero text-mp-gray-700 max-w-4xl mx-auto mb-12 font-light">
             See how we've helped luxury brands tell their story and drive real business results 
             through cinematic content.
           </p>
@@ -85,8 +85,8 @@ const WorkShowcase = () => {
                 onClick={() => setActiveCategory(category)}
                 className={`px-5 py-2.5 rounded-full font-medium transition-colors duration-200 ${
                   activeCategory === category
-                    ? 'bg-brand text-canvas'
-                    : 'bg-surface text-secondary hover:bg-surface-elevated border border-subtle'
+                    ? 'bg-mp-gold text-mp-black'
+                    : 'bg-mp-charcoal text-mp-gray-300 hover:bg-mp-gray-800 border border-mp-gray-800'
                 }`}
               >
                 {category}
@@ -108,40 +108,40 @@ const WorkShowcase = () => {
               viewport={{ once: true }}
               className="h-full"
             >
-              <Card className="group overflow-hidden bg-surface border border-subtle h-full flex flex-col">
+              <Card className="group overflow-hidden bg-mp-charcoal border border-mp-gray-800 h-full flex flex-col">
                 {/* Video/Image Thumbnail */}
-                <div className="relative aspect-video bg-surface overflow-hidden">
+                <div className="relative aspect-video bg-mp-charcoal overflow-hidden">
                   {('vimeo' in work) ? null : (
-                    <div className="absolute inset-0 bg-canvas/40 z-10" />
+                    <div className="absolute inset-0 bg-mp-black/40 z-10" />
                   )}
                   
                   {/* Play Button with Enhanced Animation */}
                   {('vimeo' in work) ? null : (
                     <div className="absolute inset-0 flex items-center justify-center z-20">
                       <motion.div 
-                        className="w-20 h-20 bg-brand/95 rounded-full flex items-center justify-center shadow-gold-lg"
+                        className="w-20 h-20 bg-mp-gold/95 rounded-full flex items-center justify-center shadow-gold-lg"
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                       >
-                        <Play className="w-8 h-8 text-canvas ml-1" />
+                        <Play className="w-8 h-8 text-mp-black ml-1" />
                       </motion.div>
                     </div>
                   )}
 
                   {/* Category Badge */}
                   <div className="absolute top-6 left-6 z-30">
-                    <span className="bg-brand/95 text-canvas px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                    <span className="bg-mp-gold/95 text-mp-black px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
                       {work.category}
                     </span>
                   </div>
 
                   {/* Social Actions */}
                   <div className="absolute top-6 right-6 z-30 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <button className="p-2 bg-canvas/50 backdrop-blur-sm rounded-full hover:bg-brand/20 transition-colors">
-                      <Heart className="w-4 h-4 text-primary" />
+                    <button className="p-2 bg-mp-black/50 backdrop-blur-sm rounded-full hover:bg-mp-gold/20 transition-colors">
+                      <Heart className="w-4 h-4 text-mp-white" />
                     </button>
-                    <button className="p-2 bg-canvas/50 backdrop-blur-sm rounded-full hover:bg-brand/20 transition-colors">
-                      <Share2 className="w-4 h-4 text-primary" />
+                    <button className="p-2 bg-mp-black/50 backdrop-blur-sm rounded-full hover:bg-mp-gold/20 transition-colors">
+                      <Share2 className="w-4 h-4 text-mp-white" />
                     </button>
                   </div>
 
@@ -168,13 +168,13 @@ const WorkShowcase = () => {
                 </div>
 
                 <CardContent className="p-6 flex flex-col flex-1">
-                  <h3 className="text-display text-2xl font-bold text-primary mb-2 group-hover:text-brand transition-colors duration-200">
+                  <h3 className="text-display text-2xl font-bold text-white mb-2 group-hover:text-mp-gold transition-colors duration-200">
                     {work.title}
                   </h3>
-                  <p className="text-brand font-semibold text-sm mb-4">
+                  <p className="text-mp-gold font-semibold text-sm mb-4">
                     {work.client}
                   </p>
-                  <p className="text-secondary mb-6 leading-relaxed line-clamp-3">
+                  <p className="text-mp-gray-300 mb-6 leading-relaxed line-clamp-3">
                     {work.description}
                   </p>
 
@@ -190,7 +190,7 @@ const WorkShowcase = () => {
                   {/* Enhanced CTA */}
                   <Button 
                     variant="outline" 
-                    className="w-full mt-auto border-2 border-brand text-brand hover:bg-brand/10 hover:text-brand font-semibold py-3"
+                    className="w-full mt-auto border-2 border-mp-gold text-mp-gold hover:bg-mp-gold/10 hover:text-mp-gold font-semibold py-3"
                     href={`/work/${work.id}`}
                   >
                     View Case Study
@@ -210,7 +210,7 @@ const WorkShowcase = () => {
           viewport={{ once: true }}
           className="text-center"
         >
-          <div className="relative bg-surface rounded-3xl p-12 lg:p-16 text-primary overflow-hidden">
+          <div className="relative bg-mp-charcoal rounded-3xl p-12 lg:p-16 text-mp-white overflow-hidden">
             {/* Background Pattern */}
             <div className="absolute inset-0 opacity-10">
               
@@ -219,9 +219,9 @@ const WorkShowcase = () => {
             <div className="relative z-10">
               <h3 className="text-cinematic font-display mb-8">
                 <span className="block">Ready to Create</span>
-                <span className="block text-brand">Your Success Story?</span>
+                <span className="block text-mp-gold">Your Success Story?</span>
               </h3>
-              <p className="text-hero text-primary mb-12 max-w-3xl mx-auto font-light">
+              <p className="text-hero text-mp-gray-200 mb-12 max-w-3xl mx-auto font-light">
                 Let's discuss your project and see how we can help you achieve 
                 similar results with our cinematic storytelling approach.
               </p>
@@ -229,7 +229,7 @@ const WorkShowcase = () => {
                 <Button 
                   href="/book" 
                   size="lg" 
-                  className="bg-brand text-canvas hover:bg-brand-600 px-10 py-4 text-lg font-bold"
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 px-10 py-4 text-lg font-bold"
                 >
                   Map My 90‑Day Rollout
                 </Button>
@@ -237,7 +237,7 @@ const WorkShowcase = () => {
                   href="/work" 
                   variant="outline" 
                   size="lg"
-                  className="border-2 border-primary/80 text-primary hover:bg-brand/10 px-10 py-4 text-lg font-semibold backdrop-blur-sm"
+                  className="border-2 border-mp-white/80 text-mp-white hover:bg-mp-gold/10 px-10 py-4 text-lg font-semibold backdrop-blur-sm"
                 >
                   View All Work
                 </Button>
