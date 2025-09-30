@@ -7,10 +7,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-mp-gold text-mp-black hover:bg-mp-gold-600",
-        primary: "bg-mp-gold text-mp-black hover:bg-mp-gold-600",
+        default: "bg-mp-gold text-mp-black hover:bg-mp-gold-600 focus-visible:ring-mp-gold",
+        primary: "bg-mp-gold text-mp-black hover:bg-mp-gold-600 focus-visible:ring-mp-gold",
         secondary: "bg-mp-charcoal text-mp-white hover:bg-mp-gray-800",
-        outline: "border-2 border-mp-gold text-mp-gold hover:bg-mp-gold hover:text-mp-black",
+        outline: "border-2 border-mp-gold text-mp-gold hover:bg-mp-gold/10 hover:text-mp-gold",
         ghost: "text-mp-gold hover:bg-mp-gold/10",
         destructive: "bg-mp-red-500 text-mp-white hover:bg-mp-red-600",
         link: "text-mp-gold underline-offset-4 hover:underline",
@@ -37,18 +37,23 @@ export interface ButtonProps
   href?: string
   target?: string
   rel?: string
+  preserveQuery?: boolean
 }
 
         const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-          ({ className, variant, size, loading = false, href, target, rel, children, ...props }, ref) => {
+          ({ className, variant, size, loading = false, href, target, rel, preserveQuery = false, children, ...props }, ref) => {
     if (href) {
-      const search = typeof window !== 'undefined' ? window.location.search : ''
-      const url = href + (search ? (href.includes('?') ? '&' : '?') + search.replace(/^\?/, '') : '')
+      const search = preserveQuery && typeof window !== 'undefined' ? window.location.search : ''
+      const lockedPaths = ['/engine/map']
+      const isLocked = typeof window !== 'undefined' && lockedPaths.some(p => window.location.pathname.startsWith(p))
+      const canPreserve = preserveQuery && !isLocked
+      const url = href + (canPreserve && search ? (href.includes('?') ? '&' : '?') + search.replace(/^\?/, '') : '')
+      const computedRel = target === '_blank' ? (rel || 'noopener noreferrer') : rel
       return (
         <a
           href={url}
           target={target}
-          rel={rel}
+          rel={computedRel}
           className={cn('btn', buttonVariants({ variant, size, className }))}
         >
           {loading && (

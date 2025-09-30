@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Mail, Lock, ArrowRight, Eye, EyeOff, AlertCircle } from 'lucide-react'
+import { ArrowRight, Eye, EyeOff, AlertCircle } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -100,7 +100,7 @@ export default function ClientLoginPage() {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-8 text-mp-gray hover:text-mp-black transition-colors duration-200"
+                    className="absolute right-3 top-8 text-mp-gray hover:text-mp-gold transition-colors duration-200"
                   >
                     {showPassword ? (
                       <EyeOff className="w-4 h-4" />

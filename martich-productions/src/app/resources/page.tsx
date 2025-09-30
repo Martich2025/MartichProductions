@@ -1,10 +1,11 @@
 'use client'
 
 import React, { useState } from 'react'
-import { Download, Calendar, Clock, User, Filter, Search, ArrowRight, Play } from 'lucide-react'
+import { Download, Clock, Search, ArrowRight, Play } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { trackCTAClick } from '@/lib/analytics'
+import { Card, CardContent } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { MainLayout } from '@/components/layout/main-layout'
 
@@ -178,7 +179,8 @@ export default function ResourcesPage() {
                     <Button 
                       href={featuredResource.href}
                       size="lg"
-                      className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
+                      onClick={() => trackCTAClick('Download Free Guide','resources_featured_primary')}
+              className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
                     >
                       Download Free Guide
                       <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
@@ -293,6 +295,7 @@ export default function ResourcesPage() {
                       <Button 
                         href={resource.href}
                         variant="outline"
+                        onClick={() => trackCTAClick(resource.type === 'Video' ? 'Watch Now' : 'Download','resources_card_cta')}
                         className="w-full group"
                       >
                         {resource.type === 'Video' ? 'Watch Now' : 'Download'}
@@ -342,7 +345,7 @@ export default function ResourcesPage() {
                   placeholder="Enter your email"
                   className="flex-1"
                 />
-                <Button className="bg-mp-gold text-mp-black hover:bg-mp-gold-600">
+                <Button className="bg-mp-gold text-mp-black hover:bg-mp-gold-600" onClick={() => trackCTAClick('Subscribe','resources_newsletter_subscribe')}>
                   Subscribe
                 </Button>
               </div>

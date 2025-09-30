@@ -190,7 +190,7 @@ const WorkShowcase = () => {
                   {/* Enhanced CTA */}
                   <Button 
                     variant="outline" 
-                    className="w-full mt-auto border-2 border-mp-gold text-mp-gold hover:bg-mp-gold hover:text-mp-black font-semibold py-3"
+                    className="w-full mt-auto border-2 border-mp-gold text-mp-gold hover:bg-mp-gold/10 hover:text-mp-gold font-semibold py-3"
                     href={`/work/${work.id}`}
                   >
                     View Case Study

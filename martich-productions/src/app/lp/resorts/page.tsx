@@ -1,13 +1,32 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { MainLayout } from '@/components/layout/main-layout'
 import { Button } from '@/components/ui/button'
 import Script from 'next/script'
 import { generateServiceSchema } from '@/lib/seo'
 import { CheckCircle, ArrowRight } from 'lucide-react'
+import Image from 'next/image'
 
 export default function ResortsLP() {
+  function startFreeCheck() {
+    try {
+      const existing = JSON.parse(window.sessionStorage.getItem('engine_map_choices') || '{}')
+      const next = { ...existing, persona: 'resort', service: 'Film', focus: 'Direct bookings', tone: 'Elegant' }
+      window.sessionStorage.setItem('engine_map_choices', JSON.stringify(next))
+    } catch {}
+    if (typeof window !== 'undefined') window.location.assign('/engine/map')
+  }
+
+  // Simple ROI calculator
+  const [rooms, setRooms] = useState<number>(150)
+  const [adr, setAdr] = useState<number>(300)
+  const [occ, setOcc] = useState<number>(60)
+  const [uplift, setUplift] = useState<number>(8)
+  const nights = 30
+  const baseMonthly = Math.max(0, rooms) * nights * Math.max(0, adr) * (Math.max(0, Math.min(100, occ)) / 100)
+  const upliftValue = Math.round(baseMonthly * (Math.max(0, uplift) / 100))
+
   return (
     <MainLayout>
       <div className="min-h-screen bg-mp-black">
@@ -26,11 +45,27 @@ export default function ResortsLP() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl">
             <h1 className="text-display text-3xl sm:text-4xl font-bold mb-4">Resort Content That Books Stays</h1>
             <p className="text-xl text-mp-gray-light mb-8">From brand films to room tours and amenity reels—built to convert across web and social.</p>
-            <Button href="/book" size="lg" className="bg-mp-gold text-mp-black hover:bg-mp-gold-600">Plan My Next Shoot <ArrowRight className="ml-2 w-5 h-5"/></Button>
-            <div className="text-sm text-mp-gray-400 mt-2">Get a 90‑day rollout with deliverables and timelines.</div>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Button onClick={startFreeCheck} size="lg" className="bg-mp-gold text-mp-black hover:bg-mp-gold-600">Start Free Check <ArrowRight className="ml-2 w-5 h-5"/></Button>
+              <Button href="/book" variant="outline" size="lg">Book a Resort Mapping Call</Button>
+            </div>
+            <div className="text-sm text-mp-gray-400 mt-2">90‑second check → Mini Plan → 20‑min call. No commitment.</div>
           </div>
         </section>
 
+        {/* Trust band */}
+        <section className="py-6">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="text-[11px] tracking-wider uppercase text-mp-gray-400 mb-3">Trusted by teams across Texas</div>
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 opacity-90">
+              <Image src="/client-logos/horseshoe-bay-logo.png" alt="Horseshoe Bay" width={120} height={24} className="h-6 w-auto" />
+              <Image src="/client-logos/loraloma-logo.png" alt="Loraloma" width={110} height={24} className="h-6 w-auto" />
+              <Image src="/client-logos/the-club-logo.png" alt="The Club" width={110} height={24} className="h-6 w-auto" />
+            </div>
+          </div>
+        </section>
+
+        {/* Outcome snapshot */}
         <section className="py-12">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -41,6 +76,44 @@ export default function ResortsLP() {
                   <div className="text-sm text-mp-gray-300">Plan → produce → publish with landing pages and tracked CTAs.</div>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ROI mini-calculator */}
+        <section className="py-10">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl">
+            <div className="bg-mp-charcoal rounded-2xl p-6 border border-mp-gray-800">
+              <div className="text-display text-2xl font-bold text-white mb-2">Will this pencil?</div>
+              <div className="text-sm text-mp-gray-400 mb-4">Quick estimate. Adjust numbers to your resort. Actual results vary.</div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <label className="text-sm text-mp-gray-300">Rooms
+                  <input type="number" value={rooms} onChange={(e) => setRooms(parseInt(e.target.value || '0', 10))} className="mt-1 w-full rounded-md bg-mp-black border border-mp-gray-800 px-3 py-2" />
+                </label>
+                <label className="text-sm text-mp-gray-300">ADR ($)
+                  <input type="number" value={adr} onChange={(e) => setAdr(parseInt(e.target.value || '0', 10))} className="mt-1 w-full rounded-md bg-mp-black border border-mp-gray-800 px-3 py-2" />
+                </label>
+                <label className="text-sm text-mp-gray-300">Occupancy (%)
+                  <input type="number" value={occ} onChange={(e) => setOcc(parseInt(e.target.value || '0', 10))} className="mt-1 w-full rounded-md bg-mp-black border border-mp-gray-800 px-3 py-2" />
+                </label>
+                <label className="text-sm text-mp-gray-300">Potential lift (%)
+                  <input type="number" value={uplift} onChange={(e) => setUplift(parseInt(e.target.value || '0', 10))} className="mt-1 w-full rounded-md bg-mp-black border border-mp-gray-800 px-3 py-2" />
+                </label>
+              </div>
+              <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 text-center">
+                <div className="p-3 rounded-lg border border-mp-gray-800 bg-mp-black/40">
+                  <div className="text-mp-gray-400 text-xs mb-1">Monthly revenue (est.)</div>
+                  <div className="text-white font-semibold">${Math.round(baseMonthly).toLocaleString()}</div>
+                </div>
+                <div className="p-3 rounded-lg border border-mp-gray-800 bg-mp-black/40">
+                  <div className="text-mp-gray-400 text-xs mb-1">Potential lift</div>
+                  <div className="text-mp-gold font-semibold">+${upliftValue.toLocaleString()}</div>
+                </div>
+                <div className="p-3 rounded-lg border border-mp-gray-800 bg-mp-black/40">
+                  <div className="text-mp-gray-400 text-xs mb-1">Next step</div>
+                  <Button onClick={startFreeCheck} className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 w-full">Start Free Check</Button>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -74,7 +147,7 @@ export default function ResortsLP() {
 
         {/* Sticky mobile CTA */}
         <div className="md:hidden fixed inset-x-0 bottom-0 z-40 bg-mp-charcoal/95 border-t border-mp-gray-800 p-3 backdrop-blur-sm">
-          <Button href="/book" className="w-full bg-mp-gold text-mp-black hover:bg-mp-gold-600">Plan My Shoot</Button>
+          <Button onClick={startFreeCheck} className="w-full bg-mp-gold text-mp-black hover:bg-mp-gold-600">Start Free Check</Button>
         </div>
       </div>
     </MainLayout>

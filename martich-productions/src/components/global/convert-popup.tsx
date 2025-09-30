@@ -1,12 +1,18 @@
 'use client'
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { X, Check, ArrowRight } from 'lucide-react'
+import { X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
+declare global {
+  interface Window {
+    __mp_popup_open?: boolean
+  }
+}
+
 const DISMISS_DAYS = 7
-const DELAY_MS = 45000 // 45s
-const SCROLL_THRESHOLD = 0.5 // 50%
+const DELAY_MS = 30000 // 30s first-time delay
+const SCROLL_THRESHOLD = 0.6 // 60% scroll fallback
 
 function isMobile() {
   if (typeof navigator === 'undefined') return false
@@ -57,6 +63,8 @@ export function ConvertPopup() {
     if (Date.now() < storage.snoozedUntil) return false
     const path = typeof window !== 'undefined' ? window.location.pathname : ''
     if (path.startsWith('/client') || path.startsWith('/book') || path.startsWith('/api')) return false
+    // avoid clashing with other popups
+    if (typeof window !== 'undefined' && window.__mp_popup_open) return false
     return true
   }, [storage])
 
@@ -82,6 +90,7 @@ export function ConvertPopup() {
         opened = true
         shownRef.current = true
         storage.seenSession = true
+        window.__mp_popup_open = true
         setOpen(true)
       }
     }
@@ -127,6 +136,7 @@ export function ConvertPopup() {
   const closeAndSnooze = () => {
     const until = Date.now() + DISMISS_DAYS * 24 * 60 * 60 * 1000
     storage.snoozedUntil = until
+    window.__mp_popup_open = false
     setOpen(false)
   }
 
@@ -163,7 +173,7 @@ export function ConvertPopup() {
         const success = document.getElementById('mp-success')
         if (success) success.focus()
         // Close after a delay
-        setTimeout(() => setOpen(false), 3000)
+        setTimeout(() => { setOpen(false); window.__mp_popup_open = false }, 3000)
       }
     } finally {
       setSubmitting(false)
@@ -184,7 +194,7 @@ export function ConvertPopup() {
 
       {/* Sheet / Modal */}
       <div className={containerBase}>
-        <div className={`${isMobile() ? 'w-full rounded-t-2xl' : 'w-full max-w-md rounded-2xl'} bg-mp-charcoal border border-mp-gray-800 mx-auto p-6 shadow-xl relative`} role="dialog" aria-modal="true" aria-labelledby="mp-convert-title">
+        <div className={`${isMobile() ? 'w-full rounded-t-2xl' : 'w-full max-w-md rounded-2xl'} bg-mp-charcoal border border-mp-gray-800 mx-auto p-6 shadow-xl relative`} role="dialog" aria-modal="true" aria-label={variant === 'guide' ? 'Get the Social and Web Engine Playbook' : 'See What Top Clients Are Booking'}>
           <button aria-label="Close" onClick={closeAndSnooze} className="absolute right-3 top-3 p-2 rounded-lg text-mp-gray-300 hover:bg-mp-gray-800">
             <X className="w-5 h-5" />
           </button>

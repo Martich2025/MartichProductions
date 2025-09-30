@@ -1,11 +1,13 @@
 'use client'
 
 import React from 'react'
-import { Utensils, Video, Drone, Edit, Share2, CheckCircle, ArrowRight, Star, Users, Clock, TrendingUp } from 'lucide-react'
+import { Utensils, Video, Drone, Share2, CheckCircle, ArrowRight } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { MainLayout } from '@/components/layout/main-layout'
+import { StickyConsultBar } from '@/components/global/sticky-consult-bar'
+import { trackCTAClick } from '@/lib/analytics'
 
 export default function HospitalityPage() {
   const services = [
@@ -143,7 +145,8 @@ export default function HospitalityPage() {
                 <Button 
                   href="/book" 
                   size="lg" 
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
+                  onClick={() => trackCTAClick('Book a Free Consult','hospitality_hero_primary')}
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
                 >
                   Book a Free Consult
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
@@ -152,6 +155,7 @@ export default function HospitalityPage() {
                   href="/work?filter=hospitality" 
                   variant="outline" 
                   size="lg"
+                  onClick={() => trackCTAClick('View Hospitality Work','hospitality_hero_secondary')}
                   className="border-mp-white text-mp-white hover:bg-mp-gold/10"
                 >
                   View Hospitality Work
@@ -311,7 +315,8 @@ export default function HospitalityPage() {
                       </ul>
                       <Button 
                         href="/book" 
-                        className={`w-full ${package_.name === 'Hotel Package' ? 'bg-mp-gold text-mp-black hover:bg-mp-gold-dark' : ''}`}
+                        onClick={() => trackCTAClick('Get Started','hospitality_pricing_cta')}
+                        className={`w-full ${package_.name === 'Hotel Package' ? 'bg-mp-gold text-mp-black hover:bg-mp-gold-600' : ''}`}
                         variant={package_.name === 'Hotel Package' ? 'default' : 'outline'}
                       >
                         Get Started
@@ -345,7 +350,8 @@ export default function HospitalityPage() {
                 <Button 
                   href="/book" 
                   size="lg" 
-                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-dark shadow-gold group"
+                  onClick={() => trackCTAClick('Book a Free Consult','hospitality_footer_primary')}
+                  className="bg-mp-gold text-mp-black hover:bg-mp-gold-600 shadow-gold group"
                 >
                   Book a Free Consult
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-200" />
@@ -354,6 +360,7 @@ export default function HospitalityPage() {
                   href="/work?filter=hospitality" 
                   variant="outline" 
                   size="lg"
+                  onClick={() => trackCTAClick('View Hospitality Work','hospitality_footer_secondary')}
                   className="border-mp-white text-mp-white hover:bg-mp-gold/10"
                 >
                   View Hospitality Work
@@ -363,6 +370,7 @@ export default function HospitalityPage() {
           </div>
         </section>
       </div>
+      <StickyConsultBar />
     </MainLayout>
   )
 }

@@ -12,8 +12,10 @@ interface MainLayoutProps {
 const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <div className="min-h-screen flex flex-col">
+      {/* Skip link for keyboard users */}
+      <a href="#content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-mp-gold focus:text-mp-black focus:px-3 focus:py-2 focus:rounded-md">Skip to content</a>
       <Header />
-      <main className="flex-1">
+      <main id="content" role="main" className="flex-1">
         {children}
       </main>
       <Footer />
